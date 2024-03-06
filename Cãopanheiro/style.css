@@ -6,6 +6,12 @@
     box-sizing: border-box;
 }
 
+:root{
+    --color1:rgb(117, 2, 2);
+    --color2:beige;
+    --color3:rgb(255, 153, 0);
+}
+
 body,html{
     width: 100%;
     height: 100vh;
@@ -13,18 +19,17 @@ body,html{
 }
 
 body{
-    background-color: rgb(117, 2, 2);
-
+    background-color:var(--color1);
 }
 
 header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100vw;
+    width: 98vw;
     height: 120px;
     color: white;
-    padding: 10px;
+    
 }
 
 figure.logo{
@@ -55,40 +60,43 @@ li{
     z-index: 1;
 }
 li a{
-    color: white;
+    color: var(--color2);
     text-decoration: none;
 }
 li a:hover{
-    color: rgb(255, 153, 0);
+    color: var(--color3);
 }
 
 main{
+    width: 98vw;
+}
+
+div.home{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    padding-left: 30px;
-    margin-top: 20px;
+    margin-top: 50px; 
+    margin-bottom: 120px;
 }
 
-h2{
-    color: white;
+section.home > h1{
+    color: var(--color2);
     font-size: 3em;
-    
     margin-bottom: 30px;
 }
 
-h3{
-    color: rgb(255, 153, 0);
+section.home > h2{
+    color: var(--color3);
     font-size: 2.5em;
     margin-bottom: 30px;
 }
 
-p{
-    color: white;
+
+section.home > p{
+    color: var(--color2);
     font-size: 1.2em;
     width: 50vw;
-
     margin-bottom: 30px;
 }
 
@@ -96,7 +104,7 @@ button.home{
     width: 40%;
     height: 40px;
     border-radius: 10px;
-    background-color:rgb(255, 153, 0);
+    background-color:var(--color3);
     border: none;
     outline: none;
     cursor: pointer;
@@ -107,7 +115,7 @@ button.home{
 button.home:hover{
     transition: .5s;
     background: transparent;
-    border: 2px solid rgb(255, 153, 0);
+    border: 2px solid var(--color3);
     color: white;
 }
 
@@ -121,4 +129,23 @@ img#cachorro{
     width: 95%;
     background: transparent;
     filter: drop-shadow(0px 0px 90px rgba(255, 208, 0, 0.5));
+}
+
+section.sobre_nos{
+    width: 98.75vw;
+    height: 100vh;
+    background-color: var(--color2);
+    padding: 20px 0px 0px 10px; 
+}
+.sobre_nos h1{
+    color: var(--color3);
+    font-size: 3em;
+    padding-bottom: 10px;
+}
+
+.sobre_nos p{
+    font-size: 1.2em;
+    color: var(--color1);
+    text-align: justify;
+    width: 95vw;
 }
