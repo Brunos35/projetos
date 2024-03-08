@@ -71,6 +71,7 @@ li{
 
 main{
     width: 98vw;
+
 }
 
 div.home{
@@ -98,6 +99,7 @@ div.home{
         font-size: 1.2em;
         width: 50vw;
         margin-bottom: 30px;
+        line-height: 1.2em;
         }
 }
 
@@ -135,9 +137,10 @@ img#cachorro{
 
 section.sobre_nos{
     width: 98.75vw;
-    height: 100vh;
+    height: 120vh;
     background-color: var(--color2);
-    padding: 20px 0px 0px 10px; 
+    padding: 20px 0px 0px 10px;
+
 
         & h1{
         color: var(--color3);
@@ -145,10 +148,67 @@ section.sobre_nos{
         padding-bottom: 10px;
         }
 
-        & p{
+        & > p{
         font-size: 1.2em;
         color: var(--color1);
         text-align: justify;
         width: 95vw;
+        line-height: 1.5em;
         }
+
+        & figure{
+        width: 96vw;
+        height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+}
+
+figure img{
+
+        }
+
+.container_cards{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 98.75vw;
+    height: 90vh;
+    padding: 20px 0px 0px 10px;
+    
+        & .cards{
+        position: relative;
+        height: 480px;
+        margin: 10px;
+        border-radius: 20px;
+        width: 300px;
+        }  
+
+        & .img{
+        margin:10px 0px 10px 0px;
+        height: 190px;
+        background-color: blueviolet;
+        border-radius: 0px 0px 20px 20px;
+        }
+
+        & .conteudo{
+        height: 300px;
+        }
+
+        .conteudo  p{
+        width: 298px;
+        word-break: normal;
+        font-size: 1.2em;
+        color: var(--color2);
+        text-align: justify;
+        line-height: 1.5em;
+        }
+}
+
+h1#card{
+    padding: 20px 0px 0px 10px; 
+    color: beige;
+    font-size: 3em;
+
 }
