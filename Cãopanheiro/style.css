@@ -1,5 +1,13 @@
 @charset 'UTF-8';
-
+/*
+paleta de cores:
+#064A75
+#FFE1B7
+#CA964E
+#754706
+#102736
+#87CBF5
+*/
 *{
     padding: 0;
     margin: 0;
@@ -7,9 +15,9 @@
 }
 
 :root{
-    --color1:rgb(117, 2, 2);
-    --color2:beige;
-    --color3:rgb(255, 153, 0);
+    --color1:#064A75;
+    --color2:#FFE1B7;
+    --color3:#CA964E;
 }
 
 body,html{
@@ -22,25 +30,28 @@ body{
     background-color:var(--color1);
 }
 
+/*Barra de navegação*/
 header{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 98vw;
-    height: 120px;
+    height: 110px;
     color: white;
     
 }
 
 figure.logo{
-    display: inline-flex;
-    background-image: url(OwRTgf8u0Ywhcjz9Gdcov-transformed.png);
-    background-repeat: no-repeat;
-    background-position:center center;
-    background-size: cover;
-    width: 200px;
-    height: 90px;
-    
+    width: 300px;
+    height: 100px;
+
+    & img{
+        width: 200px;
+        height: 50px;
+        position: relative;
+        top: 20%;
+        left: 5%;
+    }
 }
 
 
@@ -50,14 +61,12 @@ ul{
     justify-content: space-between; 
     list-style: none;
     text-align: center;
-    padding-top: 10px;
 }
 
 li{
     width: 12%;
-    height: 20px;
+    height: 17px;
     border-radius: 20px;
-    z-index: 1;
     
         & a{
         color: var(--color2);
@@ -69,6 +78,7 @@ li{
         }
 }
 
+/*Página Principal*/
 main{
     width: 98vw;
 
@@ -121,7 +131,7 @@ button.home{
         color: white;
         }
 }
-
+/*Imagem da pag principal*/
 figure.cachorro{
     display: flex;
     justify-content: center;
@@ -134,7 +144,7 @@ img#cachorro{
     background: transparent;
     filter: drop-shadow(0px 0px 90px rgba(255, 208, 0, 0.5));
 }
-
+/*pag Sobre nós*/
 section.sobre_nos{
     width: 98.75vw;
     height: 120vh;
@@ -164,11 +174,11 @@ section.sobre_nos{
         align-items: center;
         }
 }
-
+/*Imagem da pag sobre nós*/
 figure img{
 
         }
-
+/*pag dos cards*/
 .container_cards{
     display: flex;
     justify-content: space-evenly;
@@ -213,3 +223,5 @@ h1#card{
     font-size: 3em;
 
 }
+/*mostrador dos animais*/
+/*Fim da landing page*/
