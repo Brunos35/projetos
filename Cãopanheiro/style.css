@@ -172,8 +172,32 @@ section.sobre_nos{
         display: flex;
         justify-content: center;
         align-items: center;
-        }
+        }           
 }
+.link{
+    width: 40%;
+    height: 40px;
+    border-radius: 10px;
+    background-color:var(--color1);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    position: relative;
+    left: 30%;
+    margin: 20px;
+    color: white;
+    text-decoration: none;
+
+    &:hover{
+        transition: all .5s;
+        background: transparent;
+        border: 2px solid var(--color1);
+        color: var(--color1);
+    }
+}
+
 /*Imagem da pag sobre nós*/
 figure img{
 
@@ -184,27 +208,27 @@ figure img{
     justify-content: space-evenly;
     flex-wrap: wrap;
     width: 98.75vw;
-    height: 90vh;
+    height: 85vh;
     padding: 20px 0px 0px 10px;
+    margin-top: 30px;
     
         & .cards{
         position: relative;
-        height: 480px;
+        height: 400px;
         margin: 10px;
         border-radius: 20px;
-        width: 300px;
+        width: 350px;
         }  
 
         & .img{
         margin:10px 0px 10px 0px;
         height: 190px;
-        background-color: blueviolet;
         border-radius: 0px 0px 20px 20px;
         }
 
         & .conteudo{
         height: 300px;
-        background-color: white;
+        
         }
 
         .conteudo  p{
@@ -215,6 +239,11 @@ figure img{
         text-align: justify;
         line-height: 1.5em;
         }
+}
+.img>img{
+    margin-bottom: 10px;
+    width: 85%;
+    height: 100%;
 }
 
 h1#card{
