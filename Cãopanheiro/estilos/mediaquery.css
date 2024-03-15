@@ -9,153 +9,164 @@
     telas grandes: 1200px pra cima
 */
 
-@media screen and (max-width: 320px){
-    body,html{
+@media screen and (max-width: 320px) {
+
+    body,
+    html {
         width: 100%;
         height: 780%;
-       }
-   
-}
-@media screen and (min-width: 321px) and (max-width:768px) {
-    body,html{
-        background-color: darkcyan;
-        
     }
 
-    
-    div.home{
+}
+
+@media screen and (min-width: 321px) and (max-width:768px) {
+
+    body,
+    html {
+        background-color: darkcyan;
+    }
+
+
+    div.home {
         flex-wrap: wrap;
         margin-bottom: 20px;
-        min-width:200px ;
-        max-width:500px;
+        min-width: 200px;
+        max-width: 768px;
         text-align: center;
-
-        & p{
-            width: 100%;
-            text-align: justify;
-        }
     }
 
-    figure.cachorro{
+    div.home p {
+        width: 100%;
+        text-align: justify;
+    }
+
+
+    figure.cachorro {
         width: 100%;
         margin-top: 30px;
     }
 
-    img#cachorro{
+    img#cachorro {
         width: 90%;
     }
-    section.sobre_nos{
+
+    section.sobre_nos {
         max-height: 180vh;
         min-height: 140vh;
-        & figure{
-            max-width:600px;
-            min-width:200px;
-            height: 30%;
-
-            & img{
-                width: clamp(200px,410px,650px);
-                height: 100%;
-            }
-        }
-    }
-    .container_cards{
-        text-align: center;
-        & .conteudo{
-            width: 100%;
-            height: 120px;
-        }
-
-        & .conteudo p{
-            width:340px;
-        }
     }
 
-    h1#card{
+    section.sobre_nos figure {
+        max-width: 600px;
+        min-width: 200px;
+        height: 30%;
+    }
+
+    section.sobre_nos>figure>img {
+        width: clamp(200px, 410px, 650px);
+        height: 100%;
+    }
+
+
+    .container_cards {
         text-align: center;
     }
 
+    .container_cards .conteudo {
+        width: 100%;
+        height: 120px;
+    }
 
+    .container_cards .conteudo p {
+        width: 340px;
+    }
+}
 
-    
+h1#card {
+    text-align: center;
 }
 
 @media screen and (min-width: 769px) and (max-width:992px) {
-    body{
-        background-color:brown;
+    body {
+        background-color: brown;
     }
 
-    span#burguer{
+    #burguer {
         display: none;
     }
-    menu{
+
+    menu {
         display: block;
     }
 
-    menu > ul > li{
+    menu>ul>li {
         display: inline-block;
     }
 
-    main{
+    main {
         width: 768px;
     }
 
-    div.home{
+    div.home {
         flex-wrap: wrap;
         margin-bottom: 50px;
-        min-width:740px ;
-        max-width: 968px;
+        min-width: 740px;
+        max-width: 992px;
         text-align: center;
-
-        & section.home{
-            width: 100%;
-        }
-
-        & p{
-            width: 100%;
-            text-align: justify;
-        }
     }
 
-    figure.cachorro{
+    div.home section.home {
+        
+        min-width: 768px;
+    }
+
+    div.home p {
+        width: 100%;
+        text-align: justify;
+    }
+
+
+    figure.cachorro {
         width: 100%;
         margin-top: 30px;
     }
 
-    img#cachorro{
+    img#cachorro {
         width: 70%;
     }
-    section.sobre_nos{
+
+    section.sobre_nos {
         height: 160vh;
 
     }
-
-    .container_cards{
-
-        & .conteudo{
-            height: 150px;
-        }
+    .container_cards .conteudo {
+        height: 150px;
     }
 }
 
-@media screen and (min-width: 993px) and (max-width:1200px){
-    body,html{
+
+@media screen and (min-width: 993px) and (max-width:1200px) {
+
+    body,
+    html {
         background-color: blueviolet;
     }
-    header{
+
+    header {
         width: 95vw;
     }
 
-    section.sobre_nos{
+    #burguer {
+        display: none;
+    }
+
+    section.sobre_nos {
         height: 140vh;
     }
 
-    .container_cards{
-
-        & .conteudo{
-            height: 140px;
-        }
+    .container_cards .conteudo {
+        height: 140px;
     }
+
 }
 
-@media screen and (min-width: 1200px){
-}
+@media screen and (min-width: 1200px) {}

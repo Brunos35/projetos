@@ -34,10 +34,10 @@ body{
 
 /*Barra de navegação*/
 header{
-    max-width: 1330px;
+    max-width: 1550px;
     min-width: 300px;
     margin-right: 10px;
-    height: 110px;
+    height: 100px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -47,33 +47,36 @@ header{
 
 figure.logo{
     width: clamp(300px, 500px, 700px);
-    height: 110px;
-    & img{
-        min-width: 250px;
-        max-width: 300px;
-        height: 50px;
-        position: relative;
-        top: 20%;
-        left: 5%;
-    }
+    height: 100px;
+}
+.logo img{
+    min-width: 250px;
+    max-width: 300px;
+    height: 50px;
+    position: relative;
+    top: 30%;
+    left: 5%;
 }
 
-span#burguer{
-    background-color:#CA964E;
-    display: block;
-    color: white;
+
+#burguer{ 
+    display: none;
+    background-color: var(--color1);
     text-align: center;
-    padding: 10px;
+    padding: 1 px;
     cursor: pointer;
 }
 
-span#burguer:hover{
-    background-color: white;
+#burguer:hover{
+    background-color: var(--color2) ;
     color: black;
 }
 
-nav{
-    display: none;
+#itens{
+    display: block;
+    min-width:100px;
+    max-width: 1000px;
+    
 }
 
 ul{
@@ -82,29 +85,29 @@ ul{
     justify-content: space-between; 
     list-style: none;
     text-align: center;
+    align-items: center;
 }
 
 li{
     min-width: 12%;
     max-width: 20%;
-    height: 17px;
+    height: 12px;
     border-radius: 20px;
-    
-        & a{
-        display: block;
-        padding: 10px;
-        color: var(--color2);
-        text-decoration: none;
-        text-align: center;
-        border-top: 2px solid navy;
-        background-color: rgb(4, 4, 58);
-        color: white;
-        }
-
-        & a:hover{
-        color: var(--color3);
-        }
 }
+    
+li a{
+    display: block;
+    padding: 5px;
+    color: var(--color2);
+    text-decoration: none;
+    text-align: center;
+    border-top: 2px solid var(--color1);
+}
+
+li a:hover{
+    color: var(--color3);
+}
+
 
 /*Página Principal*/
 main{
@@ -121,26 +124,26 @@ div.home{
     padding: 10px;
     margin-top: 50px; 
     margin-bottom: 120px;
+}
 
-        & h1{
-        color: var(--color2);
-        font-size: 3em;
-        margin-bottom: 30px;
-        }
+div.home h1{
+    color: var(--color2);
+    font-size: 3em;
+    margin-bottom: 30px;
+}
 
-        & h2{
-        color: var(--color3);
-        font-size: 2.5em;
-        margin-bottom: 30px;
-        }
+div.home h2{
+    color: var(--color3);
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
 
-        & p{
-        color: var(--color2);
-        font-size: 1.2em;
-        width: 50vw;
-        margin-bottom: 30px;
-        line-height: 1.2em;
-        }
+div.home p{
+    color: var(--color2);
+    font-size: 1.2em;
+    width: 50vw;
+    margin-bottom: 30px;
+    line-height: 1.2em;
 }
 
 button.home{
@@ -153,14 +156,15 @@ button.home{
     cursor: pointer;
     font-size: 1em;
     font-weight: 600;
-
-        &:hover{
-        transition: .5s;
-        background: transparent;
-        border: 2px solid var(--color3);
-        color: white;
-        }
 }
+
+button.home:hover{
+    transition: .5s;
+    background: transparent;
+    border: 2px solid var(--color3);
+    color: white;
+}
+
 /*Imagem da pag principal*/
 figure.cachorro{
     display: flex;
@@ -170,7 +174,6 @@ figure.cachorro{
 
 img#cachorro{
     width: 100%;
-    background-color: aliceblue;
     height: 100%;
     /*background: transparent;*/
     filter: drop-shadow(1px 1px 60px rgba(255, 208, 0, 0.267));
@@ -185,36 +188,35 @@ section.sobre_nos{
     flex-wrap: wrap;  
     background-color: var(--color2);
     padding: 20px 0px 0px 10px;
-
-
-        & h1{
-        color: var(--color3);
-        font-size: 3em;
-        padding-bottom: 10px;
-        }
-
-        & > p{
-        font-size: 1.2em;
-        color: var(--color1);
-        text-align: justify;
-        width: 85%;
-        line-height: 1.5em;
-        }
-
-        & figure{
-        max-width: 1600px;
-        min-width: 600px;
-        background-color: aliceblue;
-        height: 60vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        }           
 }
+
+section.sobre_nos h1{
+    color: var(--color3);
+    font-size: 3em;
+    padding-bottom: 10px;
+}
+
+section.sobre_nos > p{
+    font-size: 1.2em;
+    color: var(--color1);
+    text-align: justify;
+    width: 85%;
+    line-height: 1.5em;
+}
+
+section.sobre_nos figure{
+    max-width: 1600px;
+    min-width: 600px;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}           
+
 .link{
     text-align: center;
     line-height: 40px;
-    width: 50%;
+    width: 60%;
     height: 40px;
     border-radius: 10px;
     background-color:var(--color1);
@@ -225,14 +227,14 @@ section.sobre_nos{
     margin: 20px;
     color: white;
     text-decoration: none;
-
-    &:hover{
-        transition: all .5s;
-        background: transparent;
-        border: 2px solid var(--color1);
-        color: var(--color1);
-    }
 }
+.link:hover{
+    transition: all .5s;
+    background: transparent;
+    border: 2px solid var(--color1);
+    color: var(--color1);
+}
+
 /*pag dos cards*/
 .container_cards{
     display: flex;
@@ -243,35 +245,34 @@ section.sobre_nos{
     height: 85vh;
     padding: 20px 0px 0px 10px;
     margin-top: 30px;
-    
-        & .cards{
-        position: relative;
-        height: 400px;
-        margin: 10px;
-        border-radius: 20px;
-        width: 350px;
-        }  
-
-        & .img{
-        margin:10px 0px 10px 0px;
-        height: 190px;
-        border-radius: 0px 0px 20px 20px;
-        }
-
-        & .conteudo{
-        height: 300px;
-        
-        }
-
-        .conteudo  p{
-        width: 298px;
-        word-break: normal;
-        font-size: 1.2em;
-        color: var(--color2);
-        text-align: justify;
-        line-height: 1.5em;
-        }
 }
+.container_cards > .cards{
+    position: relative;
+    height: 400px;
+    margin: 10px;
+    border-radius: 20px;
+    width: 350px;
+}  
+
+.container_cards > .img{
+    margin:10px 0px 10px 0px;
+    height: 190px;
+    border-radius: 0px 0px 20px 20px;
+}
+
+.container_cards > .conteudo{
+    height: 300px;
+}
+
+.container_cards > .conteudo  p{
+    width: 298px;
+    word-break: normal;
+    font-size: 1.2em;
+    color: var(--color2);
+    text-align: justify;
+    line-height: 1.5em;
+}
+
 .img>img{
     margin-bottom: 10px;
     width: 85%;

@@ -12,12 +12,12 @@
 
 <body onresize="mudouTamanho()">
     <header>
-        <figure class="logo nav_top">
-            <img src="imagens/logo-pcc2-removebg-preview.png" alt=""></figure>
-            <span class="material-symbols-outlined" id="burguer" onclick="clickMenu()">
+        <figure class="logo">
+            <img src="imagens/logo-pcc2-removebg-preview.png" alt="">
+        </figure>
+        <span class="material-symbols-outlined" id="burguer" onclick="clickMenu()">
                 menu
-            </span>
-        
+        </span>
         <nav id="itens">
             <ul class="nav_list">
                 <li><a href="#">Inicio</a></li>
@@ -84,18 +84,26 @@
     </main>
 
     <script>
+        let itens = document.getElementById('itens');
+        let menu = document.getElementById('burguer');
+        
         function clickMenu(){
+            
             if(itens.style.display == 'block'){
-                itens.style.display = 'none'
+            itens.style.display = 'none';
             } else{
-                itens.style.display = 'block'
+                itens.style.display = 'block';
             }
         }
 
-        function mudouTamanho(){
-            if (window.innerWidth >= 768){
+        function mudouTamanho(){          
+            if (window.innerWidth > 768){
+                menu.style.display = 'none'
                 itens.style.display = 'block'
-            } else {itens.style.menu = 'none'}
+            } else {
+                itens.style.menu = 'none'
+                menu.style.display = 'block'
+        }
 
         }
     </script>
