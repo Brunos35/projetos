@@ -1,0 +1,81 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+
+/* Common Style */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+img {
+  width: 100%;
+  height: auto;
+}
+body{
+    overflow: hidden !important;
+}
+
+a:focus{
+    outline: none;
+    box-shadow: none;
+}
+input:focus, input:focus-visible{
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+button:focus, button:focus-visible{
+    outline: none;
+    border: none;
+}
+
+:root{
+    --pear-can: #e6ffde;
+    --pear-logo: #03403f;
+    --apple-can: #f2675a;
+    --apple-logo: #ec4458;
+    --exotic-can: #9590f1;
+    --black-color: #000000;
+    --white-color: #ffffff;
+    --exotic-logo: #6464ff;
+    --pear-background: #c9e78a;
+    --apple-background: #ffb2b2;
+    --exotic-background: #c1bff2;
+}
+
+h1{
+    font-family: "Lexend";
+    font-size: 449px !important;
+    line-height: normal !important;
+    color: var(--white-color) !important;
+    margin: 0 !important;
+}
+
+h2{
+    font-family: "Lexend";
+    font-size: 40px;
+    line-height: normal;
+    margin: 0;
+    font-weight: 900;
+}
+
+header{
+    padding: 22px 28px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 99;
+    text-align: center;
+}
+
+.logo{
+    color: var(--pear-logo);
+}
+
+h1{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
