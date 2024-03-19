@@ -16,14 +16,16 @@
         <nav>
             <ul>
                 <li><a href="../index.html">Inicio</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Registrar</a></li>
             </ul>
 
         </nav>
     </header>
         <div class="formbox">
-            <div class="formvalue">
+        
+            <div class="imagem">
+
+            </div>
+            <div class="login">
                 <form action="">
                     <h2>LOGIN</h2>
                     <div class="inputbox">
@@ -35,11 +37,24 @@
                         <label for="email">Senha</label>
                     </div>
                     <button>Entrar</button>
+                    
                 </form>
+                <button onclick="trocaLado()"> troca</button>
+            </div>
+            <div class="registro">
+                <input type="text" name="" id="">
+                <input type="text">
             </div>
         </div>
     </section>
+    <script>
+    function trocaLado(){
+        var formbox = document.getElementsByClassName("formbox")
 
+        formbox.style.color = "red"
+        
+    }
+    </script>
 </body>
 
 </html>
