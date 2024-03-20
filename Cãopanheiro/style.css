@@ -29,83 +29,77 @@ body,html{
 }
 
 body{
-    background-color:var(--color1);
+    background-color:var(--color1) !important;
 }
 
 /*Barra de navegação*/
-header{
-    max-width: 1550px;
-    min-width: 300px;
+nav{
+    width: 100% ;
     margin-right: 10px;
     height: 100px;
-    display: flex;
+    
+}
+.bg-light {
+    --bs-bg-opacity: 0 !important;
+    background:transparent !important;
+}
+.container-fluid{
+    background:transparent !important ;
+    width: 100%;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
+    gap: 50% !important;
 }
 
-figure.logo{
-    width: clamp(300px, 500px, 700px);
+.navbar-brand{
+    min-width:20%;
+    max-width: 50%;
     height: 100px;
 }
-.logo img{
-    min-width: 250px;
-    max-width: 300px;
-    height: 50px;
+
+.navbar-brand img{
+    min-width: 50%;
+    max-width: 100%;
+    height: 50%;
     position: relative;
     top: 30%;
     left: 5%;
 }
 
-
-#burguer{ 
-    display: none;
-    background-color: var(--color1);
-    text-align: center;
-    padding: 1 px;
-    cursor: pointer;
-}
-
-#burguer:hover{
-    background-color: var(--color2) ;
-    color: black;
-}
-
-#itens{
-    display: block;
-    min-width:100px;
-    max-width: 1000px;
-    
+#navbarNav{
+    width: 50vw !important;
+    padding: 0 !important;
+    margin:0 !important ;
 }
 
 ul{
-    width: clamp(200px, 400px, 600px);
-    display: flex;
-    justify-content: space-between; 
+    
+    min-width:100%!important;
+    display: flex !important;
+    justify-content: space-between !important; 
     list-style: none;
     text-align: center;
     align-items: center;
 }
 
 li{
-    min-width: 12%;
-    max-width: 20%;
-    height: 12px;
+    min-width: 25% !important;
+    max-width: 20% !important;
+    height: 20%;
     border-radius: 20px;
 }
     
 li a{
-    display: block;
-    padding: 5px;
-    color: var(--color2);
+    color: var(--color2) !important;
     text-decoration: none;
     text-align: center;
     border-top: 2px solid var(--color1);
 }
 
 li a:hover{
-    color: var(--color3);
+    color: var(--color3) !important;
 }
 
 
@@ -264,11 +258,11 @@ section.sobre_nos figure{
     height: 300px;
 }
 
-.container_cards > .conteudo  p{
+.container_cards .conteudo  p{
     width: 298px;
     word-break: normal;
     font-size: 1.2em;
-    color: var(--color2);
+    color: var(--color2) !important;
     text-align: justify;
     line-height: 1.5em;
 }

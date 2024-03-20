@@ -90,15 +90,11 @@ h1#card {
         background-color: brown;
     }
 
-    #burguer {
-        display: none;
-    }
-
     menu {
         display: block;
     }
 
-    menu>ul>li {
+    menu > ul > li {
         display: inline-block;
     }
 
@@ -149,14 +145,6 @@ h1#card {
     body,
     html {
         background-color: blueviolet;
-    }
-
-    header {
-        width: 95vw;
-    }
-
-    #burguer {
-        display: none;
     }
 
     section.sobre_nos {
