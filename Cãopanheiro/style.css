@@ -75,7 +75,6 @@ nav{
 }
 
 ul{
-    
     min-width:100%!important;
     display: flex !important;
     justify-content: space-between !important; 
@@ -111,6 +110,8 @@ main{
 
 div.home{
     width: 100%;
+    min-height: 35vw;
+    max-height: 50vw;
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
@@ -176,7 +177,7 @@ img#cachorro{
 section.sobre_nos{
     max-width: 1600px;
     min-width: 300px;
-    height: 130vh;
+    height: 110vh;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;  
@@ -187,6 +188,7 @@ section.sobre_nos{
 section.sobre_nos h1{
     color: var(--color3);
     font-size: 3em;
+    font-weight: bold;
     padding-bottom: 10px;
 }
 
@@ -194,7 +196,7 @@ section.sobre_nos > p{
     font-size: 1.2em;
     color: var(--color1);
     text-align: justify;
-    width: 85%;
+    width: 90%;
     line-height: 1.5em;
 }
 

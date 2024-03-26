@@ -96,6 +96,7 @@ li{
     z-index: 2;
     border-radius: 20px;
     background: var(--color1) url(../imagens/logo-pcc2-removebg-preview.png) no-repeat center;
+    background-size: contain;
     transition: 1s ease-in-out;
     transform: translate(0%);
 }
@@ -124,7 +125,7 @@ h2{
 
 .inputbox{
     position: relative;
-    margin: 0px 0px 30px 20px;
+    margin: 0px 0px 30px 10px;
     width: 90%;
     border-bottom: 2px solid var(--color1);
 }
