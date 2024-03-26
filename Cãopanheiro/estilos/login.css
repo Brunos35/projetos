@@ -22,6 +22,7 @@ body{
     background-position: center;
     background-size: cover;
 }
+
 section{
     display: flex;
     flex-direction: column;
@@ -42,15 +43,16 @@ header{
 figure.logo{
     width: 20%;
     height: 100%;
-
-    & img{
-        width: 70%;
-        height: 50%;
-        position: relative;
-        top: 20%;
-        left: 5%;
-    }
 }
+
+figure.logo img{
+    width: 70%;
+    height: 50%;
+    position: relative;
+    top: 20%;
+    left: 5%;
+}
+
 
 ul{
     width: 100%;
@@ -66,15 +68,15 @@ li{
     height: 100%;
     border-radius: 20px;
     margin-right: 20px;
-    
-        & a{
-        color: var(--color3);
-        text-decoration: none;
-        }
+}
 
-        & a:hover{
-        color: var(--color1);
-        }
+li a{
+    color: var(--color3);
+    text-decoration: none;
+}
+
+li a:hover{
+    color: var(--color1);   
 }
 
 .formbox{
