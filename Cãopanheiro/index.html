@@ -7,35 +7,47 @@
     <title>Restaurante</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="estilos/mediaquery.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
-<body onresize="mudouTamanho()">
-    <header>
-        <figure class="logo">
-            <img src="imagens/logo-pcc2-removebg-preview.png" alt="">
-        </figure>
-        <span class="material-symbols-outlined" id="burguer" onclick="clickMenu()">
-                menu
-        </span>
-        <nav id="itens">
-            <ul class="nav_list">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="paginas/login.html">Login</a></li>
-                <li><a href="#">Registrar</a></li>
-            </ul>
-        </nav>
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="imagens/logo-pcc2-removebg-preview.png" alt="Logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sobre nós</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="paginas/login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Registrar</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
     </header>
     <main>
         <div class="home">
             <section class="home">
                 <h1>Cãopanheiro</h2>
                     <h2>Adote o seu amigo</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum aliquid nesciunt maiores sed
-                            suscipit quo, voluptatibus nulla quod ut unde, exercitationem natus nisi aliquam quisquam
-                            iusto, hic quasi error voluptates!</p>
-                        <button class="home" href="paginas/login.html">Quero adotar</button>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum aliquid nesciunt maiores sed
+                        suscipit quo, voluptatibus nulla quod ut unde, exercitationem natus nisi aliquam quisquam
+                        iusto, hic quasi error voluptates!</p>
+                    <button class="home" href="paginas/login.html">Quero adotar</button>
             </section>
             <figure class="cachorro"><img src="imagens/cachorro.png" alt="" id="cachorro"></figure>
         </div>
@@ -48,19 +60,21 @@
                 tempore suscipit pariatur!</p>
             <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo commodi harum tenetur cum expedita eius
                 modi quo. Quasi a in reiciendis, ad rem quae aut accusantium ullam? Nemo, laboriosam consequuntur?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere sint earum nihil recusandae, placeat debitis ratione harum ea porro doloribus incidunt eum ut facilis dolorem consequatur .</p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere sint earum nihil recusandae, placeat
+                debitis ratione harum ea porro doloribus incidunt eum ut facilis dolorem consequatur .</p>
             <figure><img src="imagens/cachorro.png" alt=""></figure>
             <a href="#" class="link">Encontre seu Cãopanheiro</a>
         </section>
 
-        
+
         <h1 id="card">Por que adotar?</h1>
         <section class="container_cards">
-            
+
             <div class="cards">
                 <div class="img"><img src="imagens/card1.png" alt=""></div>
                 <div class="conteudo">
-                    <p>Nesse exato momento,existem milhares de doguinhos e gatinhos esperando um humano para chamar de seu.
+                    <p>Nesse exato momento,existem milhares de doguinhos e gatinhos esperando um humano para chamar de
+                        seu.
                     </p>
                 </div>
             </div>
@@ -68,7 +82,8 @@
                 <div class="img"><img src="imagens/card2.png" alt=""></div>
                 <div class="conteudo">
                     <p>
-                        E não há recompensa maior do que vê-los se tornando aquela coisinha alegre e saudável depois de uma boa dose de cuidado e carinho.</p>
+                        E não há recompensa maior do que vê-los se tornando aquela coisinha alegre e saudável depois de
+                        uma boa dose de cuidado e carinho.</p>
                 </div>
             </div>
 
@@ -82,31 +97,9 @@
         </section>
 
     </main>
-
-    <script>
-        let itens = document.getElementById('itens');
-        let menu = document.getElementById('burguer');
-        
-        function clickMenu(){
-            
-            if(itens.style.display == 'block'){
-            itens.style.display = 'none';
-            } else{
-                itens.style.display = 'block';
-            }
-        }
-
-        function mudouTamanho(){          
-            if (window.innerWidth > 768){
-                menu.style.display = 'none'
-                itens.style.display = 'block'
-            } else {
-                itens.style.menu = 'none'
-                menu.style.display = 'block'
-        }
-
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
