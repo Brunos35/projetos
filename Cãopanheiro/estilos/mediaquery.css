@@ -77,22 +77,19 @@ h1#card {
 
 @media screen and (min-width: 481px) and (max-width:768px) {
 
-    body {
-        background-color: darkcyan;
-    }
-
-
     div.home {
         flex-wrap: wrap;
-        margin-bottom: 20px;
         text-align: center;
     }
 
-    div.home p {
+    section.home{
         width: 100%;
-        text-align: justify;
     }
 
+    div.home p {
+        width: 96%;
+        text-align: center;
+    }
 
     figure.cachorro {
         width: 100%;
@@ -100,7 +97,8 @@ h1#card {
     }
 
     img#cachorro {
-        width: 90%;
+        height: 33vh;
+        width: 70%;
     }
 
     section.sobre_nos {
@@ -109,15 +107,12 @@ h1#card {
     }
 
     section.sobre_nos figure {
-     
         height: 30%;
     }
 
     section.sobre_nos>figure>img {
-        
         height: 100%;
     }
-
 
     .container_cards {
         text-align: center;
@@ -129,48 +124,49 @@ h1#card {
     }
 
     .container_cards .conteudo p {
-        width: 340px;
+        width: 330px;
     }
+    
 }
 
-h1#card {
-    text-align: center;
-}
+
 
 @media screen and (min-width: 769px) and (max-width:1024px) {
-    body {
-        background-color: brown;
-    }
-
     div.home {
         flex-wrap: wrap;
-
         text-align: center;
     }
 
-    div.home section.home {
+    section.home{
+        width: 100%;
     }
 
     div.home p {
-      
-        text-align: justify;
+        width: 97%;
+        text-align: center;
     }
 
-
     figure.cachorro {
-        
+        width: 100%;
         margin-top: 30px;
     }
 
     img#cachorro {
-        width: 70%;
+        height: 39vh;
+        width: 55%;
     }
 
     section.sobre_nos {
-        height: 160vh;
-
+        height: 150vh;
     }
-    .container_cards .conteudo {
-        height: 150px;
+
+    section.sobre_nos figure{
+        width: 80%;
+        height: 40%;
+    }
+
+    section.sobre_nos >figure >img{
+        width: 80%;
+        height: 80%;
     }
 }
