@@ -5,69 +5,76 @@
 @media screen and (min-width: 320px) and (max-width: 480px) {
 
     body {
-        background-color: chartreuse;
+        height: 400vh;
     }
 
-    div.home{
+    div.home {
         flex-wrap: wrap;
         text-align: center;
-        margin-bottom: 10px;
-        padding: 0 0 0 10px;
-    }
-    section.home {
-        flex-wrap: wrap;
-        margin-bottom: 20px;
+        height: 120vh;
+        max-height: 150vh !important;
     }
 
-    section.home p {
-        width: 95%;
-        text-align: justify;
+    section.home{
+        width: 100%;
+        height: 50%;
+        
     }
 
+    div.home p {
+        width: 96%;
+        text-align: center;
+    }
 
     figure.cachorro {
-        margin-top: 30px;
+        width: 100%;
+        height: 25%;
     }
 
     img#cachorro {
-        width: 90%;
+        position: relative;
+        top: -10%;
+        height: 60%;
+        width: 60%;
     }
 
     section.sobre_nos{
-        height: 100%;
+        width: 103%;
+        max-height: 205vh;
     }
 
     section.sobre_nos figure {
-      
         height: 30%;
     }
 
-    section.sobre_nos>figure>img {
-       
+    section.sobre_nos>figure>img {    
         height: 100%;
     }
 
     .link{
-        width: 100%;
+        width: 90%;
     }
 
     .container_cards {
         text-align: center;
         width: 100%;
-        height: 100%;
-        padding: 0;
-        margin: 0;
+        min-height: 190vh;
+        max-height: 200vh;
+    }
+
+    .container_cards > .cards{
+        text-align: center;
     }
 
     .container_cards .conteudo {
         width: 100%;
-        height: 120px;
+        height: 150px;
     }
 
     
 
     .container_cards .conteudo p {
-        width: 80%;
+        width: 98%;
     }
 }
 
