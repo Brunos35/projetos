@@ -29,7 +29,7 @@
     section.home{
         width: 100%;
         min-height: 40%;
-        max-height: 50%;
+        max-height: 60%;
         
     }
 
@@ -39,15 +39,16 @@
     }
 
     figure.cachorro {
-        width: 100%;
-        height: 25%;
+        min-width: 320px;
+        max-width: 100%;
+        height: 60%;
     }
 
     img#cachorro {
         position: relative;
-        top: -10%;
-        height: 60%;
-        width: 60%;
+        bottom: 3%;
+        height: 95%;
+        width: 100%;
     }
 
     section.sobre_nos{
@@ -76,14 +77,13 @@
 
     .container_cards > .cards{
         text-align: center;
+        width: 100%;
     }
 
     .container_cards .conteudo {
         width: 100%;
         height: 150px;
     }
-
-    
 
     .container_cards .conteudo p {
         width: 97%;
@@ -112,17 +112,20 @@ h1#card {
 
     figure.cachorro {
         width: 100%;
+        height: 30vh;
         margin-top: 30px;
     }
 
     img#cachorro {
-        height: 33vh;
-        width: 70%;
+        bottom: 10%;
+        height: 35vh;
+        width: 50%;
     }
 
     section.sobre_nos {
         max-height: 180vh;
         min-height: 140vh;
+        width: 100%;
     }
 
     section.sobre_nos figure {
@@ -143,7 +146,7 @@ h1#card {
     }
 
     .container_cards .conteudo p {
-        width: 330px;
+        width: 310px;
     }
     
 }
@@ -154,6 +157,7 @@ h1#card {
     div.home {
         flex-wrap: wrap;
         text-align: center;
+        height: 150vh;
     }
 
     section.home{
@@ -167,12 +171,13 @@ h1#card {
 
     figure.cachorro {
         width: 100%;
+        height: 30vh;
         margin-top: 30px;
     }
 
     img#cachorro {
-        height: 39vh;
-        width: 55%;
+        height: 40vh;
+        width: 45%;
     }
 
     section.sobre_nos {
