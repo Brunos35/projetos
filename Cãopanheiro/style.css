@@ -176,7 +176,6 @@ figure.cachorro{
 }
 
 img#cachorro{
-
     width: 95%;
     height: 99vh;
     /*background: transparent;*/
@@ -184,7 +183,7 @@ img#cachorro{
 }
 /*pag Sobre nós*/
 section.sobre_nos{
-    max-width: 1600px;
+    max-width: 1200px;
     min-width: 300px;
     min-height: 110vh;
     max-height: 120vh;
