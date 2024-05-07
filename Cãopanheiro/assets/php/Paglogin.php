@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../estilos/login.css">
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 
 <body>
 
     <section>
         <header>
-            <figure class="logo"><img src="../imagens/logo-pcc2-removebg-preview.png" alt=""></figure>
+            <figure class="logo"><img src="../img/logo1.png" alt=""></figure>
             <nav>
                 <ul>
-                    <li><a href="../index.html">Inicio</a></li>
+                    <li><a href="../../index.html">Inicio</a></li>
                 </ul>
 
             </nav>
@@ -44,7 +44,7 @@
                 <button onclick="trocaLado()" class="regs">Registrar-se</button>
             </div>
             <div class="registro" id="registro">
-                <form action="registro.php" autocomplete="on">
+                <form action="" autocomplete="on">
                     <h2>Registrar</h2>
                     <div class="inputbox">
                         <input type="text" name="nome" id="nome" required>

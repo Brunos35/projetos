@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
-    <link rel="stylesheet" href="../estilos/usuario.css">
+    <link rel="stylesheet" href="../css/usuario.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
@@ -12,7 +12,7 @@
             <button class="nav-toggle"><span class="material-symbols-outlined">
                 menu
                 </span></button>
-            <figure class="logo"><img src="../imagens/logo-pcc2-removebg-preview.png" alt=""></figure>
+            <figure class="logo"><img src="../img/logo1.png" alt=""></figure>
             <div class="user-info">Bem-vindo, <span id="username"></span></div>
         </header>
         <nav>
@@ -28,7 +28,7 @@
             <h1>Olá usuario</h1>
         </div>
 
-    <script src="script.js">
+    <script src="../js/script.js">
         
     </script>
 </body>
