@@ -38,7 +38,7 @@
                             minlength="8" maxlength="20">
                         <label for="email">Senha</label>
                     </div>
-                    <button class="env">Entrar</button>
+                    <button class="env"><a href="usuario.php">Entrar</a></button>
 
                 </form>
                 <button onclick="trocaLado()" class="regs">Registrar-se</button>
