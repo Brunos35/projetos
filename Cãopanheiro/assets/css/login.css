@@ -18,7 +18,7 @@ html,body{
 }
 
 body{
-    background:url(../imagens/pexels-lumn-406014.jpg) no-repeat;
+    background:url(../img/pexels-lumn-406014.jpg) no-repeat;
     background-position: center;
     background-size: cover;
 }
@@ -97,7 +97,7 @@ li a:hover{
     height: 100%;
     z-index: 2;
     border-radius: 20px;
-    background: var(--color1) url(../imagens/logo-pcc2-removebg-preview.png) no-repeat center;
+    background: var(--color1) url(../img/logo1.png) no-repeat center;
     background-size: contain;
     transition: 1s ease-in-out;
     transform: translate(0%);
