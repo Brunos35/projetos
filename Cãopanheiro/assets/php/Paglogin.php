@@ -44,15 +44,11 @@
                 <button onclick="trocaLado()" class="regs">Registrar-se</button>
             </div>
             <div class="registro" id="registro">
-                <form action="" autocomplete="on">
+                <form action="cadastro.php" method="post" autocomplete="on">
                     <h2>Registrar</h2>
                     <div class="inputbox">
                         <input type="text" name="nome" id="nome" required>
                         <label for="nome">Nome</label>
-                    </div>
-                    <div class="inputbox">
-                        <input type="text" name="sobrenome" id="sobrenome" required>
-                        <label for="sobrenome">Sobrenome</label>
                     </div>
                     <div class="inputbox">
                         <input type="email" name="email" id="email" required>
@@ -60,7 +56,7 @@
                     </div>
                     <div class="inputbox">
                         <input type="password" name="senha" id="senha" required>
-                        <label for="email">Senha</label>
+                        <label for="senha">Senha</label>
                     </div>
                     <button class="env">Registrar</button>
                 </form>
