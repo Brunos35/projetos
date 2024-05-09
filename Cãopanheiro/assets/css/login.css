@@ -33,6 +33,7 @@ section{
 }
 
 header{
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -185,12 +186,13 @@ button.regs{
     box-shadow: none;
     border: none;
     font-size: 1em;
-    color: white;
+    color: var(--color1);
+    font-weight: 600;
     margin-left: 20px;
 }
 
 button.regs:hover{
-    color: var(--color2);
+    color: black;
     text-decoration: none;
     transition: all .5s;
 }
