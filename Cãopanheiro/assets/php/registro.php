@@ -1,7 +1,7 @@
 <?php
     header('Content-Type: text/html; charset=utf-8;');
     
-    require_once '../src/conexao.php';
+    require_once 'conexao.php';
 
     # recebe os valores enviados do formulário via método post.
     $nome = $_POST['nome'];
@@ -12,34 +12,33 @@
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
     $senha = md5($_POST['senha']);
-    $perfil = $_POST['perfil'];
 
     # solicita a conexão com o banco de dados e guarda na váriavel dbh.
     $dbh = Conexao::getConexao();
 
     # cria uma instrução SQL para inserir dados na tabela usuarios.
-    $query = "INSERT INTO caopanheiro.adotante (nome, sobrenome, datanasc, cpf,endereco ,telefone ,email, senha, perfil) 
-                VALUES (:nome, :sobrenome, :datanasc, :cpf, :endereco, :telefone,:email, :senha, :perfil);"; 
+    $query = "INSERT INTO caopanheiro.adotante (Nome, Sobrenome, CPF,Endereco ,NumeroWhatsapp ,Email, Senha) 
+                VALUES (:Nome, :Sobrenome, :CPF, :Endereco, :NumeroWhatsapp, :Email, :Senha);"; 
     
     # prepara a execução da query e retorna para uma variável chamada stmt.
     $stmt = $dbh->prepare($query);
 
     # com a variável stmt, usada bindParam para associar a cada um dos parâmetro
     # e seu tipo (opcional).
-    $stmt->bindParam(':nome', $nome);
-    $stmt->bindParam(':sobrenome', $sobrenome);
-    $stmt->bindParam(':datanasc', $datanasc);
-    $stmt->bindParam(':cpf', $cpf);
-    $stmt->bindParam(':endereco', $endereco);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':senha', $senha);    
-    $stmt->bindParam(':perfil', $perfil);
+    $stmt->bindParam(':Nome', $nome);
+    $stmt->bindParam(':Sobrenome', $sobrenome);
+    $stmt->bindParam(':CPF', $cpf);
+    $stmt->bindParam(':Endereco', $endereco);
+    $stmt->bindParam(':NumeroWhatsapp', $telefone);
+    $stmt->bindParam(':Email', $email);
+    $stmt->bindParam(':Senha', $senha);    
     
     # executa a instrução contida em stmt e se tudo der certo retorna uma valor maior que zero.
     $result= $stmt->execute();
     if ($result)
     {
-        header('location: index.php');
+        echo "<script>window.alert('Cadastrado com Sucesso!')</script>";
+        header('location: usuario.php');
         exit;
     } else {
         echo '<p>Não foi fossível inserir Usuário!</p>';
