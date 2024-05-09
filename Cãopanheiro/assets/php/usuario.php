@@ -18,7 +18,7 @@
         <nav>
             <ul>
                 <li><a href="#" onclick="criarFormulario()">Cadastrar Pet</a></li>
-                <li><a href="#" onclick="criarCatalogo()">Adotar Pet</a></li>
+                <li><a href="#">Adotar Pet</a></li>
                 <li><a href="#">Meu Perfil</a></li>
                 <li><a href="#">Conversas</a></li>
                 <li><a href="#">Configurações</a></li>
