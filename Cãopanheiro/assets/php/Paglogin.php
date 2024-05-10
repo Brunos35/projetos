@@ -26,20 +26,19 @@
 
             </div>
             <div class="login" id="login">
-                <form action="login.php" autocomplete="on">
+                <form action="login.php" autocomplete="on" method="post">
                     <h2>Login</h2>
 
                     <div class="inputbox">
-                        <input type="email" name="email" id="email" required autocomplete="email">
-                        <label for="email">E-mail</label>
+                        <input type="email" name="emailLogin" id="emailLogin" required autocomplete="email">
+                        <label for="emailLogin">E-mail</label>
                     </div>
                     <div class="inputbox">
-                        <input type="password" name="senha" id="senha" required autocomplete="current-password"
+                        <input type="password" name="senhaLogin" id="senhaLogin" required autocomplete="current-password"
                             minlength="8" maxlength="20">
-                        <label for="email">Senha</label>
+                        <label for="senhaLogin">Senha</label>
                     </div>
-                    <button class="env"><a href="usuario.php">Entrar</a></button>
-
+                    <button class="env">Entrar</button>
                 </form>
                 <button onclick="trocaLado()" class="regs">Registrar-se</button>
             </div>

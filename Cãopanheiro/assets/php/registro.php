@@ -32,9 +32,6 @@
     $stmt->bindParam(':NumeroWhatsapp', $telefone);
     $stmt->bindParam(':Email', $email);
     $stmt->bindParam(':Senha', $senha);    
-
-    $stmt->debugDumpParams();
-
   
     # executa a instrução contida em stmt e se tudo der certo retorna uma valor maior que zero.
     $result= $stmt->execute();
