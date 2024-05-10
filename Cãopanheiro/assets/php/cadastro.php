@@ -84,7 +84,7 @@
 ?>
 <body>
     <div class="cadastro" id="cadastro">
-        <form action="registro.php" autocomplete="on">
+        <form action="registro.php" autocomplete="on" method="POST">
             <h2>Registrar</h2>
             <div class="inputbox">
                 <input type="text" name="nome" id="nome" required value="<?=$nome?>">
