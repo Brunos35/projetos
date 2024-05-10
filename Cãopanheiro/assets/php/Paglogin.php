@@ -12,10 +12,10 @@
 
     <section>
         <header>
-            <figure class="logo"><img src="../img/logo1.png" alt=""></figure>
+
             <nav>
                 <ul>
-                    <li><a href="../../index.html">Inicio</a></li>
+                    <li><a href="../../index.html">Home</a></li>
                 </ul>
 
             </nav>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="inputbox">
                         <input type="password" name="senhaLogin" id="senhaLogin" required autocomplete="current-password"
-                            minlength="8" maxlength="20">
+                            minlength="5" maxlength="20">
                         <label for="senhaLogin">Senha</label>
                     </div>
                     <button class="env">Entrar</button>

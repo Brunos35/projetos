@@ -31,6 +31,7 @@ body{
 
 /*Barra de navegação*/
 nav{
+   
     width: 100% ;
     margin-right: 10px;
     height: 100px;
@@ -80,6 +81,7 @@ ul{
     list-style: none;
     text-align: center;
     align-items: center;
+    
 }
 
 li{
@@ -87,6 +89,7 @@ li{
     max-width: 20% !important;
     height: 20%;
     border-radius: 20px;
+
 }
     
 li a{
@@ -94,12 +97,12 @@ li a{
     text-decoration: none;
     text-align: center;
     border-top: 2px solid var(--color1);
+    font-weight: 800;
 }
 
 li a:hover{
     color: var(--color3) !important;
 }
-
 
 /*Página Principal*/
 main{

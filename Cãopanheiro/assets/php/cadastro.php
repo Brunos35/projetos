@@ -123,9 +123,9 @@
             </div>
             <div class="radio">
                 <p>Qual seu objetivo? </p>
-                <input type="radio" name="perfil" id="adotante">
+                <input type="radio" name="perfil" id="adotante" value="adotante">
                 <label for="perfil">Adotar</label>
-                <input type="radio" name="perfil" id="doador">
+                <input type="radio" name="perfil" id="doador" value="doador">
                 <label for="perfil">Doar</label>
             </div>
 

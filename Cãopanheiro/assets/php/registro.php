@@ -12,13 +12,14 @@
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
     $senha = md5($_POST['senha']);
+    $perfil = $_POST['perfil'];
 
     # solicita a conexão com o banco de dados e guarda na váriavel dbh.
     $dbh = Conexao::getConexao();
 
     # cria uma instrução SQL para inserir dados na tabela usuarios.
-    $query = "INSERT INTO caopanheiro.adotante (Nome, Sobrenome, CPF,Endereco ,NumeroWhatsapp ,Email, Senha) 
-                VALUES (:Nome, :Sobrenome, :CPF, :Endereco, :NumeroWhatsapp, :Email, :Senha);"; 
+    $query = "INSERT INTO caopanheiro.usuarios (Nome, Sobrenome,DataNascimento, CPF,Endereco ,NumeroWhatsapp ,Email, Senha, Perfil) 
+                VALUES (:Nome, :Sobrenome,:DataNascimento, :CPF, :Endereco, :NumeroWhatsapp, :Email, :Senha, :Perfil);"; 
     
     # prepara a execução da query e retorna para uma variável chamada stmt.
     $stmt = $dbh->prepare($query);
@@ -27,11 +28,13 @@
     # e seu tipo (opcional).
     $stmt->bindParam(':Nome', $nome);
     $stmt->bindParam(':Sobrenome', $sobrenome);
+    $stmt->bindParam(':DataNascimento', $datanasc);
     $stmt->bindParam(':CPF', $cpf);
     $stmt->bindParam(':Endereco', $endereco);
     $stmt->bindParam(':NumeroWhatsapp', $telefone);
     $stmt->bindParam(':Email', $email);
     $stmt->bindParam(':Senha', $senha);    
+    $stmt->bindParam(':Perfil', $perfil);    
   
     # executa a instrução contida em stmt e se tudo der certo retorna uma valor maior que zero.
     $result= $stmt->execute();
