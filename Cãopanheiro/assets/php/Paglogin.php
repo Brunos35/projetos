@@ -26,7 +26,7 @@
 
             </div>
             <div class="login" id="login">
-                <form action="usuario.php" autocomplete="on">
+                <form action="login.php" autocomplete="on">
                     <h2>Login</h2>
 
                     <div class="inputbox">
@@ -58,7 +58,7 @@
                         <input type="password" name="senha" id="senha" required>
                         <label for="senha">Senha</label>
                     </div>
-                    <button class="env">Registrar</button>
+                    <button class="env">Continuar</button>
                 </form>
                 <button class="regs" onclick="trocaLado()">Sou cadastrado</button>
             </div>
