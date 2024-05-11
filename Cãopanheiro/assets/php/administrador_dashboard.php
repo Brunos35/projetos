@@ -18,16 +18,17 @@
         <nav>
             <ul>
                 <li><a href="#" onclick="criarFormulario()">Cadastrar Pet</a></li>
+                <li><a href="#">Adotar Pet</a></li>
                 <li><a href="#">Meu Perfil</a></li>
                 <li><a href="#">Conversas</a></li>
-                <li><a href="../../index.html">Página Inicial</a></li>
+                <li><a href="#">Configurações</a></li>
             </ul>
         </nav>
         <div class="content" id="conteudo">
             <h1>Olá usuario</h1>
         </div>
 
-    <script src="../js/cadastroPet.js">
+    <script src="../js/script.js">
         
     </script>
 </body>

@@ -5,29 +5,17 @@ CREATE DATABASE IF NOT EXISTS Caopanheiro;
 USE Caopanheiro;
 
 -- Tabela para armazenar informações sobre os adotantes
-CREATE TABLE Adotante (
-    AdotanteID INT AUTO_INCREMENT PRIMARY KEY,
+CREATE table usuarios (
+    UsuarioID INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(50),
     Sobrenome VARCHAR(50),
     DataNascimento DATE,
     CPF VARCHAR(14) UNIQUE,
     Endereco VARCHAR(100),
     Email VARCHAR(100),
-    NumeroWhatsapp VARCHAR(20),
-    Senha VARCHAR(100) -- A senha deve ser armazenada com segurança, preferencialmente com hash
-);
-
--- Tabela para armazenar informações sobre os doadores
-CREATE TABLE Doador (
-    DoadorID INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(50),
-    Sobrenome VARCHAR(50),
-    DataNascimento DATE,
-    CPF VARCHAR(14) UNIQUE,
-    Endereco VARCHAR(100),
-    Email VARCHAR(100),
-    NumeroWhatsapp VARCHAR(20),
-    Senha VARCHAR(100) -- A senha deve ser armazenada com segurança, preferencialmente com hash
+    Telefone VARCHAR(20),
+    Senha VARCHAR(100), -- A senha é armazenado em md5
+    Perfil enum('adotante','doador','administrador')
 );
 
 -- Tabela para armazenar informações sobre os pets
@@ -44,21 +32,11 @@ CREATE TABLE Pet (
 
 -- Tabela para relacionar adotantes e pets (muitos para muitos)
 CREATE TABLE Adocao (
-    AdotanteID INT,
+    UsuarioID INT,
     PetID INT,
     DataAdocao DATE,
-    PRIMARY KEY (AdotanteID, PetID),
-    FOREIGN KEY (AdotanteID) REFERENCES Adotante(AdotanteID),
-    FOREIGN KEY (PetID) REFERENCES Pet(PetID)
-);
-
--- Tabela para relacionar doadores e pets (um para muitos)
-CREATE TABLE Doacao (
-    DoadorID INT,
-    PetID INT,
-    DataDoacao DATE,
-    PRIMARY KEY (DoadorID, PetID),
-    FOREIGN KEY (DoadorID) REFERENCES Doador(DoadorID),
+    PRIMARY KEY (UsuarioID, PetID),
+    FOREIGN KEY (UsuarioID) REFERENCES Usuario(UsuarioID),
     FOREIGN KEY (PetID) REFERENCES Pet(PetID)
 );
 
@@ -69,6 +47,5 @@ CREATE TABLE Chat (
     Destinatario INT,
     Conteudo TEXT,
     DataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (Remetente) REFERENCES Adotante(AdotanteID),
-    FOREIGN KEY (Destinatario) REFERENCES Adotante(AdotanteID)
+    FOREIGN KEY (Remetente) REFERENCES Adotante(UsuarioID)
 );
