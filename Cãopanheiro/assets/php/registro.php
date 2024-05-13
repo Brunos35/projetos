@@ -41,14 +41,13 @@
     if ($result)
     {
         echo "<script>window.alert('Cadastrado com Sucesso!')</script>";
-        $_SESSION['perfil'] = $user['Perfil'];
-        $_SESSION['nome']= $_POST['Nome'];
-        $_SESSION['sobrenome']= $_POST['sobrenome'];
-        $_SESSION['data']= $_POST['dataNasc'];
-        $_SESSION['CPF']= $_POST['cpf'];
-        $_SESSION['endereco']= $_POST['endereco'];
-        $_SESSION['email']= $_POST['email'];
-        $_SESSION['senha']= $_POST['senha'];
+        $_SESSION['perfil'] = $perfil;
+        $_SESSION['nome']= $Nome;
+        $_SESSION['sobrenome']= $sobrenome;
+        $_SESSION['data']= $dataNasc;
+        $_SESSION['cpf']= $cpf;
+        $_SESSION['endereco']= $endereco;
+        $_SESSION['email']= $email;
         switch ($_SESSION['perfil']) {
             case 'adotante':
                 header("Location: adotante/adotante_dashboard");

@@ -1,16 +1,5 @@
 <?php 
-session_start();
-require_once '../conexao.php';
-
-$dbh = Conexao::getConexao();
-
-$query = "SELECT UsuarioID FROM caopanheiro.usuarios where cpf = :cpf";
-
-$stmt= $dbh->prepare($query);
-$stmt->bindParam(':cpf', $_SESSION['cpf']);
-$result= $stmt->execute();
-$_SESSION['usuId']= $result;
-?>
+session_start()?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -26,7 +15,7 @@ $_SESSION['usuId']= $result;
                 menu
                 </span></button>
             <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
-            <div class="user-info">Bem-vindo, <?= $_SESSION['nome'];?> <span id="username"></span></div>
+            <div class="user-info">Bem-vindo, <?=$_SESSION['nome'];?> <span id="username"></span></div>
         </header>
         <nav>
             <ul>

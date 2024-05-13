@@ -21,13 +21,15 @@ CREATE table usuarios (
 -- Tabela para armazenar informações sobre os pets
 CREATE TABLE Pet (
     PetID INT AUTO_INCREMENT PRIMARY KEY,
+    Doador int(11),
     Nome VARCHAR(50),
     DataNascimento DATE,
     Foto VARCHAR(255), -- Caminho para a foto do pet
     Raca VARCHAR(50),
     Porte ENUM('Pequeno', 'Médio', 'Grande'),
     Sexo ENUM('Macho', 'Fêmea'),
-    Descricao TEXT
+    Descricao TEXT,
+    FOREIGN KEY (doador) REFERENCES Usuarios(UsuarioID)
 );
 
 -- Tabela para relacionar adotantes e pets (muitos para muitos)
@@ -36,7 +38,7 @@ CREATE TABLE Adocao (
     PetID INT,
     DataAdocao DATE,
     PRIMARY KEY (UsuarioID, PetID),
-    FOREIGN KEY (UsuarioID) REFERENCES Usuario(UsuarioID),
+    FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID),
     FOREIGN KEY (PetID) REFERENCES Pet(PetID)
 );
 
@@ -47,5 +49,6 @@ CREATE TABLE Chat (
     Destinatario INT,
     Conteudo TEXT,
     DataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (Remetente) REFERENCES Adotante(UsuarioID)
+    FOREIGN KEY (Remetente) REFERENCES Usuarios(UsuarioID)
 );
+alter table usuarios add column status enum('ativo','inativo');

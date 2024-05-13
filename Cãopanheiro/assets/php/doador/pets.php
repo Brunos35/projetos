@@ -1,6 +1,6 @@
 <?php 
 session_start();
-ini_set("include_path" ,"\C:\Users\bruno\OneDrive\Documentos\EstudoProgramação\projetos\Cãopanheiro\assets\php\conexao.php");
+
 require_once "../conexao.php";
 
 
@@ -8,10 +8,13 @@ require_once "../conexao.php";
 $dbh = Conexao::getConexao();
 
 # cria uma instrução SQL para selecionar todos os dados na tabela usuarios.
-$query = "SELECT * FROM caopanheiro.usuarios;"; 
+$query = "SELECT * FROM caopanheiro.pet where doador = :doador"; 
 
 # prepara a execução da query e retorna para uma variável chamada stmt.
 $stmt = $dbh->query($query);
+$stmt->bindParam(':doador', $_SESSION['usuId']);
+$result= $stmt->execute();
+var_dump($result);
 
 # devolve a quantidade de linhas retornada pela consulta a tabela.
 $quantidadeRegistros = $stmt->rowCount();
@@ -73,13 +76,13 @@ $quantidadeRegistros = $stmt->rowCount();
                         <?php while($row = $stmt->fetch(PDO::FETCH_BOTH)): ?>
                         <tr>
                             <?php $status =  $row['status'] =="1"? "ATIVO" : "INATIVO"; ?>
-                            <td><?php echo $row['id'];?></td>
-                            <td><?= $row['nome'];?></td>
-                            <td><?= $row['email'];?></td>
+                            <td><?php echo $row['UsuarioID'];?></td>
+                            <td><?= $row['Nome'];?></td>
+                            <td><?= $row['Email'];?></td>
                             <td><?= $status;?></td>
                             <td class="td__operacao">
-                                <a class="btnalterar" href="update.php?id=<?=$row['id'];?>">Alterar</a>
-                                <a class="btnexcluir" href="delete.php?id=<?=$row['id'];?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a>
+                                <a class="btnalterar" href="alterarDoador.php?id=<?=$row['id'];?>">Alterar</a>
+                                <a class="btnexcluir" href="excluirDoador.php?id=<?=$row['id'];?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a>
                             </td>
                         </tr>
                         <?php endwhile; ?>
