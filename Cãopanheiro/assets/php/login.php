@@ -1,4 +1,6 @@
 <?php
+session_start();
+ini_set("include_path" ,"\C:\Users\bruno\OneDrive\Documentos\EstudoProgramação\projetos\Cãopanheiro\assets\php");
 // Conexão com o banco de dados MySQL usando PDO
     require_once 'conexao.php';
 
@@ -24,18 +26,21 @@
         // Login bem sucedido
         // Recupera o perfil do usuário
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $perfil = $user['Perfil'];
+        $_SESSION['perfil'] = $user['Perfil'];
+        $_SESSION['nome']= $user['Nome'];
+        $_SESSION['data']= $user['DataNascimento'];
+        $_SESSION['email']= $user['Email'];
         
         // Redireciona para a página correspondente ao perfil do usuário
-        switch ($perfil) {
+        switch ($_SESSION['perfil']) {
             case 'adotante':
-                header("Location: adotante_dashboard.php");
+                header("Location: adotante/adotante_dashboard");
                 break;
             case 'doador':
-                header("Location: doador_dashboard.php");
+                header("Location: doador/doador_dashboard.php");
                 break;
             case 'administrador':
-                header("Location: admin_dashboard.php");
+                header("Location: admin/administrador_dashboard.php");
                 break;
             default:
                 echo "Perfil inválido!";
