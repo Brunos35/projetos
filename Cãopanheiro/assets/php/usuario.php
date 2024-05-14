@@ -1,35 +1,64 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área Restrita</title>
-    <link rel="stylesheet" href="../css/usuario.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-</head>
-<body>
-        <header>
-            <button class="nav-toggle"><span class="material-symbols-outlined">
-                menu
-                </span></button>
-            <figure class="logo"><img src="../img/logo1.png" alt=""></figure>
-            <div class="user-info">Bem-vindo, <span id="username"></span></div>
-        </header>
-        <nav>
-            <ul>
-                <li><a href="#" onclick="criarFormulario()">Cadastrar Pet</a></li>
-                <li><a href="#">Adotar Pet</a></li>
-                <li><a href="#">Meu Perfil</a></li>
-                <li><a href="#">Conversas</a></li>
-                <li><a href="#">Configurações</a></li>
-            </ul>
-        </nav>
-        <div class="content" id="conteudo">
-            <h1>Olá usuario</h1>
-        </div>
+<?php 
+class usuario{
+    private $nomeUsu;
+    private $sobrenomeUsu;
+    private $dataNascUsu;
+    private $cpfUsu;
+    private $enderecoUsu;
+    private $emailUsu;
+    private $perfilUsu;
+    private $statusUsu;
 
-    <script src="../js/script.js">
-        
-    </script>
-</body>
-</html>
+    public function setNomeUsu($nomeUsu){
+        $this->nomeUsu = $nomeUsu;
+    }
+    public function getNomeUsu(){
+        return $this->nomeUsu;
+    }
+
+    public function setSobrenomeUsu($sobrenomeUsu){
+        $this->sobrenomeUsu = $sobrenomeUsu;
+    }
+    public function getSobrenomeUsu(){
+        return $this->sobrenomeUsu;
+    }
+    public function setDataNascUsu($dataNascUsu){
+        $this->dataNascUsu = $dataNascUsu;
+    }
+    public function getDataNascUsu(){
+        return $this->dataNascUsu;
+    }
+    public function setCpfUsu($cpfUsu){
+        $this->cpfUsu = $cpfUsu;
+    }
+    public function getCpfUsu(){
+        return $this->cpfUsu;
+    }
+    public function setEnderecoUsuu($enderecoUsu){
+        $this->enderecoUsu = $enderecoUsu;
+    }
+    public function getEnderecoUsu(){
+        return $this->enderecoUsu;
+    }
+    public function setEmailUsu($emailUsu){
+        $this->emailUsu = $emailUsu;
+    }
+    public function getEmailUsu(){
+        return $this->emailUsu;
+    }
+    public function setPerfilUsu($perfilUsu){
+        $this->perfilUsu = $perfilUsu;
+    }
+    public function getPerfilUsu(){
+        return $this->perfilUsu;
+    }
+    public function setStatusUsu($statusUsu){
+        $this->statusUsu = $statusUsu;
+    }
+    public function getStatusUsu(){
+        return $this->statusUsu;
+    }
+
+}
+
+?>
