@@ -42,12 +42,11 @@ $quantidadeRegistros = $stmt->rowCount();
                 <li><a href="alterarDoador.php">Meu Perfil</a></li>
                 <li><a href="#">Conversas</a></li>
                 <li><a href="../../index.html">Página Inicial</a></li>
+                <li><a href="">Sair</a></li>
             </ul>
         </nav>
         <div class="content" id="conteudo">
             <h1>Meus Pets</h1>
-            <section class="section__btn">
-            <a class="btn" href="new.php">Novo</a>
         </section>
 
         <hr>

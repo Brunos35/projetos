@@ -23,6 +23,7 @@ session_start()?>
                 <li><a href="alterarAdotante.php">Meu Perfil</a></li>
                 <li><a href="#">Conversas</a></li>
                 <li><a href="../../../index.html">Página Inicial</a></li>
+                <li><a href="">Sair</a></li>
             </ul>
         </nav>
         <div class="content" id="conteudo">
