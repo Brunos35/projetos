@@ -1,6 +1,5 @@
 <?php
 session_start();
-ini_set("include_path" ,"\C:\Users\bruno\OneDrive\Documentos\EstudoProgramação\projetos\Cãopanheiro\assets\php");
 // Conexão com o banco de dados MySQL usando PDO
     require_once 'conexao.php';
 

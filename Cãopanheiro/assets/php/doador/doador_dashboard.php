@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require_once '../conexao.php';
+require __DIR__ . '/../conexao.php';
 
 $dbh = Conexao::getConexao();
 

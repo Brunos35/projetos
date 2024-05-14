@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS Caopanheiro;
 USE Caopanheiro;
 
 -- Tabela para armazenar informações sobre os adotantes
-CREATE table usuarios (
+CREATE table usuarios(
     UsuarioID INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(50),
     Sobrenome VARCHAR(50),
@@ -21,15 +21,13 @@ CREATE table usuarios (
 -- Tabela para armazenar informações sobre os pets
 CREATE TABLE Pet (
     PetID INT AUTO_INCREMENT PRIMARY KEY,
-    Doador int(11),
     Nome VARCHAR(50),
     DataNascimento DATE,
     Foto VARCHAR(255), -- Caminho para a foto do pet
     Raca VARCHAR(50),
     Porte ENUM('Pequeno', 'Médio', 'Grande'),
     Sexo ENUM('Macho', 'Fêmea'),
-    Descricao TEXT,
-    FOREIGN KEY (doador) REFERENCES Usuarios(UsuarioID)
+    Descricao TEXT
 );
 
 -- Tabela para relacionar adotantes e pets (muitos para muitos)
@@ -51,4 +49,5 @@ CREATE TABLE Chat (
     DataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (Remetente) REFERENCES Usuarios(UsuarioID)
 );
-alter table usuarios add column status enum('ativo','inativo');
+
+

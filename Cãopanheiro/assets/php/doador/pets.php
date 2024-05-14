@@ -1,7 +1,7 @@
 <?php 
 session_start();
 
-require_once "../conexao.php";
+require __DIR__ . '/../conexao.php';
 
 
 # solicita a conexão com o banco de dados e guarda na váriavel dbh.
@@ -11,16 +11,13 @@ $dbh = Conexao::getConexao();
 $query = "SELECT * FROM caopanheiro.pet where doador = :doador"; 
 
 # prepara a execução da query e retorna para uma variável chamada stmt.
-$stmt = $dbh->query($query);
-$stmt->bindParam(':doador', $_SESSION['usuId']);
-$result= $stmt->execute();
-var_dump($result);
+$stmt = $dbh->prepare($query);
+$stmt->bindValue(':doador', $_SESSION['usuId'], PDO::PARAM_INT);
+$stmt->execute();
+
 
 # devolve a quantidade de linhas retornada pela consulta a tabela.
 $quantidadeRegistros = $stmt->rowCount();
-
-# busca todos os dados da tabela usuário.
-// $usuarios = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -61,7 +58,6 @@ $quantidadeRegistros = $stmt->rowCount();
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
-                        <th>E-mail</th>
                         <th>Status</th>
                         <th>Ação</th>
                     </tr>
@@ -70,19 +66,20 @@ $quantidadeRegistros = $stmt->rowCount();
                 <tbody>
                     <?php if ($quantidadeRegistros == "0"): ?>
                         <tr>
-                            <td colspan="4">Não existem usuários cadastrados.</td>
+                            <td colspan="3">Não existem usuários cadastrados.</td>
                         </tr>
                     <?php else: ?>
                         <?php while($row = $stmt->fetch(PDO::FETCH_BOTH)): ?>
                         <tr>
-                            <?php $status =  $row['status'] =="1"? "ATIVO" : "INATIVO"; ?>
-                            <td><?php echo $row['UsuarioID'];?></td>
+                            <?php $status = $row['status'] == "adotado" ? "ADOTADO" : "DISPONÍVEL";?>
+                            <td><?php 
+                            $petId = intval($row['PetID']);
+                            echo $petId;?></td>
                             <td><?= $row['Nome'];?></td>
-                            <td><?= $row['Email'];?></td>
                             <td><?= $status;?></td>
                             <td class="td__operacao">
-                                <a class="btnalterar" href="alterarDoador.php?id=<?=$row['id'];?>">Alterar</a>
-                                <a class="btnexcluir" href="excluirDoador.php?id=<?=$row['id'];?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a>
+                                <a class="btnalterar" href="alterarDoador.php">Alterar</a>
+                                <a class="btnexcluir" href="excluirDoador.php" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a>
                             </td>
                         </tr>
                         <?php endwhile; ?>
