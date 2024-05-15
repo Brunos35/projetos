@@ -1,6 +1,7 @@
 <?php 
 session_start();
 require __DIR__ . '/../conexao.php';
+ $dbh = Conexao::getConexao();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -9,6 +10,7 @@ require __DIR__ . '/../conexao.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
     <link rel="stylesheet" href="../../css/usuario.css">
+    <link rel="stylesheet" href="../../css/dashboards.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
@@ -28,10 +30,32 @@ require __DIR__ . '/../conexao.php';
                 <li><a href="">Sair</a></li>
             </ul>
         </nav>
-        <div class="content" id="conteudo">
-            <h1>Olá usuario</h1>
-        </div>
 
+        <main>
+        <div class="content" id="conteudo">
+        
+
+<h1>Alterar Informações</h1>
+
+    <form action="usuarioupdate.php" method="post">
+        
+        <input type="hidden" name="id" value="<?=$_SESSION['usuId']?>">
+        
+        <label>Nome</label><br>
+        <input type="text" name="nome" placeholder="Informe seu nome." size="80" required value="<?=$_SESSION['nome']?>"><br>
+
+        <label>Sobrenome</label><br>
+        <input type="text" name="Sobrenome" placeholder="Informe seu nome." size="80" required value="<?=$_SESSION['Sobrenome']?>"><br>
+        <label>E-mail</label><br>
+        <input type="email" name="email"   required autofocus value="<?=$_SESSION['email']?>"><br>
+
+        
+
+        <button class="salvar" type="submit">Salvar</button>
+    </form>
+
+        </div>
+</main>
     <script src="../../js/script.js">
         
     </script>

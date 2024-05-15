@@ -60,8 +60,8 @@ $dbh = Conexao::getConexao();
             <br>
             <h2>Tipo de Perfil: </h2>
             <p><?= $_SESSION['perfil']; ?></p><br>
-            <a class="btnalterar" href="update.php?id=<?= $row['id']; ?>">Alterar</a>
-            <a class="btnexcluir" href="delete.php?id=<?= $row['id']; ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a>
+            <button id="usu"><a class="btnalterar" href="alterarDoador.php?id=<?= $_SESSION['usuId']; ?>">Alterar</a></button>
+            <button id="usu"><a class="btnexcluir" href="delete.php?id=<?= $_SESSION['usuId']; ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a></button>
 
             <?php $dbh = null; ?>
             </section>

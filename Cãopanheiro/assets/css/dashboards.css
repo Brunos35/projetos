@@ -21,6 +21,7 @@ body{
 main{
     width: 100%;
 }
+
 h1{
     font-size:1.6em;
     margin-bottom: 10px;
@@ -63,14 +64,20 @@ table{
     margin-bottom: 20px;
 }
 
-button#pet, button.acoes{
+button#usu,
+button#pet, 
+button.acoes,
+button.salvar{
     width: 80px;
     height: 25px;
-    background-color: #064a75;
+    background-color: #064a75 !important;
     border-radius: 15px;
 }
 
-a#pet, button.acoes a{
-    color: white;
+a.btnalterar,
+a.btnexcluir,
+a#pet,
+button.acoes a{
+    color: white ;
     text-decoration: none;
 }
