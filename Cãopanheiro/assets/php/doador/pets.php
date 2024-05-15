@@ -3,7 +3,6 @@ session_start();
 
 require __DIR__ . '/../conexao.php';
 
-
 # solicita a conexão com o banco de dados e guarda na váriavel dbh.
 $dbh = Conexao::getConexao();
 
@@ -14,7 +13,6 @@ $query = "SELECT * FROM caopanheiro.pet where doador = :doador";
 $stmt = $dbh->prepare($query);
 $stmt->bindValue(':doador', $_SESSION['usuId'], PDO::PARAM_INT);
 $stmt->execute();
-
 
 # devolve a quantidade de linhas retornada pela consulta a tabela.
 $quantidadeRegistros = $stmt->rowCount();
@@ -72,9 +70,9 @@ $quantidadeRegistros = $stmt->rowCount();
                         <tr>
                             <?php $status = $row['status'] == "adotado" ? "ADOTADO" : "DISPONÍVEL";?>
                             <td><?php 
-                            $petId = intval($row['PetID']);
+                            $petId = intval($row['petId']);
                             echo $petId;?></td>
-                            <td><?= $row['Nome'];?></td>
+                            <td><?= $row['nome'];?></td>
                             <td><?= $status;?></td>
                             <td class="td__operacao">
                                 <a class="btnalterar" href="alterarDoador.php">Alterar</a>
@@ -86,7 +84,7 @@ $quantidadeRegistros = $stmt->rowCount();
                 </tbody>
             </table>
         </section>
-            <a href="cadastrarPets.php">Novo Pet</a>
+            <a href="formCadastroPet.php">Novo Pet</a>
         </div>
 
     <script src="../../js/script.js">

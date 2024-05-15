@@ -29,6 +29,7 @@ session_start();
         $_SESSION['nome']= $user['Nome'];
         $_SESSION['data']= $user['DataNascimento'];
         $_SESSION['email']= $user['Email'];
+        $_SESSION['cpf'] = $user['CPF'];
         
         // Redireciona para a página correspondente ao perfil do usuário
         switch ($_SESSION['perfil']) {

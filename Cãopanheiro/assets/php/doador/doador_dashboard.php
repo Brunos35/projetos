@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 require __DIR__ . '/../conexao.php';
 
@@ -6,13 +6,24 @@ $dbh = Conexao::getConexao();
 
 $query = "SELECT UsuarioID FROM caopanheiro.usuarios where cpf = :cpf";
 
-$stmt= $dbh->prepare($query);
+$stmt = $dbh->prepare($query);
 $stmt->bindParam(':cpf', $_SESSION['cpf']);
-$result= $stmt->execute();
-$_SESSION['usuId']= $result;
+$stmt->execute();
+
+// Busca a linha resultante da consulta
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($result) {
+    // Armazena o UsuarioID na variável de sessão
+    $_SESSION['usuId'] = $result['UsuarioID'];
+} else {
+    // Trate o caso onde não há resultado para o CPF fornecido
+    $_SESSION['usuId'] = null;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,29 +31,31 @@ $_SESSION['usuId']= $result;
     <link rel="stylesheet" href="../../css/usuario.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
+
 <body>
-        <header>
-            <button class="nav-toggle"><span class="material-symbols-outlined">
+    <header>
+        <button class="nav-toggle"><span class="material-symbols-outlined">
                 menu
-                </span></button>
-            <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
-            <div class="user-info">Bem-vindo, <?= $_SESSION['nome'];?> <span id="username"></span></div>
-        </header>
-        <nav>
-            <ul>
-                <li><a href="pets.php">Meus Pet</a></li>
-                <li><a href="alterarDoador.php">Meu Perfil</a></li>
-                <li><a href="#">Conversas</a></li>
-                <li><a href="../../index.html">Página Inicial</a></li>
-                <li><a href="">Sair</a></li>
-            </ul>
-        </nav>
-        <div class="content" id="conteudo">
-            <h1>Olá usuario</h1>
-        </div>
+            </span></button>
+        <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
+        <div class="user-info">Bem-vindo, <?= $_SESSION['nome']; ?> <span id="username"></span></div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="pets.php">Meus Pet</a></li>
+            <li><a href="alterarDoador.php">Meu Perfil</a></li>
+            <li><a href="#">Conversas</a></li>
+            <li><a href="../../index.html">Página Inicial</a></li>
+            <li><a href="">Sair</a></li>
+        </ul>
+    </nav>
+    <div class="content" id="conteudo">
+        <h1>Olá usuario</h1>
+    </div>
 
     <script src="../../js/script.js">
-        
+
     </script>
 </body>
+
 </html>

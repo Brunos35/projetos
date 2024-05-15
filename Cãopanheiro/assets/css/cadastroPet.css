@@ -6,8 +6,23 @@
   --color3: #ca964e;
 }
 
+body{
+  min-height: 100vh;
+  height: 110vh;
+  max-height: 200vh !important;
+}
+
+.content{
+  min-height: 100% !important;
+  max-height: 250% !important;
+}
+
 form {
   max-width: 100%;
+}
+
+label{
+  margin-top: 10px;
 }
 
 input[type="text"] {
@@ -48,7 +63,7 @@ input[type="file"] {
 }
 
 .radio {
-  height: 30px;
+  height: 35px;
 }
 
 .radio p,
@@ -63,7 +78,7 @@ input[type="file"] {
 }
 
 select#raca {
-  margin: 0 0 0 10px;
+  margin: 10px 0 0 10px;
 }
 
 .dropzone-area {

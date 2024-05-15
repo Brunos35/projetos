@@ -1,101 +1,47 @@
 <?php
-session_start();
-require __DIR__ . '/../conexao.php';
-?>
-<!DOCTYPE html>
-<html lang="pt-br">
+    session_start();
+    header('Content-Type: text/html; charset=utf-8;');
+    
+    require __DIR__ . '/../conexao.php';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área Restrita</title>
-    <link rel="stylesheet" href="../../css/usuario.css">
-    <link rel="stylesheet" href="../../css/cadastroPet.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-</head>
+    $petNome = $_POST['petNome'];
+    $petNasc = $_POST['petNasc'];
+    $petPorte = $_POST['porte'];
+    $petRaca = $_POST['raca'];
+    $petSexo = $_POST['sexo'];
+    $descricao = $_POST['descricao'];
+    //$Fotos
 
-<body>
-    <header>
-        <button class="nav-toggle"><span class="material-symbols-outlined">
-                menu
-            </span></button>
-        <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
-        <div class="user-info">Bem-vindo, <?= $_SESSION['nome']; ?> <span id="username"></span></div>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="pets.php">Meus Pet</a></li>
-            <li><a href="alterarDoador.php">Meu Perfil</a></li>
-            <li><a href="#">Conversas</a></li>
-            <li><a href="../../index.html">Página Inicial</a></li>
-            <li><a href="">Sair</a></li>
-        </ul>
-    </nav>
-    <div class="content" id="conteudo">
-        <h1>Cadastrar pets</h1>
-        <form action="cadastrarPets.php" method="post">
+    
+    # solicita a conexão com o banco de dados e guarda na váriavel dbh.
+    $dbh = Conexao::getConexao();
 
-            <div>
-                <label for="petNome">Nome do Pet: </label>
-                <input type="text" name="petNome" id="petNome">
-            </div>
-            <div>
-                <label for="petNasc">Data de nascimento: </label>
-                <input type="date" name="petNasc" id="petNasc">
-            </div>
+    # cria uma instrução SQL para inserir dados na tabela usuarios.
+    $query = "INSERT INTO caopanheiro.pet (nome, dataNascimento, raca, porte, sexo, descricao, doador) 
+                VALUES (:nome, :dataNascimento, :raca, :porte, :sexo, :descricao, :doador);"; 
+    
+    # prepara a execução da query e retorna para uma variável chamada stmt.
+    $stmt = $dbh->prepare($query);
 
-            <div class="radio">
-            <label>Porte: </label>
-                <label for="pequeno">Pequeno</label>
-                <input type="radio" name="porte" id="pequeno" value="pequeno">
-                <label for="medio">Médio</label>
-                <input type="radio" name="porte" id="medio" value="medio">
-                <label for="grande">Grande</label>
-                <input type="radio" name="porte" id="grande" value="grande">
-                
-            </div>
-            
-            <div class="raca">
-                <label>Raça: </label>
-                <select name="raca" id="raca" required>
-                    <option value="null">Selecione uma opção</option>
-                    <option value="labrador">labrador</option>
-                    <option value="golden retriever">golden retriever</option>
-                    <option value="dalmata">dalmata</option>
-                    <option value="bulldog">bulldog</option>
-                    <option value="pitbull">pitbull</option>
-                    <option value="pincher">pincher</option>
-                </select>
-            </div>
-            
-            <div class="radio">
-                <label>Sexo: </label>
-                <label for="macho">Macho</label>
-                <input type="radio" name="sexo" id="macho">
-                <label for="femea">Fêmea</label>
-                <input type="radio" name="sexo" id="femea">
-            </div>
-            <label for="descricao">Descrição:</label>
-            <textarea name="descricao" id="descricao" cols="30" rows="4" placeholder="Fale um pouco sobre o pet"></textarea>
-        
-        <div class="dropzone-box" method="post">
-        <label>Adicione as fotos: </label>
-            <div class="dropzone-area">
-                <div class="uploadIcon">ICONE</div>
-                <input type="file" required id="uploadFoto" name="uploadFoto">
-                <p class="fotoInfo">Sem arquivo selecionado</p>
-            </div>
-            <div class="dropzone-actions">
-                <button type="reset">Cancelar</button>
-                <button id="enviarFoto" type="submit">Salvar</button>
-            </div>
-        </div>
-        </form>
-    </div>
+    # com a variável stmt, usada bindParam para associar a cada um dos parâmetro
+    # e seu tipo (opcional).
+    $stmt->bindParam(':nome', $petNome);
+    $stmt->bindParam(':dataNascimento', $petNasc);
+    $stmt->bindParam(':raca', $petRaca);
+    $stmt->bindParam(':porte', $petPorte);
+    $stmt->bindParam(':sexo', $petSexo);
+    $stmt->bindParam(':descricao', $descricao);
+    $stmt->bindParam(':doador', $_SESSION['usuId']);
+    var_dump($_SESSION['usuId']);
+    $result= $stmt->execute();
 
-
-    <script src="../../js/fotos.js"></script>
-    <script src="../../js/script.js"></script>
-</body>
-
-</html>
+    if ($result){
+        echo "<script>window.alert('Cadastrado com Sucesso!')</script>";
+        header("Location: pets.php");
+        exit;
+    } else {
+        echo '<p>Não foi fossível inserir Usuário!</p>';
+        # método da classe conexao que informa o error ocorrido na execução da query.
+        $error = $dbh->errorInfo();
+        print_r($error);
+    }

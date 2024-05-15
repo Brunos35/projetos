@@ -50,7 +50,7 @@
         $_SESSION['email']= $email;
         switch ($_SESSION['perfil']) {
             case 'adotante':
-                header("Location: adotante/adotante_dashboard");
+                header("Location: adotante/adotante_dashboard.php");
                 break;
             case 'doador':
                 header("Location: doador/doador_dashboard.php");
@@ -59,7 +59,7 @@
                 echo "Perfil inválido!";
                 break;
             }
-        header('location: usuario.php');
+        header('location: login.php');
         exit;
     } else {
         echo '<p>Não foi fossível inserir Usuário!</p>';
