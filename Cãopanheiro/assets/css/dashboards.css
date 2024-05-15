@@ -1,0 +1,76 @@
+@charset 'UTF-8';
+
+:root {
+  --color1: #064a75;
+  --color2: #ffe1b7;
+  --color3: #ca964e;
+}
+/*doador_dashboard*/
+body{
+  min-height: 100vh;
+  height: 100vh;
+  max-height: 200vh !important;
+}
+
+.content{
+  min-height: 100% !important;
+  max-height: 250% !important;
+  background-color: #fff4e5;
+}
+
+main{
+    width: 100%;
+}
+h1{
+    font-size:1.6em;
+    margin-bottom: 10px;
+}
+
+h2{
+    font-weight: normal;
+    font-size: 1.2em;
+    display: inline-block;
+    margin:2px 0 10px 0;
+}
+
+p{
+    display: inline-block;
+    font-size: 1em;
+    margin: 0 50px 0 0;
+}
+
+/*pets.php*/
+
+th{
+    width: 110px;
+    text-align: center;
+}
+
+th#raca,th.acoes{
+    width: 150px;
+}
+
+th#nome{
+    width: 80px;
+    max-width: 110px;
+}
+
+tr{
+    text-align: center;
+}
+
+table{
+    margin-bottom: 20px;
+}
+
+button#pet, button.acoes{
+    width: 80px;
+    height: 25px;
+    background-color: #064a75;
+    border-radius: 15px;
+}
+
+a#pet, button.acoes a{
+    color: white;
+    text-decoration: none;
+}

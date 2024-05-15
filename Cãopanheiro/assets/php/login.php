@@ -23,14 +23,18 @@ session_start();
     // Verifica se a consulta retornou algum resultado
     if ($stmt->rowCount() > 0) {
         // Login bem sucedido
-        // Recupera o perfil do usuário
+        // Recupera as informações do usuário
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $_SESSION['perfil'] = $user['Perfil'];
         $_SESSION['nome']= $user['Nome'];
+        $_SESSION['sobrenome']= $user['Sobrenome'];
         $_SESSION['data']= $user['DataNascimento'];
         $_SESSION['email']= $user['Email'];
         $_SESSION['cpf'] = $user['CPF'];
-        
+        $_SESSION['endereco'] = $user['Endereco'];
+        $_SESSION['Senha'] = $user['Senha'];
+        $_SESSION['usuId'] = $user['UsuarioID'];
+        $_SESSION['status'] = $user['status'];
         // Redireciona para a página correspondente ao perfil do usuário
         switch ($_SESSION['perfil']) {
             case 'adotante':
@@ -48,5 +52,6 @@ session_start();
             }
         } else{
         // Login falhou
-        echo "Usuário ou senha incorretos!";
+        echo "<script>window.alert('Usuário ou senha incorretos!')</script>";
+        
     }
