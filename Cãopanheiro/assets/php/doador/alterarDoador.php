@@ -113,35 +113,74 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cpf = $_POST['alterCpf'];
     $endereco = $_POST['alterEndereco'];
     $email = $_POST['alterEmail'];
-    $senha = md5($_POST['alterSenha']);
+    $senha = $_POST['alterSenha'];
 
     $dbh = Conexao::getConexao();
 
-    $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email, Senha = :senha WHERE UsuarioID = :id";
+    // Verifica se uma imagem foi enviada
+    if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR_OK) {
+        // Obtém informações da imagem
+        $fileTmpPath = $_FILES['uploadFoto']['tmp_name'];
+        $fileName = $_FILES['uploadFoto']['name'];
+        $fileSize = $_FILES['uploadFoto']['size'];
+        $fileType = $_FILES['uploadFoto']['type'];
+        //obtém a extensão da imagem
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+         // Define os tipos de arquivos permitidos
+         $allowedfileExtensions = array('jpg', 'gif', 'png', 'jpeg');
 
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':id', $_SESSION['usuId']);
-    $stmt->bindParam(':nome', $nome);
-    $stmt->bindParam(':sobrenome', $sobrenome);
-    $stmt->bindParam(':dataNasc', $dataNasc);
-    $stmt->bindParam(':cpf', $cpf);
-    $stmt->bindParam(':endereco', $endereco);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':senha', $senha);
-    $result = $stmt->execute();
+         if (in_array($fileExtension, $allowedfileExtensions)) {
+            // Cria um novo nome para a imagem
+            $newFileName = time() . $fileName . '.' . $fileExtension;
+            // Define o caminho onde a imagem será armazenada
+            $uploadFileDir = __DIR__ . 'imagemPets/';
+            $dest_path = $uploadFileDir . $newFileName;
 
-    if ($result) {
-        echo 'Alterado com sucesso';
-        $_SESSION['nome'] = $nome;
-        $_SESSION['sobrenome'] = $sobrenome;
-        $_SESSION['data'] = $dataNasc;
-        $_SESSION['cpf'] = $cpf;
-        $_SESSION['endereco'] = $endereco;
-        $_SESSION['email'] = $email;
-        header("Location: doador_dashboard.php");
-        exit();
-    } else {
-        echo "Erro ao atualizar informações.";
-    }
+              // Move o arquivo para o diretório de upload
+              if(move_uploaded_file($dest_path)) {
+                // Prepara a instrução SQL para inserir os dados no banco de dados
+               
+                $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email, foto_caminho = :fotoCaminho WHERE UsuarioID = :id";
+                    if(!empty($senha))
+                    $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email, Senha = :senha WHERE UsuarioID = :id";
+
+
+                $stmt = $dbh->prepare($sql);
+                $stmt->bindParam(':id', $_SESSION['usuId']);
+                $stmt->bindParam(':nome', $nome);
+                $stmt->bindParam(':sobrenome', $sobrenome);
+                $stmt->bindParam(':dataNasc', $dataNasc);
+                $stmt->bindParam(':cpf', $cpf);
+                $stmt->bindParam(':endereco', $endereco);
+                $stmt->bindParam(':email', $email);
+                $stmt->bindParam(':fotoCaminho', $dest_path);
+
+                    if(!empty($senha))
+                        $stmt->bindParam(':senha', md5($senha));
+                    $result = $stmt->execute();
+
+                    if ($result) {
+                        echo 'Alterado com sucesso';
+                        $_SESSION['nome'] = $nome;
+                        $_SESSION['sobrenome'] = $sobrenome;
+                        $_SESSION['data'] = $dataNasc;
+                        $_SESSION['cpf'] = $cpf;
+                        $_SESSION['endereco'] = $endereco;
+                        $_SESSION['email'] = $email;
+                        header("Location: doador_dashboard.php");
+                        exit();
+                    } else {
+                        echo "Erro ao cadastrar o pet.";
+                    }
+                } else {
+                    echo "Erro ao mover o arquivo para o diretório de upload.";
+                }
+            } else {
+                echo "Tipo de arquivo não permitido.";
+            }
+        } else {
+            echo "Nenhuma imagem enviada ou houve um erro no upload.";
+        }
 }
 ?>

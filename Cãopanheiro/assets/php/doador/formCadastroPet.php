@@ -33,7 +33,7 @@ require __DIR__ . '/../conexao.php';
     </nav>
     <div class="content" id="conteudo">
         <h1>Cadastrar pets</h1>
-        <form action="cadastrarPets.php" method="post">
+        <form action="cadastrarPets.php" method="post" enctype="multipart/form-data">
             <div>
                 <label for="petNome">Nome do Pet: </label>
                 <input type="text" name="petNome" id="petNome">
