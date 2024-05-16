@@ -15,7 +15,8 @@ CREATE table usuarios(
     Email VARCHAR(100),
     Telefone VARCHAR(20),
     Senha VARCHAR(100), -- A senha é armazenado em md5
-    Perfil enum('adotante','doador','administrador')
+    Perfil enum('adotante','doador','administrador'),
+    status enum('ativo','inativo')
 );
 
 -- Tabela para armazenar informações sobre os pets
@@ -27,7 +28,8 @@ CREATE TABLE Pet (
     Raca VARCHAR(50),
     Porte ENUM('Pequeno', 'Médio', 'Grande'),
     Sexo ENUM('Macho', 'Fêmea'),
-    Descricao TEXT
+    Descricao TEXT,
+    status enum('disponivel','adotado'),
 );
 
 -- Tabela para relacionar adotantes e pets (muitos para muitos)

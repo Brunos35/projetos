@@ -55,9 +55,6 @@ $dbh = Conexao::getConexao();
             <h2>E-mail: </h2>
             <p><?= $_SESSION['email']; ?></p>
             <br>
-            <h2>Senha: </h2>
-            <p><?= $_SESSION['Senha']; ?></p>
-            <br>
             <h2>Tipo de Perfil: </h2>
             <p><?= $_SESSION['perfil']; ?></p><br>
             <button id="usu"><a class="btnalterar" href="alterarDoador.php?id=<?= $_SESSION['usuId']; ?>">Alterar</a></button>

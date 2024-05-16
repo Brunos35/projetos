@@ -37,19 +37,29 @@ require __DIR__ . '/../conexao.php';
 
 <h1>Alterar Informações</h1>
 
-    <form action="usuarioupdate.php" method="post">
-        
+    <form action="alterarDoador.php" method="post">
         <input type="hidden" name="id" value="<?=$_SESSION['usuId']?>">
         
-        <label>Nome</label><br>
-        <input type="text" name="nome" placeholder="Informe seu nome." size="80" required value="<?=$_SESSION['nome']?>"><br>
+        <label for="alterNome">Nome: </label>
+        <input type="text" name="alterNome" id="alterNome" required value="<?=$_SESSION['nome']?>"><br>
 
-        <label>Sobrenome</label><br>
-        <input type="text" name="Sobrenome" placeholder="Informe seu nome." size="80" required value="<?=$_SESSION['Sobrenome']?>"><br>
-        <label>E-mail</label><br>
-        <input type="email" name="email"   required autofocus value="<?=$_SESSION['email']?>"><br>
-
+        <label for="alterSobrenome">Sobrenome: </label>
+        <input type="text" name="alterSobrenome" required value="<?=$_SESSION['sobrenome']?>">
         
+        <label for="dataNasc">Data de Nascimento: </label>
+        <input type="date" name="alterDataNasc" id="alterDataNasc" value="<?=$_SESSION['data']?>">
+
+        <label for="cpf">CPF: </label>
+        <input type="number" name="alterCpf" id="alterCpf" value="<?=$_SESSION['cpf']?>">
+        
+        <label for="alterEndereco">Endereço: </label>
+        <input type="text" name="alterEndereco" id="alterEndereco" value="<?=$_SESSION['endereco']?>">
+
+        <label for="alterEmail">E-mail</label>
+        <input type="email" name="alterEmail" id="alterEmail"required autofocus value="<?=$_SESSION['email']?>"><br>
+
+        <label for="alterSenha">Nova senha: </label>
+        <input type="password" name="alterSenha" id="alterSenha">
 
         <button class="salvar" type="submit">Salvar</button>
     </form>
@@ -61,3 +71,45 @@ require __DIR__ . '/../conexao.php';
     </script>
 </body>
 </html>
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = $_POST['id'];
+    $nome = $_POST['alterNome'];
+    $sobrenome = $_POST['alterSobrenome'];
+    $dataNasc = $_POST['alterDataNasc'];
+    $cpf = $_POST['alterCpf'];
+    $endereco = $_POST['alterEndereco'];
+    $email = $_POST['alterEmail'];
+    $senha = md5($_POST['alterSenha']);
+
+    $dbh = Conexao::getConexao();
+
+    $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email, Senha = :senha WHERE id = :id";
+
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':nome', $nome);
+    $stmt->bindParam(':sobrenome', $sobrenome);
+    $stmt->bindParam(':dataNasc', $dataNasc);
+    $stmt->bindParam(':cpf', $cpf);
+    $stmt->bindParam(':endereco', $endereco);
+    $stmt->bindParam(':email', $email);
+    if (!empty($senha)) {
+        $stmt->bindParam(':senha', $senhaHash);
+    }
+
+    if ($stmt->execute()) {
+        $_SESSION['nome'] = $nome;
+        $_SESSION['sobrenome'] = $sobrenome;
+        $_SESSION['data'] = $dataNasc;
+        $_SESSION['cpf'] = $cpf;
+        $_SESSION['endereco'] = $endereco;
+        $_SESSION['email'] = $email;
+        header("Location: .php");
+        exit();
+    } else {
+        echo "Erro ao atualizar informações.";
+    }
+}
+?>
