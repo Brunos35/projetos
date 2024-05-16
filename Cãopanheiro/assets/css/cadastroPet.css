@@ -6,43 +6,8 @@
   --color3: #ca964e;
 }
 
-body{
-  min-height: 100vh;
-  height: 110vh;
-  max-height: 200vh !important;
-}
-
-.content{
-  min-height: 100% !important;
-  max-height: 250% !important;
-}
-
-form {
-  max-width: 100%;
-}
-
 label{
   margin-top: 10px;
-}
-
-input[type="text"] {
-  width: 500px;
-  height: 30px;
-  display: inline-block;
-}
-
-input[type="date"] {
-  width: 120px;
-  display: inline-block;
-}
-
-input[type="radio"],
-label {
-  display: inline-block;
-}
-
-input[type="radio"] {
-  margin: 2px;
 }
 
 form {
@@ -61,26 +26,7 @@ input[type="file"] {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-
-.radio {
-  height: 35px;
-}
-
-.radio p,
-.radio label {
-  margin-right: 5px;
-}
-
-.raca {
-  display: flex;
-  align-items: center;
-  height: 30px;
-}
-
-select#raca {
-  margin: 10px 0 0 10px;
-}
-
+/*Dropzone de imagens no Cadastro dos Pets*/
 .dropzone-area {
   border: 2px dashed #ccc;
   padding: 20px;

@@ -1,80 +1,112 @@
-<?php 
+<?php
 session_start();
 require __DIR__ . '/../conexao.php';
- $dbh = Conexao::getConexao();
+$dbh = Conexao::getConexao();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
-    <link rel="stylesheet" href="../../css/usuario.css">
+
     <link rel="stylesheet" href="../../css/dashboards.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        input,
+        label {
+            height: 25px !important;
+            margin: 5px 0px 5px 2px;
+        }
+
+        input {
+            width: 200px !important;
+            height: 25px !important;
+            margin-right: 10px;
+            border: 1px dashed var(--color3);
+            border-radius: 10px;
+        }
+
+        input#alterEndereco {
+            width: 480px !important;
+        }
+
+        input#alterDataNasc {
+            width: 105px !important;
+        }
+
+        input#alterCpf {
+            width: 210px !important;
+        }
+
+        input#alterSenha {
+            width: 161px !important;
+        }
+    </style>
 </head>
+
 <body>
-        <header>
-            <button class="nav-toggle"><span class="material-symbols-outlined">
+    <header>
+        <button class="nav-toggle"><span class="material-symbols-outlined">
                 menu
-                </span></button>
-            <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
-            <div class="user-info">Bem-vindo, <?= $_SESSION['nome'];?> <span id="username"></span></div>
-        </header>
-        <nav>
-            <ul>
-                <li><a href="pets.php">Meus Pet</a></li>
-                <li><a href="alterarDoador.php">Meu Perfil</a></li>
-                <li><a href="#">Conversas</a></li>
-                <li><a href="../../index.html">Página Inicial</a></li>
-                <li><a href="">Sair</a></li>
-            </ul>
-        </nav>
+            </span></button>
+        <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
+        <div class="user-info">Bem-vindo, <?= $_SESSION['nome']; ?> <span id="username"></span></div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="pets.php">Meus Pet</a></li>
+            <li><a href="alterarDoador.php">Meu Perfil</a></li>
+            <li><a href="#">Conversas</a></li>
+            <li><a href="../../index.html">Página Inicial</a></li>
+            <li><a href="">Sair</a></li>
+        </ul>
+    </nav>
 
-        <main>
+    <main>
         <div class="content" id="conteudo">
-        
 
-<h1>Alterar Informações</h1>
+            <h1>Alterar Informações</h1>
 
-    <form action="alterarDoador.php" method="post">
-        <input type="hidden" name="id" value="<?=$_SESSION['usuId']?>">
-        
-        <label for="alterNome">Nome: </label>
-        <input type="text" name="alterNome" id="alterNome" required value="<?=$_SESSION['nome']?>"><br>
+            <form action="alterarDoador.php" method="post">
 
-        <label for="alterSobrenome">Sobrenome: </label>
-        <input type="text" name="alterSobrenome" required value="<?=$_SESSION['sobrenome']?>">
-        
-        <label for="dataNasc">Data de Nascimento: </label>
-        <input type="date" name="alterDataNasc" id="alterDataNasc" value="<?=$_SESSION['data']?>">
+                <label for="alterNome">Nome: </label>
+                <input type="text" name="alterNome" id="alterNome" required value=" <?= $_SESSION['nome'] ?>">
 
-        <label for="cpf">CPF: </label>
-        <input type="number" name="alterCpf" id="alterCpf" value="<?=$_SESSION['cpf']?>">
-        
-        <label for="alterEndereco">Endereço: </label>
-        <input type="text" name="alterEndereco" id="alterEndereco" value="<?=$_SESSION['endereco']?>">
-
-        <label for="alterEmail">E-mail</label>
-        <input type="email" name="alterEmail" id="alterEmail"required autofocus value="<?=$_SESSION['email']?>"><br>
-
-        <label for="alterSenha">Nova senha: </label>
-        <input type="password" name="alterSenha" id="alterSenha">
-
-        <button class="salvar" type="submit">Salvar</button>
-    </form>
+                <label for="alterSobrenome">Sobrenome: </label>
+                <input type="text" name="alterSobrenome" required value=" <?= $_SESSION['sobrenome'] ?>">
+                <br>
+                <label for="dataNasc">Data de Nascimento: </label>
+                <input type="date" name="alterDataNasc" id="alterDataNasc" value=" <?= $_SESSION['data'] ?>">
+                <br>
+                <label for="cpf">CPF: </label>
+                <input type="number" name="alterCpf" id="alterCpf" value="<?= $_SESSION['cpf'] ?>">
+                <br>
+                <label for="alterEndereco">Endereço: </label>
+                <input type="text" name="alterEndereco" id="alterEndereco" value=" <?= $_SESSION['endereco'] ?>">
+                <br>
+                <label for="alterEmail">E-mail</label>
+                <input type="email" name="alterEmail" id="alterEmail" required autofocus value="<?= $_SESSION['email'] ?>"><br>
+                
+                <label for="alterSenha">Nova senha: </label>
+                <input type="password" name="alterSenha" id="alterSenha">
+                <br>
+                <button class="salvar" type="submit">Salvar</button>
+            </form>
 
         </div>
-</main>
+    </main>
     <script src="../../js/script.js">
-        
+
     </script>
 </body>
+
 </html>
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
+
     $nome = $_POST['alterNome'];
     $sobrenome = $_POST['alterSobrenome'];
     $dataNasc = $_POST['alterDataNasc'];
@@ -85,28 +117,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $dbh = Conexao::getConexao();
 
-    $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email, Senha = :senha WHERE id = :id";
+    $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email, Senha = :senha WHERE UsuarioID = :id";
 
     $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':id', $_SESSION['usuId']);
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':sobrenome', $sobrenome);
     $stmt->bindParam(':dataNasc', $dataNasc);
     $stmt->bindParam(':cpf', $cpf);
     $stmt->bindParam(':endereco', $endereco);
     $stmt->bindParam(':email', $email);
-    if (!empty($senha)) {
-        $stmt->bindParam(':senha', $senhaHash);
-    }
+    $stmt->bindParam(':senha', $senha);
+    $result = $stmt->execute();
 
-    if ($stmt->execute()) {
+    if ($result) {
+        echo 'Alterado com sucesso';
         $_SESSION['nome'] = $nome;
         $_SESSION['sobrenome'] = $sobrenome;
         $_SESSION['data'] = $dataNasc;
         $_SESSION['cpf'] = $cpf;
         $_SESSION['endereco'] = $endereco;
         $_SESSION['email'] = $email;
-        header("Location: .php");
+        header("Location: doador_dashboard.php");
         exit();
     } else {
         echo "Erro ao atualizar informações.";
