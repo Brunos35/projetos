@@ -31,15 +31,15 @@ if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR
         // Cria um novo nome para a imagem
         $newFileName = time() . $fileName . '.' . $fileExtension;
         // Define o caminho onde a imagem será armazenada
-        $uploadFileDir = __DIR__ . 'imagemPets/';
+        $uploadFileDir = __DIR__ . '/imgPets/';
         $dest_path = $uploadFileDir . $newFileName;
 
         // Move o arquivo para o diretório de upload
-        if (move_uploaded_file($dest_path)) {
+        if (move_uploaded_file($fileTmpPath,$dest_path)) {
 
             # cria uma instrução SQL para inserir dados na tabela usuarios.
-            $query = "INSERT INTO caopanheiro.pet (nome, dataNascimento, raca, porte, sexo, descricao, doador) 
-                VALUES (:nome, :dataNascimento, :raca, :porte, :sexo, :descricao, :doador);";
+            $query = "INSERT INTO caopanheiro.pet (nome, dataNascimento, raca, porte, sexo, descricao, doador, foto) 
+                VALUES (:nome, :dataNascimento, :raca, :porte, :sexo, :descricao, :doador, :foto);";
 
             # prepara a execução da query e retorna para uma variável chamada stmt.
             $stmt = $dbh->prepare($query);
@@ -53,6 +53,7 @@ if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR
             $stmt->bindParam(':sexo', $petSexo);
             $stmt->bindParam(':descricao', $descricao);
             $stmt->bindParam(':doador', $_SESSION['usuId']);
+            $stmt->bindParam(':foto', $dest_path);
             var_dump($_SESSION['usuId']);
             $result = $stmt->execute();
 
