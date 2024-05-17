@@ -88,7 +88,9 @@ require __DIR__ . '/../conexao.php';
                 
             </div>
         </div>
-        <input type="submit" value="Salvar">
+        <div id="submit">
+            <input type="submit" value="Salvar">
+        </div>
         </form>
     </div>
 

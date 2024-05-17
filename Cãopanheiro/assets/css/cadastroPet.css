@@ -46,15 +46,23 @@ input[type="file"] {
 }
 
 .dropzone-actions button {
-  padding: 10px 20px;
+
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
+  text-align: center;
   background-color: var(--color1);
   transition: background-color 0.3s ease;
 }
 
 .dropzone-actions button:hover {
-  background-color: var(--color2);
-  color: black;
+  background-color: var(--color3);
+  color: white;
+}
+
+div#submit{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

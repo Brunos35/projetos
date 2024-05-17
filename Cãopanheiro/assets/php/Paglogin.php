@@ -74,6 +74,8 @@
                 imagem.style.transform = "translateX(0%)";
             }
         }
+
+       
     </script>
 </body>
 

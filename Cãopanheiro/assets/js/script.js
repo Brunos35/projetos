@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     navToggle.addEventListener("click", function () {
       nav.classList.toggle("nav-collapsed");
       if(nav.classList=="nav-collapsed"){     
-        divConteudo.style.transform = 'translateX(-15%)';
+        divConteudo.style.transform = 'translateX(-13%)';
         divConteudo.style.width = '100%';
         divConteudo.style.transition = '';
       }else{

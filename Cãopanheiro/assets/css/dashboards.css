@@ -33,6 +33,11 @@ button.nav-toggle {
   box-shadow: 0 0 0 0;
 }
 
+button.nav-toggle:hover{
+  background: transparent !important;
+  cursor: pointer;
+}
+
 header {
   max-width: 100%;
   background-color: var(--color1);
@@ -56,7 +61,7 @@ nav {
   width: 200px;
   height: 100%;
   background-color: var(--color2);
-  position: fixed;
+  position: absolute;
   top: 93px;
   bottom: 0;
   transition: transform 0.3s ease;
@@ -141,11 +146,13 @@ select {
   margin: 0 0 80px 0;
 }
 
-input[type="submit"] {
-  width: 99%;
+input[type="submit"]{
+  width: 30%;
+  text-align: center;
   background-color: var(--color1);
   color: #fff;
   cursor: pointer;
+  border-radius: 15px;
 }
 
 input[type="submit"]:hover {
@@ -190,6 +197,14 @@ button {
   border: 0;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.411);
   color: white;
+}
+
+button:hover{
+  background-color: var(--color3) !important;
+}
+
+button#usu{
+  width: 100px !important;
 }
 
 a {
@@ -256,6 +271,12 @@ select#raca {
   transition: 0.3s;}
   .closebtn:hover {
   color: black;}
+
+  div#delete{
+    display: flex;
+    justify-content: end;
+
+  }
 
 /* Estilos para o menu responsivo */
 @media (max-width: 768px) {
