@@ -28,7 +28,7 @@ session_start();
         $_SESSION['perfil'] = $user['Perfil'];
         $_SESSION['nome']= $user['Nome'];
         $_SESSION['sobrenome']= $user['Sobrenome'];
-        $_SESSION['data']= $user['DataNascimento'];
+        $_SESSION['data']= date('Y-m-d', strtotime($user['DataNascimento']));
         $_SESSION['email']= $user['Email'];
         $_SESSION['cpf'] = $user['CPF'];
         $_SESSION['endereco'] = $user['Endereco'];
@@ -38,7 +38,7 @@ session_start();
         // Redireciona para a página correspondente ao perfil do usuário
         switch ($_SESSION['perfil']) {
             case 'adotante':
-                header("Location: adotante/adotante_dashboard");
+                header("Location: adotante/adotante_dashboard.php");
                 break;
             case 'doador':
                 header("Location: doador/doador_dashboard.php");

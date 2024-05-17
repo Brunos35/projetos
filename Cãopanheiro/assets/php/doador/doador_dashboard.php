@@ -12,7 +12,6 @@ $dbh = Conexao::getConexao();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
-    <link rel="stylesheet" href="../../css/usuario.css">
     <link rel="stylesheet" href="../../css/dashboards.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
@@ -30,7 +29,6 @@ $dbh = Conexao::getConexao();
             <li><a href="pets.php">Meus Pet</a></li>
             <li><a href="doador_dashboard.php">Meu Perfil</a></li>
             <li><a href="#">Conversas</a></li>
-            <li><a href="../../index.html">Página Inicial</a></li>
             <li><a href="">Sair</a></li>
         </ul>
     </nav>
@@ -56,7 +54,8 @@ $dbh = Conexao::getConexao();
             <p><?= $_SESSION['email']; ?></p>
             <br>
             <h2>Tipo de Perfil: </h2>
-            <p><?= $_SESSION['perfil']; ?></p><br>
+            <p><?= $_SESSION['perfil']; ?></p>
+            <br>
             <button id="usu"><a class="btnalterar" href="alterarDoador.php?id=<?= $_SESSION['usuId']; ?>">Alterar</a></button>
             <button id="usu"><a class="btnexcluir" href="delete.php?id=<?= $_SESSION['usuId']; ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a></button>
 

@@ -24,7 +24,6 @@ $quantidadeRegistros = $stmt->rowCount();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
-    <link rel="stylesheet" href="../../css/usuario.css">
     <link rel="stylesheet" href="../../css/dashboards.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
@@ -42,8 +41,7 @@ $quantidadeRegistros = $stmt->rowCount();
             <li><a href="pets.php">Meus Pet</a></li>
             <li><a href="doador_dashboard.php">Meu Perfil</a></li>
             <li><a href="#">Conversas</a></li>
-            <li><a href="../../index.html">Página Inicial</a></li>
-            <li><a href="#">Sair</a></li>
+            <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>
     <div class="content" id="conteudo">

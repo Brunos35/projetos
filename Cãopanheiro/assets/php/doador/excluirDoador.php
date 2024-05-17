@@ -23,7 +23,6 @@ require __DIR__ . '/../conexao.php';?>
                 <li><a href="pets.php">Meus Pet</a></li>
                 <li><a href="alterarDoador.php">Meu Perfil</a></li>
                 <li><a href="#">Conversas</a></li>
-                <li><a href="../../index.html">Página Inicial</a></li>
                 <li><a href="">Sair</a></li>
             </ul>
         </nav>
