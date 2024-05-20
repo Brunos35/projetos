@@ -26,6 +26,9 @@ $quantidadeRegistros = $stmt->rowCount();
     <title>Área Restrita</title>
     <link rel="stylesheet" href="../../css/dashboards.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        
+    </style>
 </head>
 
 <body>
@@ -71,7 +74,7 @@ $quantidadeRegistros = $stmt->rowCount();
                         <?php while ($row = $stmt->fetch(PDO::FETCH_BOTH)) : ?>
                             <tr>
                                 <?php $status = $row['status'] == "adotado" ? "ADOTADO" : "DISPONÍVEL"; ?>
-                                <?php $petId = intval($row['petId']); ?>
+                                <?php $_SESSION['petId'] = intval($row['petId']); ?>
                                 <td><?= $row['nome']; ?></td>
                                 <td><?= $row['raca']; ?></td>
                                 <td><?= $row['sexo']; ?></td>
