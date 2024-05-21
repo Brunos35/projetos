@@ -16,6 +16,9 @@ require __DIR__ . '/../conexao.php';
         nav{
             height: 115% !important;
         }
+        .content{
+            height: 115%;
+        }
     </style>
 </head>
 

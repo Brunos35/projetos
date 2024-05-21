@@ -54,7 +54,6 @@ if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR
             $stmt->bindParam(':descricao', $descricao);
             $stmt->bindParam(':doador', $_SESSION['usuId']);
             $stmt->bindParam(':foto', $dest_path);
-            var_dump($_SESSION['usuId']);
             $result = $stmt->execute();
 
             if ($result) {
