@@ -59,8 +59,8 @@ $dbh = Conexao::getConexao();
     </header>
     <nav>
         <ul>
-            <li><a href="pets.php">Meus Pet</a></li>
-            <li><a href="doador_dashboard.php">Meu Perfil</a></li>
+            <li><a href="adotante_dashboard.php">Meu Perfil</a></li>
+            <li><a href="#">Pets disponíveis</a></li>
             <li><a href="#">Conversas</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
@@ -78,7 +78,7 @@ $dbh = Conexao::getConexao();
                 </div>';
             }
         ?>      
-            <form action="alterarDoador.php" method="post">
+            <form action="alterarAdotante.php" method="post">
 
                 <label for="alterNome">Nome: </label>
                 <input type="text" name="alterNome" id="alterNome" required value="<?=$_SESSION['nome']?>">
@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['cpf'] = $cpf;
             $_SESSION['endereco'] = $endereco;
             $_SESSION['email'] = $email;
-            header("Location: alterarDoador.php?status=success");  
+            header("Location: alterarAdotante.php?status=success");  
                 
             exit();
         } else {

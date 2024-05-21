@@ -6,7 +6,7 @@ window.onload = function alerta() {
             setTimeout(function() {
                 alert.style.display = 'none';
             }, 600);
-            window.location.href = 'doador_dashboard.php';
+            window.location.href = history.go(-2);
         }, 1500);
     
     }

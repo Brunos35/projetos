@@ -26,8 +26,8 @@ $dbh = Conexao::getConexao();
     </header>
     <nav>
         <ul>
-            <li><a href="pets.php">Meus Pet</a></li>
             <li><a href="adotante_dashboard.php">Meu Perfil</a></li>
+            <li><a href="#">Pets disponíveis</a></li>
             <li><a href="#">Conversas</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
@@ -56,8 +56,8 @@ $dbh = Conexao::getConexao();
             <h2>Tipo de Perfil: </h2>
             <p><?= $_SESSION['perfil']; ?></p>
             <br>
-            <button id="usu"><a class="btnalterar" href="alterarDoador.php?id=<?= $_SESSION['usuId']; ?>">Alterar</a></button>
-            <button id="usu"><a class="btnexcluir" href="delete.php?id=<?= $_SESSION['usuId']; ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a></button>
+            <button id="usu"><a class="btnalterar" href="alterarAdotante.php?id=<?= $_SESSION['usuId']; ?>">Alterar</a></button>
+            <button id="usu"><a class="btnexcluir" href="excluirAdotante.php?id=<?= $_SESSION['usuId']; ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a></button>
 
             <?php $dbh = null; ?>
             </section>
@@ -69,4 +69,3 @@ $dbh = Conexao::getConexao();
 </body>
 
 </html>
-<?php session_destroy();?> 

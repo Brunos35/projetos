@@ -52,4 +52,14 @@ CREATE TABLE Chat (
     FOREIGN KEY (Remetente) REFERENCES Usuarios(UsuarioID)
 );
 
+CREATE table adminstrador(
+    adminId INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50),
+    sobrenome VARCHAR(50),
+    email VARCHAR(100),
+    senha VARCHAR(100), -- A senha é armazenado em md5
+    perfil enum('adotante','doador','administrador'),
+    status enum('ativo','inativo')
+);
+
 

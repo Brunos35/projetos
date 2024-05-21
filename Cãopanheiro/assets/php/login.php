@@ -12,7 +12,21 @@ session_start();
     $dbh = Conexao::getConexao();
 
     // Consulta preparada para verificar se o usuário existe no banco de dados
-    $query = "SELECT * FROM usuarios WHERE email = :email and senha = :senha";
+    $query = "
+    SELECT 
+        u.*, 
+        a.*
+    FROM 
+        usuarios u
+    LEFT JOIN 
+        administrador a
+    ON 
+        u.email = a.email
+    WHERE 
+        (u.email = :email OR a.email = :email) 
+        AND (u.senha = :senha OR a.senha = :senha)
+    ";
+    
 
     
     $stmt = $dbh->prepare($query);
@@ -25,7 +39,10 @@ session_start();
         // Login bem sucedido
         // Recupera as informações do usuário
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $_SESSION['perfil'] = $user['Perfil'];
+
+        $isAdmin = isset($user['Perfil']) && $user['Perfil'] === 'administrador';
+
+        $_SESSION['perfil'] = $isAdmin ? 'administrador' : (isset($user['Perfil']) ? $user['Perfil'] : 'adotante');
         $_SESSION['nome']= $user['Nome'];
         $_SESSION['sobrenome']= $user['Sobrenome'];
         $_SESSION['data']= date('Y-m-d', strtotime($user['DataNascimento']));
@@ -34,7 +51,8 @@ session_start();
         $_SESSION['endereco'] = $user['Endereco'];
         $_SESSION['Senha'] = $user['Senha'];
         $_SESSION['usuId'] = $user['UsuarioID'];
-        $_SESSION['status'] = $user['status'];
+        $_SESSION['status'] = isset($user['status']) ? $user['status'] : 'ativo';
+
         // Redireciona para a página correspondente ao perfil do usuário
         switch ($_SESSION['perfil']) {
             case 'adotante':
@@ -53,5 +71,7 @@ session_start();
         } else{
         // Login falhou
         echo "<script>window.alert('Usuário ou senha incorretos!')</script>";
+
+        echo "<script>window.location.href = 'Paglogin.php'</script>";
         
     }
