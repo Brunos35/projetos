@@ -6,9 +6,13 @@
     <title>Cadastro Cãopanheiro</title>
     <link rel="stylesheet" href="../css/login.css">
     <style>
-
+        html{
+            width: 98vw !important;
+        }
         body{
             background:var(--color1);
+            width: 98vw !important;
+            height: 115vh !important;
         }
 
         div.cadastro{
@@ -85,7 +89,7 @@
 <body>
     <div class="cadastro" id="cadastro">
         <form action="registro.php" autocomplete="on" method="POST">
-            <h2>Registrar</h2>
+            <h2>Cadastro</h2>
             <div class="inputbox">
                 <input type="text" name="nome" id="nome" required value="<?=$nome?>">
                 <label for="nome">Nome:</label>
