@@ -25,7 +25,7 @@ session_start()?>
                 <li><a href="#">Conversas</a></li>
                 <li><a href="#">Configurações</a></li>
                 <li><a href="../../index.html">Página Inicial</a></li>
-                <li><a href="">Sair</a></li>
+                <li><a href="../logout.php">Sair</a></li>
             </ul>
         </nav>
         <div class="content" id="conteudo">

@@ -1,56 +1,83 @@
 <?php
 session_start();
-header('Content-Type: text/html; charset=utf-8;');
+header('Content-Type: text/html; charset=utf-8');
 
 require_once 'conexao.php';
 
-# recebe os valores enviados do formulário via método post.
-$nome = $_POST['nome'];
-$sobrenome = $_POST['sobrenome'];
-$datanasc = $_POST['dataNasc'];
-$cpf = $_POST['cpf'];
-$endereco = $_POST['endereco'];
-$telefone = $_POST['telefone'];
-$email = $_POST['email'];
-$senha = md5($_POST['senha']);
-$perfil = $_POST['perfil'];
-
-# solicita a conexão com o banco de dados e guarda na váriavel dbh.
-$dbh = Conexao::getConexao();
-
-# cria uma instrução SQL para inserir dados na tabela usuarios.
-$query = "INSERT INTO caopanheiro.usuarios (Nome, Sobrenome,DataNascimento, CPF,Endereco , Telefone,Email, Senha, Perfil) 
-                VALUES (:Nome, :Sobrenome,:DataNascimento, :CPF, :Endereco, :Telefone, :Email, :Senha, :Perfil);";
-
-# prepara a execução da query e retorna para uma variável chamada stmt.
-$stmt = $dbh->prepare($query);
-
-# com a variável stmt, usada bindParam para associar a cada um dos parâmetro
-# e seu tipo (opcional).
-$stmt->bindParam(':Nome', $nome);
-$stmt->bindParam(':Sobrenome', $sobrenome);
-$stmt->bindParam(':DataNascimento', $datanasc);
-$stmt->bindParam(':CPF', $cpf);
-$stmt->bindParam(':Endereco', $endereco);
-$stmt->bindParam(':Telefone', $telefone);
-$stmt->bindParam(':Email', $email);
-$stmt->bindParam(':Senha', $senha);
-$stmt->bindParam(':Perfil', $perfil);
-
-# executa a instrução contida em stmt e se tudo der certo retorna uma valor maior que zero.
-$result = $stmt->execute();
-if ($result) {
-    echo "<script>alert('Cadastrado com Sucesso!')</script>";
-
-    header('location: Paglogin.php');
-
-
-    exit;
-} else {
-    echo '<p>Não foi fossível inserir Usuário!</p>';
-    # método da classe conexao que informa o error ocorrido na execução da query.
-    $error = $dbh->errorInfo();
-    print_r($error);
+# Função para validar dados de entrada
+function validarEntrada($data) {
+    return htmlspecialchars(stripslashes(trim($data)));
 }
-$dbh = null;
-echo "<p><a href='index.php'>Voltar</a></p>";
+
+# Verifica se os dados foram enviados via POST
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    # Recebe e valida os valores enviados do formulário via método POST
+    $nome = validarEntrada($_POST['nome']);
+    $sobrenome = validarEntrada($_POST['sobrenome']);
+    $datanasc = validarEntrada($_POST['dataNasc']);
+    $cpf = validarEntrada($_POST['cpf']);
+    $endereco = validarEntrada($_POST['endereco']);
+    $telefone = validarEntrada($_POST['telefone']);
+    $email = filter_var(validarEntrada($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $senha = password_hash(validarEntrada($_POST['senha']), PASSWORD_DEFAULT);
+    $perfil = validarEntrada($_POST['perfil']);
+
+    # Verifica se todos os campos obrigatórios foram preenchidos
+    if (empty($nome) || empty($sobrenome) || empty($datanasc) || empty($cpf) || empty($endereco) || empty($telefone) || empty($email) || empty($senha) || empty($perfil)) {
+        echo '<p>Por favor, preencha todos os campos obrigatórios.</p>';
+        echo "<p><a href='index.php'>Voltar</a></p>";
+        exit;
+    }
+
+    # Verifica se o e-mail é válido
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo '<p>E-mail inválido.</p>';
+        echo "<p><a href='index.php'>Voltar</a></p>";
+        exit;
+    }
+
+    try {
+        # Solicita a conexão com o banco de dados e guarda na variável dbh.
+        $dbh = Conexao::getConexao();
+
+        # Cria uma instrução SQL para inserir dados na tabela usuarios.
+        $query = "INSERT INTO caopanheiro.usuarios (Nome, Sobrenome, DataNascimento, CPF, Endereco, Telefone, Email, Senha, Perfil) 
+                  VALUES (:Nome, :Sobrenome, :DataNascimento, :CPF, :Endereco, :Telefone, :Email, :Senha, :Perfil)";
+
+        # Prepara a execução da query e retorna para uma variável chamada stmt.
+        $stmt = $dbh->prepare($query);
+
+        # Associa os parâmetros aos valores
+        $stmt->bindParam(':Nome', $nome);
+        $stmt->bindParam(':Sobrenome', $sobrenome);
+        $stmt->bindParam(':DataNascimento', $datanasc);
+        $stmt->bindParam(':CPF', $cpf);
+        $stmt->bindParam(':Endereco', $endereco);
+        $stmt->bindParam(':Telefone', $telefone);
+        $stmt->bindParam(':Email', $email);
+        $stmt->bindParam(':Senha', $senha);
+        $stmt->bindParam(':Perfil', $perfil);
+
+        # Executa a instrução contida em stmt
+        if ($stmt->execute()) {
+            echo "<script>alert('Cadastrado com Sucesso!')</script>";
+            header('Location: Paglogin.php');
+            exit;
+        } else {
+            echo '<p>Não foi possível inserir Usuário!</p>';
+            $error = $stmt->errorInfo();
+            print_r($error);
+        }
+    } catch (PDOException $e) {
+        echo '<p>Erro ao conectar-se ao banco de dados: ' . $e->getMessage() . '</p>';
+    } finally {
+        # Fecha a conexão
+        $dbh = null;
+    }
+
+    echo "<p><a href='index.php'>Voltar</a></p>";
+} else {
+    echo '<p>Método de requisição inválido.</p>';
+    echo "<p><a href='index.php'>Voltar</a></p>";
+}
+?>

@@ -115,24 +115,29 @@ $dbh = Conexao::getConexao();
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
+    // Receber dados do formulário
     $nome = $_POST['alterNome'];
     $sobrenome = $_POST['alterSobrenome'];
     $dataNasc = $_POST['alterDataNasc'];
-    $dataNascFormatada = date('Y-m-d', strtotime($dataNasc));
     $cpf = $_POST['alterCpf'];
     $endereco = $_POST['alterEndereco'];
     $email = $_POST['alterEmail'];
     $senha = $_POST['alterSenha'];
 
-    $dbh = Conexao::getConexao();
-
+    // Verificar se todos os campos estão preenchidos
     if (!empty($nome) && !empty($sobrenome) && !empty($dataNasc) && !empty($cpf) && !empty($endereco) && !empty($email)) {
-        $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email WHERE UsuarioID = :id";
-
+        // Atualizar os dados do usuário
+        $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email";
+        
+        // Se uma nova senha foi fornecida, atualizar também a senha
         if (!empty($senha)) {
-            $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email, Senha = :senha WHERE UsuarioID = :id";
+            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+            $sql .= ", Senha = :senha";
         }
+
+        $sql .= " WHERE UsuarioID = :id";
+
+        // Preparar a consulta
         $stmt = $dbh->prepare($sql);
         $stmt->bindParam(':id', $_SESSION['usuId']);
         $stmt->bindParam(':nome', $nome);
@@ -141,21 +146,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':cpf', $cpf);
         $stmt->bindParam(':endereco', $endereco);
         $stmt->bindParam(':email', $email);
+        
+        // Se uma nova senha foi fornecida, vinculá-la à consulta
         if (!empty($senha)) {
-            $senhaHash = md5($senha);
             $stmt->bindParam(':senha', $senhaHash);
         }
+
+        // Executar a consulta
         $result = $stmt->execute();
 
-        if ($result) {            
+        if ($result) {
+            // Atualizar informações da sessão
             $_SESSION['nome'] = $nome;
             $_SESSION['sobrenome'] = $sobrenome;
             $_SESSION['data'] = $dataNasc;
             $_SESSION['cpf'] = $cpf;
             $_SESSION['endereco'] = $endereco;
             $_SESSION['email'] = $email;
-            header("Location: alterarAdotante.php?status=success");  
-                
+            header("Location: alterarAdotante.php?status=success");
             exit();
         } else {
             echo "Erro ao alterar os dados";
@@ -164,6 +172,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Todas as informações devem estar preenchidas!";
     }
 }
-ob_end_flush(); 
-
+ob_end_flush();
 ?>
