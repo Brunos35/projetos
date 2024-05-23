@@ -7,11 +7,10 @@ require __DIR__ . '/../conexao.php';
 $dbh = Conexao::getConexao();
 
 # cria uma instrução SQL para selecionar todos os dados na tabela usuarios.
-$query = "SELECT * FROM caopanheiro.pet where doador = :doador";
+$query = "SELECT * FROM caopanheiro.pet";
 
 # prepara a execução da query e retorna para uma variável chamada stmt.
 $stmt = $dbh->prepare($query);
-$stmt->bindValue(':doador', $_SESSION['usuId'], PDO::PARAM_INT);
 $stmt->execute();
 
 # devolve a quantidade de linhas retornada pela consulta a tabela.
@@ -41,14 +40,15 @@ $quantidadeRegistros = $stmt->rowCount();
     </header>
     <nav>
         <ul>
-            <li><a href="pets.php">Meus Pet</a></li>
-            <li><a href="doador_dashboard.php">Meu Perfil</a></li>
+            <li><a href="pets.php">Pets cadastrados</a></li>
+            <li><a href="administrador_dashboard.php">Meu Perfil</a></li>
             <li><a href="#">Conversas</a></li>
+            <li><a href="#">Configurações</a></li>            
             <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>
     <div class="content" id="conteudo">
-        <h1>Meus Pets</h1>
+        <h1>Pets cadastrados</h1>
         </section>
 
         <hr>
@@ -57,6 +57,7 @@ $quantidadeRegistros = $stmt->rowCount();
             <table id="pet">
                 <thead>
                     <tr>
+                        <th>Doador</th>
                         <th id="nome">Nome</th>
                         <th id="raca">Raca</th>
                         <th>Sexo</th>
@@ -75,6 +76,7 @@ $quantidadeRegistros = $stmt->rowCount();
                             <tr>
                                 <?php $status = $row['status'] == "adotado" ? "ADOTADO" : "DISPONÍVEL"; ?>
                                 <?php $_SESSION['petId'] = intval($row['petId']); ?>
+                                <td><?= $row['doador']; ?></td>
                                 <td><?= $row['nome']; ?></td>
                                 <td><?= $row['raca']; ?></td>
                                 <td><?= $row['sexo']; ?></td>
@@ -90,7 +92,7 @@ $quantidadeRegistros = $stmt->rowCount();
                 </tbody>
             </table>
         </section>
-        <button id="pet"><a href="formCadastroPet.php" id="pet">Novo Pet</a></button>
+        <!--<button id="pet"><a href="formCadastroPet.php" id="pet">Novo Pet</a></button>-->
     </div>
 
     <script src="../../js/script.js">

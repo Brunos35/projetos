@@ -52,19 +52,18 @@ WHERE
                     $_SESSION['email'] = $user['Email'];
                     $_SESSION['cpf'] = $user['CPF'];
                     $_SESSION['endereco'] = $user['Endereco'];
-                    $_SESSION['senha'] = $user['Senha'];
-                    $_SESSION['usuId'] = $user['UsuarioID'];
+                    $_SESSION['usuId'] = $user['UsuarioID'];                   
                     $_SESSION['status'] = isset($user['status']) ? $user['status'] : 'ativo';
-
+                    
                     // Redireciona para a página correspondente ao perfil do usuário
                     switch ($_SESSION['perfil']) {
                         case 'adotante':
                             header("Location: adotante/adotante_dashboard.php");
                             exit();
-                        case 'doador':
+                        case 'doador':                          
                             header("Location: doador/doador_dashboard.php");
                             exit();
-                        case 'administrador':
+                        case 'administrador':                           
                             header("Location: admin/administrador_dashboard.php");
                             exit();
                         default:

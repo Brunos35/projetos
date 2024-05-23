@@ -4,22 +4,21 @@
     $dbh = Conexao::getConexao();
 
     # cria o comando DELETE filtrado pelo campo id
-    $query = "DELETE FROM administrador WHERE adminId = :id;";
+    $query = "DELETE FROM pet WHERE petId = :petId;";
 
     $stmt = $dbh->prepare($query);
-    $stmt->bindParam(':id', $_SESSION['usuId']);
+    $stmt->bindParam(':petId', $_SESSION['petId']);
     $stmt->execute();
 
     if ($stmt->rowCount() == 1)
     {
-        echo "<script>window.alert('Excluido com sucesso')</script>";
-        header('location: ../../../index.html');
-        session_destroy();
+        echo "<script>window.alert('Pet excluido com sucesso')</script>";
+        echo "<script>window.location.href = 'administrador_dashboard.php'</script>";
         exit();
     } else {
-        echo "<script>window.alert('Erro ao excluir usuário')</script>";
+        echo "<script>window.alert('Erro ao excluir o Pet')</script>";
         echo "<script>window.location.href = 'administrador_dashboard.php'</script>";
-        
+
     }
     $dbh = null;
     
