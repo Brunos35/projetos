@@ -60,7 +60,7 @@ $query = "";
             <li><a href="pets.php">Pets cadastrados</a></li>
             <li><a href="administrador_dashboard.php">Meu Perfil</a></li>
             <li><a href="#">Conversas</a></li>
-            <li><a href="#">Configurações</a></li>
+            <li><a href="config.php">Configurações</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>
