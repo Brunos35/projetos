@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-require __DIR__ . '/../conexao.php';
+require __DIR__ . '/../../conexao.php';
 $dbh = Conexao::getConexao();
 ?>
 <!DOCTYPE html>
@@ -11,9 +11,8 @@ $dbh = Conexao::getConexao();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
-    <link rel="stylesheet" href="../../css/dashboards.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../../../css/dashboards.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
         input,
         label {
@@ -42,7 +41,7 @@ $dbh = Conexao::getConexao();
 <body>
     <header>
         <button class="nav-toggle"><span class="material-symbols-outlined">menu</span></button>
-        <figure class="logo"><img src="../../img/logo1.png" alt="Logo"></figure>
+        <figure class="logo"><img src="../../../img/logo1.png" alt="Logo"></figure>
         <div class="user-info">Bem-vindo,
             <?= htmlspecialchars($_SESSION['nome']); ?> <span id="username"></span>
         </div>
@@ -71,16 +70,13 @@ $dbh = Conexao::getConexao();
             ?>
             <form action="alterarAdmin.php" method="post">
                 <label for="alterNome">Nome: </label>
-                <input type="text" name="alterNome" id="alterNome" required
-                    value="<?= htmlspecialchars($_SESSION['nome']); ?>">
+                <input type="text" name="alterNome" id="alterNome" required value="<?= htmlspecialchars($_SESSION['nome']); ?>">
 
                 <label for="alterSobrenome">Sobrenome: </label>
-                <input type="text" name="alterSobrenome" required
-                    value="<?= htmlspecialchars($_SESSION['sobrenome']); ?>"><br>
+                <input type="text" name="alterSobrenome" required value="<?= htmlspecialchars($_SESSION['sobrenome']); ?>"><br>
 
                 <label for="alterEmail">E-mail</label>
-                <input type="email" name="alterEmail" id="alterEmail" required
-                    value="<?= htmlspecialchars($_SESSION['email']); ?>"><br>
+                <input type="email" name="alterEmail" id="alterEmail" required value="<?= htmlspecialchars($_SESSION['email']); ?>"><br>
 
                 <label for="alterSenha">Nova senha: </label>
                 <input type="password" name="alterSenha" id="alterSenha"><br>
@@ -88,8 +84,8 @@ $dbh = Conexao::getConexao();
             </form>
         </div>
     </main>
-    <script src="../../js/script.js"></script>
-    <script src="../../js/alert.js"></script>
+    <script src="../../../js/script.js"></script>
+    <script src="../../../js/alert.js"></script>
 </body>
 
 </html>

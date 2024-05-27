@@ -13,8 +13,7 @@ $dbh = Conexao::getConexao();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
     <link rel="stylesheet" href="../../css/dashboards.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <body>
@@ -59,11 +58,8 @@ $dbh = Conexao::getConexao();
                 <?= $_SESSION['perfil']; ?>
             </p>
             <br>
-            <button id="usu"><a class="btnalterar"
-                    href="alterarAdmin.php?id=<?= $_SESSION['usuId']; ?>">Alterar</a></button><br><br>
-            <div id="delete"><button id="usu"><a class="btnexcluir"
-                        href="excluirAdmin.php?id=<?= $_SESSION['usuId']; ?>"
-                        onclick="return confirm('Essa operação não tem retorno. Deseja confirmar?');">Excluir
+            <button id="usu"><a class="btnalterar" href="crud-admin/alterarAdmin.php?id=<?= $_SESSION['usuId']; ?>">Alterar</a></button><br><br>
+            <div id="delete"><button id="usu"><a class="btnexcluir" href="crud-admin/excluirAdmin.php?id=<?= $_SESSION['usuId']; ?>" onclick="return confirm('Essa operação não tem retorno. Deseja confirmar?');">Excluir
                         Conta</a></button>
             </div>
 

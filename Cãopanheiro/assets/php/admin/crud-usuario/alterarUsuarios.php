@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-require __DIR__ . '/../conexao.php';
+require __DIR__ . '/../../conexao.php';
 $dbh = Conexao::getConexao();
 
 // Verificar se o ID do usuário está presente na query string
@@ -42,9 +42,8 @@ if (isset($_GET['Id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
 
-    <link rel="stylesheet" href="../../css/dashboards.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../../../css/dashboards.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
         input,
         label {
@@ -83,21 +82,21 @@ if (isset($_GET['Id'])) {
         <button class="nav-toggle"><span class="material-symbols-outlined">
                 menu
             </span></button>
-        <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
+        <figure class="logo"><img src="../../../img/logo1.png" alt=""></figure>
         <div class="user-info">Bem-vindo,
             <?= $_SESSION['nome']; ?> <span id="username"></span>
         </div>
     </header>
     <nav>
-    <ul>
-      <li><a href="../crud-pet/pets.php">Pets cadastrados</a></li>
-      <li><a href="listaUsuarios.php">Usuários cadastrados</a></li>
-      <li><a href="../administrador_dashboard.php">Meu Perfil</a></li>
-      <li><a href="../listaAdmin.php">Administradores</a></li>
-      <li><a href="#">Conversas</a></li>
-      <li><a href="../../logout.php">Sair</a></li>
-    </ul>
-  </nav>
+        <ul>
+            <li><a href="../crud-pet/pets.php">Pets cadastrados</a></li>
+            <li><a href="listaUsuarios.php">Usuários cadastrados</a></li>
+            <li><a href="../administrador_dashboard.php">Meu Perfil</a></li>
+            <li><a href="../listaAdmin.php">Administradores</a></li>
+            <li><a href="#">Conversas</a></li>
+            <li><a href="../../logout.php">Sair</a></li>
+        </ul>
+    </nav>
 
     <main>
         <div class="content" id="conteudo">
@@ -136,8 +135,8 @@ if (isset($_GET['Id'])) {
 
         </div>
     </main>
-    <script src="../../js/script.js"></script>
-    <script src="../../js/alert.js"></script>
+    <script src="../../../js/script.js"></script>
+    <script src="../../../js/alert.js"></script>
 
 </body>
 

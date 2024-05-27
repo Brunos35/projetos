@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-require __DIR__ . '/../conexao.php';
-
+require __DIR__ . '/../../conexao.php';
 # solicita a conexão com o banco de dados e guarda na váriavel dbh.
 $dbh = Conexao::getConexao();
 ?>
@@ -13,9 +12,8 @@ $dbh = Conexao::getConexao();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Área Restrita</title>
-  <link rel="stylesheet" href="../../css/dashboards.css">
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="../../../css/dashboards.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <style>
     input,
     label {
@@ -38,6 +36,7 @@ $dbh = Conexao::getConexao();
     input#alterSenha {
       width: 161px !important;
     }
+    #erro{display: none;}
   </style>
 </head>
 
@@ -46,7 +45,7 @@ $dbh = Conexao::getConexao();
     <button class="nav-toggle"><span class="material-symbols-outlined">
         menu
       </span></button>
-    <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
+    <figure class="logo"><img src="../../../img/logo1.png" alt=""></figure>
     <div class="user-info">Bem-vindo,
       <?= $_SESSION['nome']; ?> <span id="username"></span>
     </div>
@@ -62,7 +61,7 @@ $dbh = Conexao::getConexao();
     </ul>
   </nav>
   <div class="content" id="conteudo">
-    <h1>Cadastrar pets</h1>
+    <h1>Cadastrar Administrador</h1>
     <form action="newAdmin.php" method="post" enctype="multipart/form-data">
       <div>
         <label for="admiNome">Nome: </label>
@@ -83,7 +82,7 @@ $dbh = Conexao::getConexao();
         <button type="submit">Cadastrar</button>
       </div>
 
-      <script src="../../js/script.js"></script>
+      <script src="../../../js/script.js"></script>
 </body>
 
 </html>
@@ -126,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = $stmt->execute();
     if ($result) {
       echo "<script>alert('Cadastrado com Sucesso!')</script>";
-      header('Location: listaAdmin.php?status=success');
+      header('Location: ../listaAdmin.php?status=success');
       exit;
     } else {
       echo '<p>Não foi possível inserir Usuário!</p>';
@@ -141,7 +140,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
   echo "<p><a href='newAdmin.php'>Voltar</a></p>";
 } else {
-  echo '<p>Método de requisição inválido.</p>';
-  echo "<p><a href='newAdmin.php'>Voltar</a></p>";
+  echo '<p id="erro">Método de requisição inválido.</p>';
 }
 ?>

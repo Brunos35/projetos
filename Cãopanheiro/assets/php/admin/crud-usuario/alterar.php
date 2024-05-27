@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-require __DIR__ . '/../conexao.php';
+require __DIR__ . '/../../conexao.php';
 $dbh = Conexao::getConexao();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -56,4 +56,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ob_end_flush();
-?>

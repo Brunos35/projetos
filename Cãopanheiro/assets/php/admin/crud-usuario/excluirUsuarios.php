@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . '/../conexao.php';
+require __DIR__ . '/../../conexao.php';
 $dbh = Conexao::getConexao();
 
 if (isset($_GET['Id'])) {
@@ -19,7 +19,6 @@ if (isset($_GET['Id'])) {
   } else {
     echo "<script>window.alert('Erro ao Inativar usuário')</script>";
   }
-
 } else {
   // Se o ID do usuário não estiver presente na query string, redirecionar para uma página de erro ou tomar outra ação adequada
   echo "ID do usuário não fornecido!";
