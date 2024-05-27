@@ -6,7 +6,7 @@
         public static function getConexao()
         {
             try {
-                return new PDO("mysql:host=localhost;dbname=caopanheiro;", "root", "Root123@");
+                return new PDO("mysql:host=localhost;dbname=caopanheiro;", "root", "");
                 
             } catch(Exception $e) {
                 echo 'Erro ao conectar com o banco de dados . ' . $e->getMessage();

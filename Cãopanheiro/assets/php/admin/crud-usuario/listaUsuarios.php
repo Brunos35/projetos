@@ -87,7 +87,7 @@ try {
                                         <?php if ($row['status'] == 'ativo'): ?>
                                             <button class="acoes"><a class="btnexcluir" href="excluirUsuarios.php?Id=<?= intval($row['UsuarioID']); ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a></button>
                                         <?php else: ?>
-                                            <button class="acoes"><a class="btnexcluir" href="reativarUsuarios.php?Id=<?= intval($row['UsuarioID']); ?>" onclick="return confirm('Deseja confirmar a operação?');">Reativar</a></button>
+                                            <button class="acoes"><a class="btnexcluir" href="reativarUsuario.php?Id=<?=intval($row['UsuarioID']); ?>" onclick="return confirm('Deseja confirmar a operação?');">Reativar</a></button>
                                         <?php endif; ?>
                                     </td>
                                 </tr>

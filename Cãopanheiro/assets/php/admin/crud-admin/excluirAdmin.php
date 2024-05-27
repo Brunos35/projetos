@@ -3,8 +3,8 @@ session_start();
 require __DIR__ . '/../../conexao.php';
 $dbh = Conexao::getConexao();
 
-# cria o comando DELETE filtrado pelo campo id
-$query = "DELETE FROM administrador WHERE adminId = :id;";
+# cria o comando UPDATE filtrado pelo campo id
+$query = "UPDATE caopanheiro.administrador SET status = 'inativo' where adminId = :id";
 
 $stmt = $dbh->prepare($query);
 $stmt->bindParam(':id', $_SESSION['usuId']);

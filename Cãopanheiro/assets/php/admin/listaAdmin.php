@@ -25,6 +25,7 @@ try {
     <title>Área Restrita</title>
     <link rel="stylesheet" href="../../css/dashboards.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>#admin{width: 150px;}</style>
 </head>
 
 <body>
@@ -93,7 +94,7 @@ try {
                                         <button class="acoes"><a class="btnalterar" href="crud-admin/alterarAdmin.php?Id=<?=$usuId;?>">Alterar</a></button>
                                         <?php
                                         if ($row['status'] == 'ativo') {
-                                            echo "<button class='acoes'><a class='btnexcluir' href='crud-admin/excluirAdmin.php?Id=$usuId' onclick='return confirm(\"Deseja confirmar a operação?\");'>Excluir</a></button>";
+                                            echo "<button class='acoes'><a class='btnexcluir' href='crud-admin/excluirAdministradores.php?Id=$usuId' onclick='return confirm(\"Deseja confirmar a operação?\");'>Excluir</a></button>";
                                         } else {
                                             echo "<button class='acoes'><a class='btnexcluir' href='crud-admin/reativarAdmin.php?Id=$usuId' onclick='return confirm(\"Deseja confirmar a operação?\");'>Reativar</a></button>";
                                         }
@@ -108,7 +109,7 @@ try {
                     </tbody>
                 </table>
             </section>
-            <button id="pet"><a href="crud-admin/newAdmin.php">Novo Administador</a></button>
+            <button id="admin"><a href="crud-admin/newAdmin.php">Novo Administador</a></button>
         </div>
     </main>
     <script src="../../js/script.js"></script>

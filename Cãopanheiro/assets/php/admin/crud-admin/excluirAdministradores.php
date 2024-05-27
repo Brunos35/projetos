@@ -7,7 +7,7 @@ if (isset($_GET['Id'])) {
   $usuId = intval($_GET['Id']);
 
   # cria o comando DELETE filtrado pelo campo id
-  $query = "UPDATE caopanheiro.usuarios SET status = 'inativo' where UsuarioId = :id";
+  $query = "UPDATE caopanheiro.administrador SET status = 'inativo' where adminId = :id";
 
   $stmt = $dbh->prepare($query);
   $stmt->bindParam(':id', $usuId);
@@ -15,11 +15,11 @@ if (isset($_GET['Id'])) {
 
   if ($result) {
     echo "<script>window.alert('Usuario Inativado com sucesso')</script>";
-    header("location: listaUsuarios.php");
+    header("location: ../listaAdmin.php");
     exit();
   } else {
     echo "<script>window.alert('Erro ao Inativar usuário')</script>";
-    header("location: listaUsuarios.php");
+    header("location: ../listaAdmin.php");
     exit();
   }
 } else {
@@ -28,3 +28,4 @@ if (isset($_GET['Id'])) {
   exit();
 }
 $dbh = null;
+

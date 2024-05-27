@@ -29,13 +29,13 @@ if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR
 
     if (in_array($fileExtension, $allowedfileExtensions)) {
         // Cria um novo nome para a imagem
+        // Define o caminho relativo onde a imagem será armazenada
+        $uploadFilePath = '/doador/imgPets/';
         $newFileName = time() . $fileName . '.' . $fileExtension;
-        // Define o caminho onde a imagem será armazenada
-        $uploadFileDir = __DIR__ . '/imgPets/';
-        $dest_path = $uploadFileDir . $newFileName;
+        $dest_path = $uploadFilePath . $newFileName;
 
         // Move o arquivo para o diretório de upload
-        if (move_uploaded_file($fileTmpPath,$dest_path)) {
+        if (move_uploaded_file($fileTmpPath, $dest_path)) {
 
             # cria uma instrução SQL para inserir dados na tabela usuarios.
             $query = "INSERT INTO caopanheiro.pet (nome, dataNascimento, raca, porte, sexo, descricao, doador, foto) 
