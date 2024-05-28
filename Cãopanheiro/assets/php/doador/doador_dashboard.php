@@ -35,7 +35,7 @@ $dbh = Conexao::getConexao();
     <main>
         <div class="content" id="conteudo">
             <h1>Minhas Informações</h1>
-            <p><?= $_SESSION['usuId']; ?></p>
+            <p style='display:none;'><?= $_SESSION['usuId']; ?></p>
             <h2>Nome: </h2>
             <p><?= $_SESSION['nome']; ?></p>
             <h2>Sobrenome: </h2>
