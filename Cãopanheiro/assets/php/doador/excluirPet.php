@@ -13,11 +13,11 @@
     if ($stmt->rowCount() == 1)
     {
         echo "<script>window.alert('Pet excluido com sucesso')</script>";
-        echo "<script>window.location.href = 'doador_dashboard.php'</script>";
+        echo "<script>window.location.href = 'pets.php'</script>";
         exit;
     } else {
         echo "<script>window.alert('Erro ao excluir o Pet')</script>";
-        echo "<script>window.location.href = 'doador_dashboard.php'</script>";
+        echo "<script>window.location.href = 'pets.php'</script>";
     }
     $dbh = null;
     
