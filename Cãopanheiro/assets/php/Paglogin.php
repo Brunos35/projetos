@@ -39,8 +39,12 @@
                         <label for="senhaLogin">Senha</label>
                     </div>
                     <button class="env">Entrar</button>
+                    
                 </form>
                 <button onclick="trocaLado()" class="regs">Registrar-se</button>
+                <br><br>
+
+                <button class="regs" ><a href="formRecuperar.php">Esqueci minha senha</a></button>
             </div>
             <div class="registro" id="registro">
                 <form action="cadastro.php" method="post" autocomplete="on">
@@ -60,6 +64,7 @@
                     <button class="env">Continuar</button>
                 </form>
                 <button class="regs" onclick="trocaLado()">Sou cadastrado</button>
+                
             </div>
 
         </div>
