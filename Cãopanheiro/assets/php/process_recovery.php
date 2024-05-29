@@ -3,6 +3,10 @@ session_start();
 header('Content-Type: text/html; charset=utf-8');
 
 require_once 'conexao.php';
+require __DIR__ . '/../../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $dbh = Conexao::getConexao();
 
@@ -28,18 +32,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bindParam(':email', $email);
                 $stmt->execute();
 
-                // Envia o e-mail com o link de redefinição de senha
-                $reset_link = "http://localhost/bruno/C%C3%A3opanheiro/assets/php/reset_password.php?token=" . $token;
-                $subject = "Redefinição de Senha";
-                $message = "Clique no link para redefinir sua senha: " . $reset_link;
-                $headers = "From: no-reply@seu_dominio.com\r\n";
-                $headers .= "Reply-To: no-reply@seu_dominio.com\r\n";
-                $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+                // Configurar PHPMailer
+                $mail = new PHPMailer(true);
 
-                if (mail($email, $subject, $message, $headers)) {
+                try {
+                    // Configurações do servidor
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'brunos02santos@gmail.com';
+                    $mail->Password = '3379';
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port = 587;
+
+                    // Configurações do e-mail
+                    $mail->setFrom('no-reply@Cãopanheiro.com', 'Cãopanheiro');
+                    $mail->addAddress($email);
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Redefinição de Senha';
+                    $mail->Body = "Clique no link para redefinir sua senha: <a href='http://localhost/bruno/C%C3%A3opanheiro/assets/php/reset_password.php?token=$token'>Redefinir Senha</a>";
+
+                    // Envia o e-mail
+                    $mail->send();
                     echo "Um e-mail de redefinição de senha foi enviado para " . htmlspecialchars($email);
-                } else {
-                    echo "Falha ao enviar o e-mail.";
+                } catch (Exception $e) {
+                    echo "Erro ao enviar e-mail: {$mail->ErrorInfo}";
                 }
             } else {
                 echo "E-mail não encontrado.";
