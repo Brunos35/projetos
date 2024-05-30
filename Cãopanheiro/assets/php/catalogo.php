@@ -4,6 +4,9 @@ require_once 'conexao.php';
 
 $dbh = Conexao::getConexao();
 
+// Verificar se o usuário está logado e obter seu perfil
+$perfilUsuario = isset($_SESSION['perfil']) ? $_SESSION['perfil'] : '';
+
 // Configuração da paginação
 $itemsPorPagina = 4;
 $pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
@@ -89,6 +92,8 @@ $totalPaginas = ceil($totalPets / $itemsPorPagina);
     </form>
 </header>
 
+
+
 <div class="container">
     <?php foreach ($pets as $pet) : ?>
         <div class="pet-card">
@@ -100,10 +105,7 @@ $totalPaginas = ceil($totalPets / $itemsPorPagina);
                 <p><strong><?= htmlspecialchars($pet['status'] == 'adotado' ? 'Adotado' : 'Disponível', ENT_QUOTES, 'UTF-8'); ?></strong> </p>
                 <p style="display:none;"><strong>Doador:</strong> <?= htmlspecialchars($pet['doador'], ENT_QUOTES, 'UTF-8'); ?></p>
                 <p><strong>Descrição:</strong> <?= htmlspecialchars($pet['descricao'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <?php
-                $chatPageUrl = isset($_SESSION['usuId']) ? ($pet['doador'] == $_SESSION['usuId'] ? 'chat_doador.php' : "chat.php?petId=" . htmlspecialchars($pet['petId'], ENT_QUOTES, 'UTF-8')) : "catalogo.php";
-                ?>
-                <button><a href="<?= $chatPageUrl ?>" class="btn-chat">Chat</a></button>
+                <button class="btn-chat"><a onclick="VerificarLogin()" href="<?php echo $perfilUsuario === 'adotante' ? 'chat/create_chat.php?usuId=' . $_SESSION['usuId'] : 'chat/listaChats.php'; ?>">Chat</a></button>
             </div>
         </div>
     <?php endforeach; ?>
@@ -123,17 +125,22 @@ $totalPaginas = ceil($totalPets / $itemsPorPagina);
 </div>
 
 <script>
+
+function VerificarLogin() {
     // Verificar se o usuário está logado antes de acessar o chat
-    document.querySelectorAll('.btn-chat').forEach(function(link) {
-        link.addEventListener('click', function(event) {
-            if (!<?= isset($_SESSION['usuId']) ? 'true' : 'false' ?>) {
-                event.preventDefault();
-                alert('É preciso estar logado para acessar o chat');
-                window.location.href = 'login.php';
-            }
-        });
-    });
+    if (!<?php echo isset($_SESSION['usuId']) ? 'true' : 'false'; ?>) {
+        event.preventDefault();
+        let confirmation = confirm('É preciso estar logado para acessar o chat. Redirecionar?');
+        
+        if (confirmation) {
+            alert('Redirecionando...');
+            window.location.href = 'Paglogin.php';
+        }
+    }
+}
+
 </script>
 
 </body>
 </html>
+
