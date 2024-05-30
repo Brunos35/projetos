@@ -105,7 +105,7 @@ $totalPaginas = ceil($totalPets / $itemsPorPagina);
                 <p><strong><?= htmlspecialchars($pet['status'] == 'adotado' ? 'Adotado' : 'Disponível', ENT_QUOTES, 'UTF-8'); ?></strong> </p>
                 <p style="display:none;"><strong>Doador:</strong> <?= htmlspecialchars($pet['doador'], ENT_QUOTES, 'UTF-8'); ?></p>
                 <p><strong>Descrição:</strong> <?= htmlspecialchars($pet['descricao'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <button class="btn-chat"><a onclick="VerificarLogin()" href="<?php echo $perfilUsuario === 'adotante' ? 'chat/create_chat.php?usuId=' . $_SESSION['usuId'] : 'chat/listaChats.php'; ?>">Chat</a></button>
+                <button class="btn-chat"><a onclick="VerificarLogin()" href="<?php echo $perfilUsuario === 'adotante' ? 'chat/create_chat.php?doadorId='.htmlspecialchars($pet['doador'], ENT_QUOTES, 'UTF-8') : 'chat/listaChats.php'; ?>">Chat</a></button>
             </div>
         </div>
     <?php endforeach; ?>

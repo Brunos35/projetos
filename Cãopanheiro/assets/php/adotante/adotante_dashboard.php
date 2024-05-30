@@ -27,8 +27,8 @@ $dbh = Conexao::getConexao();
     <nav>
         <ul>
             <li><a href="adotante_dashboard.php">Meu Perfil</a></li>
-            <li><a href="#">Pets disponíveis</a></li>
-            <li><a href="#">Conversas</a></li>
+            <li><a href="../catalogo.php">Pets disponíveis</a></li>
+            <li><a href="../chat/listaChats.php">Conversas</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>

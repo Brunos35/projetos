@@ -1,47 +1,58 @@
 <?php
 require __DIR__ . '/../conexao.php';
 
-function sanitizeInput($data) {
+session_start();
+
+function sanitizeInput($data)
+{
     return htmlspecialchars(strip_tags($data));
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $doadorId = sanitizeInput($_POST['usuario1']);
-    $usuId = sanitizeInput($_POST['usuario2']);
 
-    if (!empty($doadorId) && !empty($usuId) && is_numeric($doadorId) && is_numeric($usuId)) {
-        try {
-            $dbh = Conexao::getConexao();
-            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if ($_SESSION['perfil'] === 'adotante') {
+        $doadorId = isset($_GET['doadorId']) ? sanitizeInput($_GET['doadorId']) : null;
+        $adotanteId = $_SESSION['usuId'];
 
-            $stmt = $dbh->prepare("INSERT INTO chats (doador, adotante) VALUES (:doador, :adotante)");
-            $stmt->bindParam(':doador', $doadorId, PDO::PARAM_INT);
-            $stmt->bindParam(':adotante', $usuId, PDO::PARAM_INT);
+        if (!empty($doadorId) && !empty($adotanteId) && is_numeric($doadorId) && is_numeric($adotanteId)) {
+            try {
+                $dbh = Conexao::getConexao();
+                $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $stmt->execute();
+                // Verifica se já existe um chat entre o doador e o adotante
+                $stmt_check = $dbh->prepare("SELECT COUNT(*) FROM chats WHERE doador = :doador AND adotante = :adotante");
+                $stmt_check->bindParam(':doador', $doadorId, PDO::PARAM_INT);
+                $stmt_check->bindParam(':adotante', $adotanteId, PDO::PARAM_INT);
+                $stmt_check->execute();
+                $chat_exists = $stmt_check->fetchColumn();
 
-            echo "Chat created successfully";
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+                if (!$chat_exists) {
+                    // Se o chat ainda não existir, insere um novo
+                    $stmt_insert = $dbh->prepare("INSERT INTO chats (doador, adotante) SELECT :doador, :adotante WHERE NOT EXISTS (SELECT 1 FROM chats WHERE doador = :doador AND adotante = :adotante)");
+                    $stmt_insert->bindParam(':doador', $doadorId, PDO::PARAM_INT);
+                    $stmt_insert->bindParam(':adotante', $adotanteId, PDO::PARAM_INT);
+                    $result = $stmt_insert->execute();
+
+                    if ($result) {
+                        echo "<script>alert('Chat Iniciado')</script>";
+                        echo "<script>window.location.href='chat.php'</script>";
+                        exit();
+                    } else {
+                        echo 'ERRO!';
+                    }
+                } else {
+                    echo "<script>alert('O chat já existe')</script>";
+                    echo "<script>window.location.href='../catalogo.php'</script>";
+                    exit();
+                }
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        } else {
+            echo "<script>alert('IDs não identificados')</script>";
+            exit();
         }
     } else {
-        echo "Invalid input.";
+        echo 'ERRO';
     }
-}
-?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Chat</title>
-</head>
-<body>
-    <form method="post" action="">
-        <label for="usuario1">Usuario 1 ID:</label>
-        <input type="text" id="usuario1" name="usuario1"><br>
-        <label for="usuario2">Usuario 2 ID:</label>
-        <input type="text" id="usuario2" name="usuario2"><br>
-        <input type="submit" value="Create Chat">
-    </form>
-</body>
-</html>
+?>
