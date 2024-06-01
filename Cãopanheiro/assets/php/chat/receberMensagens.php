@@ -1,25 +1,30 @@
 <?php
 session_start();
-require __DIR__ . '/../conexao.php';
+require_once __DIR__ . '/../conexao.php';
 
 $dbh = Conexao::getConexao();
 
 $remetente = $_SESSION['usuId'];
 $destinatario = $_GET['destinatario'];
 
-$stmt = $dbh->prepare("SELECT * FROM Chat WHERE (Remetente = :remetente AND Destinatario = :destinatario) OR (Remetente = :destinatario AND Destinatario = :remetente) ORDER BY DataHora ASC");
-$stmt->bindParam(':remetente', $remetente);
-$stmt->bindParam(':destinatario', $destinatario);
+$query = "SELECT * FROM mensagens WHERE (Remetente = :remetente AND Destinatario = :destinatario) OR (Remetente = :destinatario AND Destinatario = :remetente) ORDER BY DataEnvio ASC";
+
+$stmt = $dbh->prepare($query);
+$stmt->bindParam(':remetente', $remetente, PDO::PARAM_INT);
+$stmt->bindParam(':destinatario', $destinatario, PDO::PARAM_INT);
+
+// Depuração: Exibir a consulta preparada
+echo "Consulta preparada: $query";
+
 $stmt->execute();
 
 $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-foreach ($messages as $message) {
-    $sender = $message['Remetente'] == $remetente ? 'Você' : 'Outro';
-    $formattedContent = htmlspecialchars($message['Conteudo']);
-    $formattedDate = htmlspecialchars($message['DataHora']);
-    echo "<div><strong>{$sender}:</strong> {$formattedContent} <em>({$formattedDate})</em></div>";
-}
+// Depuração: Exibir as mensagens recuperadas
+echo "Mensagens recuperadas: ";
+print_r($messages);
+
+echo json_encode($messages);
 
 $dbh = null;
 ?>

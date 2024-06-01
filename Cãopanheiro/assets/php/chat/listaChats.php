@@ -10,17 +10,19 @@ if (!isset($_SESSION['usuId'])) {
 
 $dbh = Conexao::getConexao();
 
-
-// Consulta para obter os chats associados ao usuário
+// Consulta para obter os chats associados ao usuário e ordená-los pela última mensagem
 $stmt = $dbh->prepare("SELECT c.ChatID, 
                               CASE WHEN c.Doador = :UsuarioID THEN (SELECT Nome FROM Usuarios WHERE UsuarioID = c.Adotante)
                                    ELSE (SELECT Nome FROM Usuarios WHERE UsuarioID = c.Doador)
-                              END AS nomeDestinatario
+                              END AS nomeDestinatario,
+                              CASE WHEN c.Doador = :UsuarioID THEN c.Adotante ELSE c.Doador END AS destinatarioID
                       FROM Chats c
+                      LEFT JOIN Mensagens m ON c.ChatID = m.ChatID
                       WHERE (c.Doador = :UsuarioID OR c.Adotante = :UsuarioID)
                       GROUP BY c.ChatID
-                      ORDER BY MAX(c.ChatID) DESC");
-$stmt->bindParam(':UsuarioID', $_SESSION['usuId']);
+                      ORDER BY MAX(m.DataEnvio) DESC");
+
+$stmt->bindParam(':UsuarioID', $_SESSION['usuId'], PDO::PARAM_INT);
 $stmt->execute();
 
 $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,6 +37,11 @@ $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Área Restrita</title>
     <link rel="stylesheet" href="../../css/dashboards.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        li a {
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,7 +50,7 @@ $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 menu
             </span></button>
         <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
-        <div class="user-info">Bem-vindo, <?= $_SESSION['nome']; ?> <span id="username"></span></div>
+        <div class="user-info">Bem-vindo, <?= htmlspecialchars($_SESSION['nome']); ?> <span id="username"></span></div>
     </header>
     <nav>
         <ul>
@@ -59,18 +66,16 @@ $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <ul>
                 <?php foreach ($chats as $chat) : ?>
                     <li>
-                        <a href="chat.php?id=<?php echo $chat['ChatID']; ?>">
-                            <?php echo $chat['nomeDestinatario']; ?> <!-- Nome do destinatário -->
+                        <a href="chat.php?id=<?= htmlspecialchars($chat['ChatID']); ?>&destinatario=<?= htmlspecialchars($chat['destinatarioID']); ?>">
+                            <?= htmlspecialchars($chat['nomeDestinatario']); ?> 
+                            Abrir
                         </a>
                     </li>
                 <?php endforeach; ?>
             </ul>
-
         </div>
     </main>
-    <script src="../../js/script.js">
-
-    </script>
+    <script src="../../js/script.js"></script>
 </body>
 
 </html>

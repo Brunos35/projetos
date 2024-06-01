@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $stmt = $dbh->prepare("SELECT m.conteudo, m.dataEnvio, u.nome AS remetente
                                    FROM mensagem m
                                    JOIN usuario u ON m.remetente = u.idUsuario
-                                   WHERE m.idChat = :idChat
+                                   WHERE m.ChatID = :idChat
                                    ORDER BY m.dataEnvio ASC");
             $stmt->bindParam(':idChat', $idChat, PDO::PARAM_INT);
             $stmt->execute();
