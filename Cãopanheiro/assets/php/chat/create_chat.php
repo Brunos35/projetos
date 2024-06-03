@@ -10,7 +10,7 @@ function sanitizeInput($data)
 
 
     if ($_SESSION['perfil'] === 'adotante') {
-        $doadorId = isset($_GET['doadorId']) ? sanitizeInput($_GET['doadorId']) : null;
+        $doadorId = isset($_GET['destinatario']) ? sanitizeInput($_GET['destinatario']) : null;
         $adotanteId = $_SESSION['usuId'];
 
         if (!empty($doadorId) && !empty($adotanteId) && is_numeric($doadorId) && is_numeric($adotanteId)) {
@@ -34,14 +34,14 @@ function sanitizeInput($data)
 
                     if ($result) {
                         echo "<script>alert('Chat Iniciado')</script>";
-                        echo "<script>window.location.href='chat.php'</script>";
+                        echo "<script>window.location.href='listaChats.php'</script>";
                         exit();
                     } else {
                         echo 'ERRO!';
                     }
                 } else {
                     echo "<script>alert('O chat já existe')</script>";
-                    echo "<script>window.location.href='../catalogo.php'</script>";
+                    echo "<script>window.location.href='listaChats.php'</script>";
                     exit();
                 }
             } catch (PDOException $e) {

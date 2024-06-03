@@ -38,8 +38,25 @@ $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../../css/dashboards.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
-        li a {
-            color: black;
+        div.chat{
+            height: 30px;
+            width: 100%;
+            display: flex;
+            align-items:center;
+        }
+        span.chat,li.chat, li.chat>a{height: 30px;
+        color:black;
+        }
+
+        li.chat {
+            font-size: 1.25em;
+            list-style-type: none;
+            display: inline-flex;
+        }
+
+        li.chat:hover{
+            text-decoration: underline;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -65,12 +82,17 @@ $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h1>Meus Chats</h1>
             <ul>
                 <?php foreach ($chats as $chat) : ?>
-                    <li>
+                    <div class="chat">
+                        <span class="material-symbols-outlined chat">
+                        chevron_right
+                        </span>
+                    <li class="chat">
+                        
                         <a href="chat.php?id=<?= htmlspecialchars($chat['ChatID']); ?>&destinatario=<?= htmlspecialchars($chat['destinatarioID']); ?>">
-                            <?= htmlspecialchars($chat['nomeDestinatario']); ?> 
-                            Abrir
+                            <?= htmlspecialchars($chat['nomeDestinatario']); ?>
+                            
                         </a>
-                    </li>
+                    </li></div>
                 <?php endforeach; ?>
             </ul>
         </div>

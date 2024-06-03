@@ -42,7 +42,7 @@ try {
             <li><a href="crud-usuario/listaUsuarios.php">Usuários cadastrados</a></li>
             <li><a href="administrador_dashboard.php">Meu Perfil</a></li>
             <li><a href="listaAdmin.php">Administradores</a></li>
-            <li><a href="#">Conversas</a></li>
+            <li><a href="../chat/listaChats.php">Conversas</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>

@@ -67,80 +67,84 @@ $totalPaginas = ceil($totalPets / $itemsPorPagina);
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pets</title>
     <link rel="stylesheet" href="../css/catalogo.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
+
 <body>
-<header>
-    <h1>Lista de Pets</h1>
-    <form action="" method="get">
-        <input type="text" name="pesquisa" placeholder="Pesquisar">
-        <select name="sexo">
-            <option value="">Todos</option>
-            <option value="Macho">Macho</option>
-            <option value="Fêmea">Fêmea</option>
-        </select>
-        <select name="status">
-            <option value="">Todos</option>
-            <option value="adotado">Adotado</option>
-            <option value="disponível">Disponível</option>
-        </select>
-        <button type="submit">Filtrar</button>
-    </form>
-</header>
+    <header>
+        <span class="material-symbols-outlined" onclick="history.go(-1)">
+            arrow_back
+        </span>
+        <h1>Lista de Pets</h1>
+        <form action="" method="get">
+            <input type="text" name="pesquisa" placeholder="Pesquisar">
+            <select name="sexo">
+                <option value="">Todos</option>
+                <option value="Macho">Macho</option>
+                <option value="Fêmea">Fêmea</option>
+            </select>
+            <select name="status">
+                <option value="">Todos</option>
+                <option value="adotado">Adotado</option>
+                <option value="disponível">Disponível</option>
+            </select>
+            <button type="submit">Filtrar</button>
+        </form>
+    </header>
 
 
 
-<div class="container">
-    <?php foreach ($pets as $pet) : ?>
-        <div class="pet-card">
-            <img src="<?= htmlspecialchars($pet['foto'], ENT_QUOTES, 'UTF-8'); ?>" alt="Foto do Pet">
-            <div class="pet-info">
-                <h2><?= htmlspecialchars($pet['nome'], ENT_QUOTES, 'UTF-8'); ?></h2>
-                <p><strong>Raça:</strong> <?= htmlspecialchars($pet['raca'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p><strong>Sexo:</strong> <?= htmlspecialchars($pet['sexo'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p><strong><?= htmlspecialchars($pet['status'] == 'adotado' ? 'Adotado' : 'Disponível', ENT_QUOTES, 'UTF-8'); ?></strong> </p>
-                <p style="display:none;"><strong>Doador:</strong> <?= htmlspecialchars($pet['doador'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p><strong>Descrição:</strong> <?= htmlspecialchars($pet['descricao'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <button class="btn-chat"><a onclick="VerificarLogin()" href="<?php echo $perfilUsuario === 'adotante' ? 'chat/create_chat.php?doadorId='.htmlspecialchars($pet['doador'], ENT_QUOTES, 'UTF-8') : 'chat/listaChats.php'; ?>">Chat</a></button>
+    <div class="container">
+        <?php foreach ($pets as $pet) : ?>
+            <div class="pet-card">
+                <img src="<?= htmlspecialchars($pet['foto'], ENT_QUOTES, 'UTF-8'); ?>" alt="Foto do Pet">
+                <div class="pet-info">
+                    <h2><?= htmlspecialchars($pet['nome'], ENT_QUOTES, 'UTF-8'); ?></h2>
+                    <p><strong>Raça:</strong> <?= htmlspecialchars($pet['raca'], ENT_QUOTES, 'UTF-8'); ?></p>
+                    <p><strong>Sexo:</strong> <?= htmlspecialchars($pet['sexo'], ENT_QUOTES, 'UTF-8'); ?></p>
+                    <p><strong><?= htmlspecialchars($pet['status'] == 'adotado' ? 'Adotado' : 'Disponível', ENT_QUOTES, 'UTF-8'); ?></strong> </p>
+                    <p style="display:none;"><strong>Doador:</strong> <?= htmlspecialchars($pet['doador'], ENT_QUOTES, 'UTF-8'); ?></p>
+                    <p><strong>Descrição:</strong> <?= htmlspecialchars($pet['descricao'], ENT_QUOTES, 'UTF-8'); ?></p>
+                    <button class="btn-chat"><a onclick="VerificarLogin()" href="<?php echo $perfilUsuario === 'adotante' ? 'chat/create_chat.php?destinatario=' . htmlspecialchars($pet['doador'], ENT_QUOTES, 'UTF-8') : 'chat/listaChats.php'; ?>">Chat</a></button>
+                </div>
             </div>
-        </div>
-    <?php endforeach; ?>
-</div>
+        <?php endforeach; ?>
+    </div>
 
-<!-- Paginação -->
-<div class="pagination">
-    <?php if ($pagina > 1) : ?>
-        <a href="?pagina=<?= ($pagina - 1) ?>">Anterior</a>
-    <?php endif; ?>
-    <?php for ($i = 1; $i <= $totalPaginas; $i++) : ?>
-        <a href="?pagina=<?= $i ?>" <?= $pagina == $i ? 'class="active"' : '' ?>><?= $i ?></a>
-    <?php endfor; ?>
-    <?php if ($pagina < $totalPaginas) : ?>
-        <a href="?pagina=<?= ($pagina + 1) ?>">Próxima</a>
-    <?php endif; ?>
-</div>
+    <!-- Paginação -->
+    <div class="pagination">
+        <?php if ($pagina > 1) : ?>
+            <a href="?pagina=<?= ($pagina - 1) ?>">Anterior</a>
+        <?php endif; ?>
+        <?php for ($i = 1; $i <= $totalPaginas; $i++) : ?>
+            <a href="?pagina=<?= $i ?>" <?= $pagina == $i ? 'class="active"' : '' ?>><?= $i ?></a>
+        <?php endfor; ?>
+        <?php if ($pagina < $totalPaginas) : ?>
+            <a href="?pagina=<?= ($pagina + 1) ?>">Próxima</a>
+        <?php endif; ?>
+    </div>
 
-<script>
+    <script>
+        function VerificarLogin() {
+            // Verificar se o usuário está logado antes de acessar o chat
+            if (!<?php echo isset($_SESSION['usuId']) ? 'true' : 'false'; ?>) {
+                event.preventDefault();
+                let confirmation = confirm('É preciso estar logado para acessar o chat. Redirecionar?');
 
-function VerificarLogin() {
-    // Verificar se o usuário está logado antes de acessar o chat
-    if (!<?php echo isset($_SESSION['usuId']) ? 'true' : 'false'; ?>) {
-        event.preventDefault();
-        let confirmation = confirm('É preciso estar logado para acessar o chat. Redirecionar?');
-        
-        if (confirmation) {
-            alert('Redirecionando...');
-            window.location.href = 'Paglogin.php';
+                if (confirmation) {
+                    alert('Redirecionando...');
+                    window.location.href = 'Paglogin.php';
+                }
+            }
         }
-    }
-}
-
-</script>
+    </script>
 
 </body>
-</html>
 
+</html>

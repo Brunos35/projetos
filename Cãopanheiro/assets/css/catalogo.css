@@ -27,12 +27,23 @@ header {
   background-color: var(--color1);
   padding: 13px;
   display: flex;
+  gap: 200px;
   justify-content: space-between;
   align-items: center;
 }
 
+span{
+  cursor: pointer;
+}
+
+span:hover{
+  color: var(--color2);
+}
+
 header h1 {
   color: var(--color2);
+  width: 190px;
+  margin-left: 150px;
 }
 
 figure{

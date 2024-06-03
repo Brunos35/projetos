@@ -34,7 +34,7 @@ require __DIR__ . '/../conexao.php';
         <ul>
             <li><a href="pets.php">Meus Pet</a></li>
             <li><a href="doador_dashboard.php">Meu Perfil</a></li>
-            <li><a href="#">Conversas</a></li>
+            <li><a href="../chat/listaChats.php">Conversas</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>
