@@ -70,7 +70,7 @@ $usuarioId = $_SESSION['usuId'];
                         const messageDiv = document.createElement('div');
                         messageDiv.classList.add('message');
                         messageDiv.classList.add(message.Remetente == usuarioId ? 'sent' : 'received');
-                        messageDiv.innerHTML = `<strong>${message.RemetenteNome}:</strong> <div class="text">${message.Conteudo}</div>`;
+                        messageDiv.innerHTML = `<strong>${message.RemetenteNome}:</strong> <div class="text">${message.Conteudo}<br/> <div class="hora">${message.DataEnvio}</div></div>`;
                         messagesDiv.appendChild(messageDiv);
                     });
                     messagesDiv.scrollTop = messagesDiv.scrollHeight; // Rolagem automática para o fim

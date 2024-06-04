@@ -1,3 +1,12 @@
+<?php
+session_start();
+// Conexão com o banco de dados MySQL usando PDO
+require_once 'conexao.php';
+
+$dbh = Conexao::getConexao();
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +26,7 @@
 
         .formbox {
             width: 300px;
-            height: 250px;
+            height: 230px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
             border-radius: 10px; 
@@ -27,18 +36,13 @@
             align-items: center;
         }
 
-        .formbox h1 {
-            margin-bottom: 20px; 
-        }
+        .formbox h1 {margin-bottom: 20px;}
 
-        form{
-            width:100%;
-        }
+        form{width:100%;}
 
         .inputbox {
             margin: 0 0 20px 0;
             width: 100%;
-
         }
 
         .inputbox input {
@@ -51,16 +55,14 @@
         .inputbox label {
             display: block;
             margin-top: 10px;
-
         }
-
     </style>
 </head>
 <body>
     <div class="container">
         <div class="formbox" id="box">
             <h1>Recuperar Senha</h1>
-            <form action="process_recovery.php" autocomplete="on" method="post">
+            <form action="novaSenha.php" autocomplete="on" method="post">
                 <div class="inputbox">
                     <input type="email" name="email" id="email" required autocomplete="email">
                     <label for="email">E-mail</label>

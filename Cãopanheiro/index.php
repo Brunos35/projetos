@@ -97,7 +97,6 @@ $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <section class="sobre_nos">
             <h1>Sobre nos</h1>
             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facilis sapiente adipisci vel earum id similique tempora eius, excepturi nostrum deleniti nesciunt vero quae numquam suscipit, sit incidunt rerum officiis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore, autem? Sit labore voluptatum facilis debitis illo fuga, totam beatae? A non dignissimos vitae. Neque quos, unde libero tempore suscipit pariatur!</p>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo commodi harum tenetur cum expedita eius modi quo. Quasi a in reiciendis, ad rem quae aut accusantium ullam? Nemo, laboriosam consequuntur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere sint earum nihil recusandae, placeat debitis ratione harum ea porro doloribus incidunt eum ut facilis dolorem consequatur.</p>
             <figure><img src="assets/img/gato.png" alt=""></figure>
             
         </section>

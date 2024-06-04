@@ -188,143 +188,24 @@ img#cachorro {
     filter: drop-shadow(1px 1px 10px rgba(0, 0, 0, 0.397));
 }
 
-/*pag Sobre nós*/
-section.sobre_nos {
-    max-width: 1600px;
-    min-width: 300px;
-    min-height: 110vh;
-    max-height: 130vh;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    background-color: var(--color2);
-    padding: 20px 0px 0px 10px;
-}
-
-section.sobre_nos h1 {
-    color: var(--color3);
-    font-size: 3em;
-    font-weight: bold;
-    padding-bottom: 10px;
-}
-
-section.sobre_nos>p {
-    font-size: 1.2em;
-    color: var(--color1);
-    text-align: justify;
-    width: 90%;
-    line-height: 1.5em;
-}
-
-section.sobre_nos figure {
-    max-width: 100%;
-    min-width: 45%;
-    height: 60vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-section.sobre_nos>figure>img {
-    min-width: 100%;
-}
-
-.link {
-    display: block;
-    text-align: center;
-    line-height: 40px;
-    width: 60%;
-    height: 40px;
-    border-radius: 10px;
-    background-color: var(--color1);
-    border: none;
-    outline: none;
-    font-size: 1em;
-    font-weight: 600;
-    color: white;
-    text-decoration: none;
-    margin-bottom: 10px;
-}
-
-.link:hover {
-    transition: all .5s;
-    background: transparent;
-    border: 2px solid var(--color1);
-    color: var(--color1);
-}
-
-/*pag dos cards*/
-.container_cards {
-    min-width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    min-height: 60vh;
-    max-height: 100vh;
-    padding: 20px 0px 0px 10px;
-    margin-top: 30px;
-}
-
-.container_cards>.cards {
-    text-align: center;
-    position: relative;
-    height: 400px;
-    border-radius: 20px;
-    max-width: 30%;
-    min-width: 320px;
-}
-
-.container_cards>.img {
-    max-width: 300px;
-    margin: 10px 0px 10px 0px;
-    height: 190px;
-    border-radius: 0px 0px 20px 20px;
-}
-
-.container_cards>.conteudo {
-    max-width: 60%;
-    min-width: 50%;
-    height: 300px;
-}
-
-.container_cards .conteudo p {
-    width: 90%;
-    word-break: normal;
-    font-size: 1.2em;
-    color: var(--color2) !important;
-    text-align: center;
-    line-height: 1.5em;
-}
-
-.img>img {
-    margin-bottom: 10px;
-    width: 60%;
-    height: 100%;
-}
-
-h1#card {
-    padding: 20px 0px 0px 10px;
-    color: beige;
-    font-size: 3em;
-}
-
 /*Listagem dos pets*/
 
 section.catalogo{
-    background-color: var(--color3);
-    color: #FFE1B7;
+    background-color: var(--color2);
+    color: var(--color2);
     text-align: center;
-    height: 95vh;
+    height: 100vh;
     padding-top: 10px;
 }
 
-section h1{color: #fff;}
+section h1{color: var(--color1);}
 
 .carousel-item {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 70vh;
+    margin-top: 30px;
 }
 
 .pet-card {
@@ -398,4 +279,130 @@ section h1{color: #fff;}
     right: -35%;
     width: 30% !important;
 }
+
+/*pag Sobre nós*/
+section.sobre_nos {
+    max-width: 1600px;
+    min-width: 300px;
+    min-height: 110vh;
+    max-height: 130vh;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: var(--color1);
+    padding: 20px 0px 0px 10px;
+}
+
+section.sobre_nos h1 {
+    color: #fff;
+    font-size: 3em;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+section.sobre_nos>p {
+    font-size: 1.2em;
+    color: #fff;
+    text-align: justify;
+    width: 90%;
+    line-height: 1.5em;
+}
+
+section.sobre_nos figure {
+    max-width: 100%;
+    min-width: 45%;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+section.sobre_nos>figure>img {
+    min-width: 100%;
+}
+
+.link {
+    display: block;
+    text-align: center;
+    line-height: 40px;
+    width: 60%;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--color1);
+    border: none;
+    outline: none;
+    font-size: 1em;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.link:hover {
+    transition: all .5s;
+    background: transparent;
+    border: 2px solid var(--color1);
+    color: var(--color1);
+}
+
+/*pag dos cards*/
+.container_cards {
+    background-color: var(--color2);
+    min-width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: 85vh;
+    max-height: 100vh;
+    padding: 50px 0px 0px 10px;
+}
+
+.container_cards>.cards {
+    text-align: center;
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+    max-width: 30%;
+    min-width: 320px;
+    margin-top: 30px;
+}
+
+.container_cards>.img {
+    max-width: 300px;
+    margin: 10px 0px 10px 0px;
+    height: 190px;
+    border-radius: 0px 0px 20px 20px;
+}
+
+.container_cards>.conteudo {
+    max-width: 60%;
+    min-width: 50%;
+    height: 300px;
+}
+
+.container_cards .conteudo p {
+    width: 90%;
+    word-break: normal;
+    font-size: 1.2em;
+    color: var(--color1) !important;
+    text-align: center;
+    line-height: 1.5em;
+}
+
+.img>img {
+    margin-bottom: 10px;
+    width: 60%;
+    height: 100%;
+}
+
+h1#card {
+    width: 100%;
+    background-color: var(--color2);
+    padding: 20px 0px 30px 10px;
+    color: var(--color1);
+    font-size: 3em;
+    margin: 0;
+}
+
+
 /*Fim da landing page*/
