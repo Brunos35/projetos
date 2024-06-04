@@ -16,14 +16,14 @@ if (isset($_POST['emailLogin']) && isset($_POST['senhaLogin'])) {
         // Consulta preparada para verificar se o usuário existe no banco de dados e está ativo
         $query = "
         SELECT 
-            u.UsuarioID, u.Nome, u.Sobrenome, u.DataNascimento, u.CPF, u.Endereco, u.Email, u.Telefone, u.Senha, u.Perfil, u.status 
+            u.usuarioId, u.nome, u.sobrenome, u.data_nascimento, u.cpf, u.endereco, u.email, u.senha, u.perfil, u.status 
         FROM 
-            usuarios u
+            usuario u
         WHERE 
-            u.Email = :email AND u.status = 'ativo'
+            u.email = :email AND u.status = 'ativo'
         UNION
         SELECT 
-            a.adminId AS UsuarioID, a.nome AS Nome, a.sobrenome AS Sobrenome, NULL AS DataNascimento, NULL AS CPF, NULL AS Endereco, a.email AS Email, NULL AS Telefone, a.senha AS Senha, a.perfil AS Perfil, a.status 
+            a.adminId AS usuarioId, a.nome AS nome, a.sobrenome AS sobrenome, NULL AS data_nascimento, NULL AS cpf, NULL AS endereco, a.email AS email, a.senha AS senha, a.perfil AS perfil, a.status 
         FROM 
             administrador a
         WHERE 
@@ -40,19 +40,19 @@ if (isset($_POST['emailLogin']) && isset($_POST['senhaLogin'])) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Verifica se o campo Senha está presente e não é nulo
-            if (isset($user['Senha']) && !is_null($user['Senha'])) {
+            if (isset($user['senha']) && !is_null($user['senha'])) {
                 // Verifica se a senha fornecida corresponde ao hash armazenado
-                if (password_verify($senhaLogin, $user['Senha'])) {
-                    $isAdmin = isset($user['Perfil']) && $user['Perfil'] === 'administrador';
+                if (password_verify($senhaLogin, $user['senha'])) {
+                    $isAdmin = isset($user['perfil']) && $user['perfil'] === 'administrador';
 
-                    $_SESSION['perfil'] = $isAdmin ? 'administrador' : (isset($user['Perfil']) ? $user['Perfil'] : 'adotante');
-                    $_SESSION['nome'] = $user['Nome'];
-                    $_SESSION['sobrenome'] = $user['Sobrenome'];
-                    $_SESSION['data'] = $user['DataNascimento'] ? date('Y-m-d', strtotime($user['DataNascimento'])) : NULL;
-                    $_SESSION['email'] = $user['Email'];
-                    $_SESSION['cpf'] = $user['CPF'];
-                    $_SESSION['endereco'] = $user['Endereco'];
-                    $_SESSION['usuId'] = $user['UsuarioID'];                   
+                    $_SESSION['perfil'] = $isAdmin ? 'administrador' : (isset($user['perfil']) ? $user['perfil'] : 'adotante');
+                    $_SESSION['nome'] = $user['nome'];
+                    $_SESSION['sobrenome'] = $user['sobrenome'];
+                    $_SESSION['data'] = $user['data_nascimento'] ? date('Y-m-d', strtotime($user['data_nascimento'])) : NULL;
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['cpf'] = $user['cpf'];
+                    $_SESSION['endereco'] = $user['endereco'];
+                    $_SESSION['usuId'] = $user['usuarioId'];                   
                     $_SESSION['status'] = isset($user['status']) ? $user['status'] : 'ativo';
                     
                     // Redireciona para a página correspondente ao perfil do usuário
@@ -63,7 +63,7 @@ if (isset($_POST['emailLogin']) && isset($_POST['senhaLogin'])) {
                         case 'doador':                          
                             header("Location: doador/doador_dashboard.php");
                             exit();
-                        case 'administrador':                           
+                        case 'administrador':   
                             header("Location: admin/administrador_dashboard.php");
                             exit();
                         default:

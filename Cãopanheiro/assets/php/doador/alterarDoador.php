@@ -90,7 +90,7 @@ $dbh = Conexao::getConexao();
                 <input type="date" name="alterDataNasc" id="alterDataNasc" value="<?=$_SESSION['data'] ?>">
                 <br>
                 <label for="cpf">CPF: </label>
-                <input type="number" name="alterCpf" id="alterCpf" value="<?=$_SESSION['cpf']?>">
+                <input type="text" name="alterCpf" id="alterCpf" value="<?=$_SESSION['cpf'] ?>">
                 <br>
                 <label for="alterEndereco">Endereço: </label>
                 <input type="text" name="alterEndereco" id="alterEndereco" value="<?=$_SESSION['endereco']?>">
@@ -125,17 +125,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $senha = $_POST['alterSenha'];
 
     // Verificar se todos os campos estão preenchidos
-    if (!empty($nome) && !empty($sobrenome) && !empty($dataNasc) && !empty($cpf) && !empty($endereco) && !empty($email)) {
+    if (!empty($nome) && !empty($sobrenome) && !empty($dataNasc) && !empty($endereco) && !empty($email)) {
         // Atualizar os dados do usuário
-        $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, CPF = :cpf, Endereco = :endereco, Email = :email";
+        $sql = "UPDATE caopanheiro.usuario SET nome = :nome, sobrenome = :sobrenome, data_nascimento = :dataNasc, cpf = :cpf, endereco = :endereco, email = :email";
         
         // Se uma nova senha foi fornecida, atualizar também a senha
         if (!empty($senha)) {
             $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-            $sql .= ", Senha = :senha";
+            $sql .= ", senha = :senha";
         }
 
-        $sql .= " WHERE UsuarioID = :id";
+        $sql .= " WHERE usuarioId = :id";
 
         // Preparar a consulta
         $stmt = $dbh->prepare($sql);

@@ -77,9 +77,9 @@ require __DIR__ . '/../conexao.php';
             <div class="radio">
                 <label>Sexo: </label>
                 <label for="macho">Macho</label>
-                <input type="radio" name="sexo" id="macho" value="Macho">
+                <input type="radio" name="sexo" id="macho" value="M">
                 <label for="femea">Fêmea</label>
-                <input type="radio" name="sexo" id="femea" value="Fêmea">
+                <input type="radio" name="sexo" id="femea" value="F">
             </div>
             <label for="descricao">Descrição:</label>
             <textarea name="descricao" id="descricao" cols="30" rows="4" placeholder="Fale um pouco sobre o pet"></textarea>

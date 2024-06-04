@@ -1,91 +1,36 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro Cãopanheiro</title>
+    <title>Cadastro</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#cpf').mask('000.000.000-00');
+            $('#cep').mask('00000-000');
+
+            $('form').on('submit', function(e) {
+                let cpf = $('#cpf').val();
+                let cpfPattern = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+                if (!cpfPattern.test(cpf)) {
+                    alert('CPF inválido!');
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
     <link rel="stylesheet" href="../css/login.css">
-    <style>
-        html{
-            width: 98vw !important;
-        }
-        body{
-            background:var(--color1);
-            width: 98vw !important;
-            height: 115vh !important;
-        }
-
-        div.cadastro{
-        width: 100%;
-        height:100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        }
-
-        form{
-            width:50%;
-            background-color:var(--color2);
-            padding-bottom:10px;
-            border-radius:10px;
-        }
-
-        .inputbox{
-            width:95%;
-            margin: 0px 0px 30px 20px;
-        }
-
-        .inputbox input{
-            height: 5vh;
-        }
-
-        div.radio{
-            margin:0 0 20px 20px;
-            color:var(--color1);
-            font-size: 1em;
-            
-        }
-
-        input#env{
-            width: 95%;
-            margin: 5px 0px 15px 20px;
-            height: 5vh;
-            border-radius: 40px;
-            background-color: var(--color1);
-            border: none;
-            outline: none;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-        }
-
-        input#env:hover{
-            background: transparent;
-            color: var(--color3);
-            border: 2px solid var(--color1);
-            transition: all .5s;
-        }
-
-        button#back{
-            color:var(--color3);
-            text-decoration: underline;
-            background: none;
-            box-shadow: none;
-            border: none;
-            font-size: 1em;
-            margin-left: 20px;
-        }
-        button#back > a:visited{
-            color:var(--color1);
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/cadastro.css">
 </head>
-<?php 
- $nome = $_POST['nome'];
- $email = $_POST['email'];
- $senha = $_POST['senha'];
+<?php
+$nome = isset($_POST['nome']) ? $_POST['nome'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+$senha = isset($_POST['senha']) ? $_POST['senha'] : '';
 ?>
+
 <body>
     <div class="cadastro" id="cadastro">
         <form action="registro.php" autocomplete="on" method="POST">
@@ -96,26 +41,37 @@
             </div>
             <div class="inputbox">
                 <input type="text" name="sobrenome" id="sobrenome" required>
-                <label for="nome">Sobrenome:</label>
+                <label for="sobrenome">Sobrenome:</label>
             </div>
-
             <div class="inputbox">
-                <input type="date" name="dataNasc" id="dataNasc">
+                <input type="date" name="dataNasc" id="dataNasc" required>
                 <label for="dataNasc">Data de Nascimento:</label>
             </div>
-
             <div class="inputbox">
-                <input type="number" name="cpf" id="cpf">
+                <input type="text" name="cpf" id="cpf" required>
                 <label for="cpf">CPF:</label>
             </div>
-        
+
             <div class="inputbox">
-                <input type="text" name="endereco" id="endereco">
+                <input type="text" name="cep" id="cep" required>
+                <label for="cep">CEP:</label>
+            </div>
+
+            <div class="inputbox">
+                <input type="text" name="cidade" id="cidade" required>
+                <label for="cidade">Cidade:</label>
+            </div>
+            <div class="inputbox">
+                <input type="text" name="estado" id="estado" required>
+                <label for="estado">Estado:</label>
+            </div>
+            <div class="inputbox">
+                <input type="text" name="endereco" id="endereco" required>
                 <label for="endereco">Endereço:</label>
             </div>
             <div class="inputbox">
-                <input type="tel" name="telefone" id="telefone">
-                <label for="telefone">Número de telefone:</label>
+                <input type="text" name="complemento" id="complemento">
+                <label for="complemento">Complemento:</label>
             </div>
             <div class="inputbox">
                 <input type="email" name="email" id="email" required value="<?=$email?>">
@@ -127,17 +83,14 @@
             </div>
             <div class="radio">
                 <p>Qual seu objetivo? </p>
-                <input type="radio" name="perfil" id="adotante" value="adotante">
+                <input type="radio" name="perfil" id="adotante" value="adotante" required>
                 <label for="perfil">Adotar</label>
-                <input type="radio" name="perfil" id="doador" value="doador">
+                <input type="radio" name="perfil" id="doador" value="doador" required>
                 <label for="perfil">Doar</label>
             </div>
-
             <input type="submit" value="Cadastrar" id="env">
-
             <button id="back"><a href="Paglogin.php">Sou cadastrado</a></button>
         </form>    
     </div>
 </body>
 </html>
-

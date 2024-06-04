@@ -12,7 +12,7 @@ require __DIR__ . '/../../conexao.php';
 try {
     $dbh = Conexao::getConexao();
 
-    $query = "SELECT * FROM caopanheiro.usuarios";
+    $query = "SELECT * FROM caopanheiro.usuario";
     $stmt = $dbh->prepare($query);
     $stmt->execute();
 
@@ -74,20 +74,20 @@ try {
                         <?php else: ?>
                             <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
                                 <tr>
-                                    <td><?= intval($row['UsuarioID']); ?></td>
-                                    <td><?= htmlspecialchars($row['Nome'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td><?= htmlspecialchars($row['Sobrenome'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td><?= htmlspecialchars($row['DataNascimento'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td><?= htmlspecialchars($row['Endereco'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td><?= htmlspecialchars($row['Email'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td><?= htmlspecialchars($row['Perfil'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= intval($row['usuarioId']); ?></td>
+                                    <td><?= htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['sobrenome'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['data_nascimento'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['endereco'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?= htmlspecialchars($row['perfil'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?= ($row['status'] == 'ativo') ? 'ATIVO' : 'INATIVO'; ?></td>
                                     <td class="acoes">
                                         <button class="acoes"><a class="btnalterar" href="alterarUsuarios.php?Id=<?= intval($row['UsuarioID']); ?>">Alterar</a></button>
                                         <?php if ($row['status'] == 'ativo'): ?>
-                                            <button class="acoes"><a class="btnexcluir" href="excluirUsuarios.php?Id=<?= intval($row['UsuarioID']); ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a></button>
+                                            <button class="acoes"><a class="btnexcluir" href="excluirUsuarios.php?Id=<?= intval($row['usuarioId']); ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a></button>
                                         <?php else: ?>
-                                            <button class="acoes"><a class="btnexcluir" href="reativarUsuario.php?Id=<?=intval($row['UsuarioID']); ?>" onclick="return confirm('Deseja confirmar a operação?');">Reativar</a></button>
+                                            <button class="acoes"><a class="btnexcluir" href="reativarUsuario.php?Id=<?=intval($row['usuarioId']); ?>" onclick="return confirm('Deseja confirmar a operação?');">Reativar</a></button>
                                         <?php endif; ?>
                                     </td>
                                 </tr>

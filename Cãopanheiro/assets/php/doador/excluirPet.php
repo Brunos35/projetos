@@ -4,7 +4,7 @@
     $dbh = Conexao::getConexao();
 
     # cria o comando DELETE filtrado pelo campo id
-    $query = "DELETE FROM pet WHERE petId = :petId;";
+    $query = "DELETE FROM pets WHERE petId = :petId;";
 
     $stmt = $dbh->prepare($query);
     $stmt->bindParam(':petId', $_SESSION['petId']);

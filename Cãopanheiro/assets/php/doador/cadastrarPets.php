@@ -40,7 +40,7 @@ if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR
 
         if (move_uploaded_file($fileTmpPath, $dest_path)) {
             $relativeFilePath = 'doador/imgPets/' . $newFileName;
-            $query = "INSERT INTO caopanheiro.pet (nome, dataNascimento, raca, porte, sexo, descricao, doador, foto) 
+            $query = "INSERT INTO caopanheiro.pets (nome, dataNascimento, raca, porte, sexo, descricao, doador, foto) 
                       VALUES (:nome, :dataNascimento, :raca, :porte, :sexo, :descricao, :doador, :foto)";
             $stmt = $dbh->prepare($query);
             $stmt->bindParam(':nome', $petNome);

@@ -7,7 +7,7 @@ if (isset($_GET['Id'])) {
   $usuId = intval($_GET['Id']);
 
   # cria o comando DELETE filtrado pelo campo id
-  $query = "UPDATE caopanheiro.usuarios SET status = 'inativo' where UsuarioId = :id";
+  $query = "UPDATE caopanheiro.usuario SET status = 'inativo' where usuarioId = :id";
 
   $stmt = $dbh->prepare($query);
   $stmt->bindParam(':id', $usuId);
@@ -23,7 +23,6 @@ if (isset($_GET['Id'])) {
     exit();
   }
 } else {
-  // Se o ID do usuário não estiver presente na query string, redirecionar para uma página de erro ou tomar outra ação adequada
   echo "ID do usuário não fornecido!";
   exit();
 }

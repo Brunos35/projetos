@@ -9,7 +9,7 @@ if (isset($_GET['Id'])) {
     $usuId = intval($_GET['Id']);
 
     // Buscar os dados do usuário no banco de dados
-    $sql = "SELECT * FROM caopanheiro.usuarios WHERE UsuarioID = :usuarioId";
+    $sql = "SELECT * FROM caopanheiro.usuarios WHERE usuarioId = :usuarioId";
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':usuarioId', $usuId);
     $stmt->execute();
@@ -18,11 +18,11 @@ if (isset($_GET['Id'])) {
     // Verificar se o usuário foi encontrado
     if ($usuario) {
         // Dados do usuário encontrados, agora você pode preencher o formulário com esses dados
-        $nome = $usuario['Nome'];
-        $sobrenome = $usuario['Sobrenome'];
-        $data = $usuario['DataNascimento'];
-        $endereco = $usuario['Endereco'];
-        $email = $usuario['Email'];
+        $nome = $usuario['nome'];
+        $sobrenome = $usuario['sobrenome'];
+        $data = $usuario['data_nascimento'];
+        $endereco = $usuario['endereco'];
+        $email = $usuario['email'];
     } else {
         // Se o usuário não for encontrado, você pode redirecionar para uma página de erro ou tomar outra ação adequada
         echo "Usuário não encontrado!";

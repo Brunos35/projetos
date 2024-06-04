@@ -17,15 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Verificar se todos os campos estão preenchidos
     if (!empty($nome) && !empty($sobrenome) && !empty($dataNasc) && !empty($endereco) && !empty($email)) {
         // Atualizar os dados do usuário
-        $sql = "UPDATE caopanheiro.usuarios SET Nome = :nome, Sobrenome = :sobrenome, DataNascimento = :dataNasc, Endereco = :endereco, Email = :email";
+        $sql = "UPDATE caopanheiro.usuario SET nome = :nome, sobrenome = :sobrenome, data_nascimento = :dataNasc, endereco = :endereco, Email = :email";
 
         // Se uma nova senha foi fornecida, atualizar também a senha
         if (!empty($senha)) {
             $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-            $sql .= ", Senha = :senha";
+            $sql .= ", senha = :senha";
         }
 
-        $sql .= " WHERE UsuarioID = :id";
+        $sql .= " WHERE usuarioId = :id";
 
         // Preparar a consulta
         $stmt = $dbh->prepare($sql);

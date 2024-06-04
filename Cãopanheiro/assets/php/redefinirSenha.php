@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $novaSenha = password_hash($_POST['novaSenha'], PASSWORD_DEFAULT);
 
     try {
-        $sql = "UPDATE caopanheiro.usuarios SET Senha = :senha WHERE Email = :email";
+        $sql = "UPDATE caopanheiro.usuario SET senha = :senha WHERE email = :email";
         $stmt = $dbh->prepare($sql);
         $stmt->bindParam(":senha", $novaSenha);
         $stmt->bindParam(":email", $email);
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Erro: " . $e->getMessage();
     }
 } else {
-    header("Location: redefinir_form.php");
+    header("Location: redefinirSenha.php");
     exit();
 }
 ?>

@@ -11,18 +11,18 @@ if (!isset($_SESSION['usuId'])) {
 $dbh = Conexao::getConexao();
 
 // Consulta para obter os chats associados ao usuário e ordená-los pela última mensagem
-$stmt = $dbh->prepare("SELECT c.ChatID, 
-                              CASE WHEN c.Doador = :UsuarioID THEN (SELECT Nome FROM Usuarios WHERE UsuarioID = c.Adotante)
-                                   ELSE (SELECT Nome FROM Usuarios WHERE UsuarioID = c.Doador)
+$stmt = $dbh->prepare("SELECT c.chatId, 
+                              CASE WHEN c.doador = :usuarioId THEN (SELECT nome FROM usuario WHERE usuarioId = c.Adotante)
+                                   ELSE (SELECT nome FROM usuario WHERE usuarioId = c.doador)
                               END AS nomeDestinatario,
-                              CASE WHEN c.Doador = :UsuarioID THEN c.Adotante ELSE c.Doador END AS destinatarioID
-                      FROM Chats c
-                      LEFT JOIN Mensagens m ON c.ChatID = m.ChatID
-                      WHERE (c.Doador = :UsuarioID OR c.Adotante = :UsuarioID)
-                      GROUP BY c.ChatID
-                      ORDER BY MAX(m.DataEnvio) DESC");
+                              CASE WHEN c.doador = :usuarioId THEN c.adotante ELSE c.doador END AS destinatarioID
+                      FROM chats c
+                      LEFT JOIN mensagens m ON c.chatId = m.chatId
+                      WHERE (c.doador = :usuarioId OR c.adotante = :usuarioId)
+                      GROUP BY c.chatId
+                      ORDER BY MAX(m.dataEnvio) DESC");
 
-$stmt->bindParam(':UsuarioID', $_SESSION['usuId'], PDO::PARAM_INT);
+$stmt->bindParam(':usuarioId', $_SESSION['usuId'], PDO::PARAM_INT);
 $stmt->execute();
 
 $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -88,7 +88,7 @@ $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </span>
                     <li class="chat">
                         
-                        <a href="chat.php?id=<?= htmlspecialchars($chat['ChatID']); ?>&destinatario=<?= htmlspecialchars($chat['destinatarioID']); ?>">
+                        <a href="chat.php?id=<?= htmlspecialchars($chat['chatId']); ?>&destinatario=<?= htmlspecialchars($chat['destinatarioID']); ?>">
                             <?= htmlspecialchars($chat['nomeDestinatario']); ?>
                             
                         </a>

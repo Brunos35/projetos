@@ -7,7 +7,7 @@ require __DIR__ . '/../conexao.php';
 $dbh = Conexao::getConexao();
 
 # cria uma instrução SQL para selecionar todos os dados na tabela usuarios.
-$query = "SELECT * FROM caopanheiro.pet where doador = :doador";
+$query = "SELECT * FROM caopanheiro.pets where doador = :doador";
 
 # prepara a execução da query e retorna para uma variável chamada stmt.
 $stmt = $dbh->prepare($query);

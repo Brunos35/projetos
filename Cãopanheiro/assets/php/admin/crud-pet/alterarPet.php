@@ -115,9 +115,9 @@ if ($pet) {
                 <div class="radio">
                     <label>Sexo: </label>
                     <label for="macho">Macho</label>
-                    <input type="radio" name="sexo" id="macho" value="Macho" <?= $petSexo == 'Macho' ? 'checked' : '' ?>>
+                    <input type="radio" name="sexo" id="macho" value="M" <?= $petSexo == 'M' ? 'checked' : '' ?>>
                     <label for="femea">Fêmea</label>
-                    <input type="radio" name="sexo" id="femea" value="Fêmea" <?= $petSexo == 'Fêmea' ? 'checked' : '' ?>>
+                    <input type="radio" name="sexo" id="femea" value="F" <?= $petSexo == 'F' ? 'checked' : '' ?>>
                 </div>
                 <label for="descricao">Descrição:</label>
                 <textarea name="descricao" id="descricao" cols="30" rows="4" placeholder="Fale um pouco sobre o pet"><?= htmlspecialchars($petDescricao, ENT_QUOTES, 'UTF-8'); ?></textarea>

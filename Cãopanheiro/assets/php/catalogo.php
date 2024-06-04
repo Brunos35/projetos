@@ -20,7 +20,7 @@ $status = isset($_GET['status']) ? $_GET['status'] : '';
 $pesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '';
 
 // Construção da consulta SQL com base nos filtros e pesquisa
-$query = "SELECT * FROM caopanheiro.pet WHERE 1=1";
+$query = "SELECT * FROM caopanheiro.pets WHERE 1=1";
 $params = array();
 
 if (!empty($sexo)) {
@@ -45,7 +45,7 @@ $stmt->execute($params);
 $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Contagem total de registros para a paginação
-$totalQuery = "SELECT COUNT(*) AS total FROM caopanheiro.pet WHERE 1=1";
+$totalQuery = "SELECT COUNT(*) AS total FROM caopanheiro.pets WHERE 1=1";
 
 if (!empty($sexo)) {
     $totalQuery .= " AND sexo = ?";

@@ -4,7 +4,7 @@ require __DIR__ . '/assets/php/conexao.php';
 
 $dbh = Conexao::getConexao();
 
-$query = "SELECT * FROM caopanheiro.pet Limit 6";
+$query = "SELECT * FROM caopanheiro.pets Limit 6";
 $stmt = $dbh->prepare($query);
 $stmt->execute();
 $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
