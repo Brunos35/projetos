@@ -71,9 +71,9 @@ $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </header>
     <nav>
         <ul>
-            <li><a href="adotante_dashboard.php">Meu Perfil</a></li>
+            <li><a href="../adotante/adotante_dashboard.php">Meu Perfil</a></li>
             <li><a href="../catalogo.php">Pets disponíveis</a></li>
-            <li><a href="../chat/listaChats.php">Conversas</a></li>
+            <li><a href="listaChats.php">Conversas</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>

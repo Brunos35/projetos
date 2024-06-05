@@ -6,7 +6,7 @@ require __DIR__ . '/../../conexao.php';
 $dbh = Conexao::getConexao();
 
 # Definindo variáveis para paginação
-$porPagina = 5; // Número de registros por página
+$porPagina = 10; // Número de registros por página
 $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1; // Página atual
 
 # Definindo variáveis para os filtros e pesquisa
@@ -61,7 +61,20 @@ $petIds = [];
     <link rel="stylesheet" href="../../../css/filtro.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
+        div.content {
+            height: 85%;
+        }
 
+        div.pagination {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        a#pag {
+            display: inline-block;
+            width: 15px;
+            color: var(--color1);
+        }
     </style>
 </head>
 
@@ -122,12 +135,12 @@ $petIds = [];
                 </thead>
 
                 <tbody>
-                    <?php if ($quantidadeRegistros == 0): ?>
+                    <?php if ($quantidadeRegistros == 0) : ?>
                         <tr>
                             <td colspan="6">Não existem pets cadastrados.</td>
                         </tr>
-                    <?php else: ?>
-                        <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                    <?php else : ?>
+                        <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) : ?>
                             <?php
                             $status = $row['status'] == "adotado" ? "ADOTADO" : "DISPONÍVEL";
                             $petId = intval($row['petId']);
@@ -166,7 +179,7 @@ $petIds = [];
             # Exibe os links para navegação entre páginas
             for ($i = 1; $i <= $totalPaginas; $i++) :
             ?>
-                <a href="?pagina=<?= $i ?>&status=<?= $filtroStatus ?>&sexo=<?= $filtroSexo ?>&pesquisa=<?= $filtroPesquisa ?>"><?= $i ?></a>
+                <a id="pag" href="?pagina=<?= $i ?>&status=<?= $filtroStatus ?>&sexo=<?= $filtroSexo ?>&pesquisa=<?= $filtroPesquisa ?>"><?= $i ?></a>
             <?php endfor; ?>
         </div>
     </div>

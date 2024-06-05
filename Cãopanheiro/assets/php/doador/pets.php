@@ -2,15 +2,16 @@
 session_start();
 require __DIR__ . '/../conexao.php';
 
-# solicita a conexão com o banco de dados e guarda na variável dbh.
+# Conexão com o banco de dados
 $dbh = Conexao::getConexao();
 
 # Definindo variáveis para filtragem e paginação
-$filtroStatus = isset($_GET['status']) ? $_GET['status'] : ''; // Status do pet
-$filtroRaca = isset($_GET['raca']) ? $_GET['raca'] : ''; // Status do pet
-$filtroPesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : ''; // Status do pet
-$paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1; // Página atual
-$porPagina = 5; // Número de registros por página
+$filtroStatus = isset($_GET['status']) ? $_GET['status'] : ''; 
+$filtroRaca = isset($_GET['raca']) ? $_GET['raca'] : ''; 
+$filtroPesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : ''; 
+$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1; 
+$porPagina = 10; 
+$offset = ($paginaAtual - 1) * $porPagina;
 
 # Cria uma instrução SQL base para selecionar os dados na tabela pets onde o doador é o usuário logado.
 $query = "SELECT * FROM caopanheiro.pets WHERE doador = :doador";
@@ -30,7 +31,30 @@ if (!empty($filtroPesquisa)) {
     $query .= " AND (nome LIKE :pesquisa OR raca LIKE :pesquisa)";
 }
 
-# Prepara e executa a query novamente para obter os resultados paginados
+# Prepara a query para contagem total de registros
+$stmtCount = $dbh->prepare($query);
+$stmtCount->bindValue(':doador', $_SESSION['usuId'], PDO::PARAM_INT);
+if (!empty($filtroStatus)) {
+    $stmtCount->bindValue(':status', $filtroStatus, PDO::PARAM_STR);
+}
+if (!empty($filtroRaca)) {
+    $stmtCount->bindValue(':raca', '%' . $filtroRaca . '%', PDO::PARAM_STR);
+}
+if (!empty($filtroPesquisa)) {
+    $stmtCount->bindValue(':pesquisa', '%' . $filtroPesquisa . '%', PDO::PARAM_STR);
+}
+$stmtCount->execute();
+
+# Recupera a quantidade total de registros (sem limitação de paginação)
+$quantidadeRegistros = $stmtCount->rowCount();
+
+# Calcula o número total de páginas
+$totalPaginas = ceil($quantidadeRegistros / $porPagina);
+
+# Adiciona limitações de paginação à query
+$query .= " LIMIT :limit OFFSET :offset";
+
+# Prepara e executa a query com paginação
 $stmt = $dbh->prepare($query);
 $stmt->bindValue(':doador', $_SESSION['usuId'], PDO::PARAM_INT);
 if (!empty($filtroStatus)) {
@@ -42,13 +66,9 @@ if (!empty($filtroRaca)) {
 if (!empty($filtroPesquisa)) {
     $stmt->bindValue(':pesquisa', '%' . $filtroPesquisa . '%', PDO::PARAM_STR);
 }
+$stmt->bindValue(':limit', $porPagina, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
-
-# Recupera a quantidade total de registros (sem limitação de paginação)
-$quantidadeRegistros = $stmt->rowCount();
-
-# Calcula o número total de páginas
-$totalPaginas = ceil($quantidadeRegistros / $porPagina);
 ?>
 
 <!DOCTYPE html>
@@ -59,14 +79,21 @@ $totalPaginas = ceil($quantidadeRegistros / $porPagina);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
     <link rel="stylesheet" href="../../css/dashboards.css">
+    <link rel="stylesheet" href="../../css/pets.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
+        div.content {
+            height: 85%;
+        }
+
         form {
             margin-bottom: 20px;
             height: 40px;
         }
 
-        label {margin-right: 10px;}
+        label {
+            margin-right: 10px;
+        }
 
         select,
         input[type="text"] {
@@ -85,9 +112,24 @@ $totalPaginas = ceil($quantidadeRegistros / $porPagina);
             cursor: pointer;
         }
 
-        button[type="submit"]:hover {background-color: #0056b3;}
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
 
-        input[type="text"] {width: 200px;}
+        input[type="text"] {
+            width: 200px;
+        }
+
+        div.pagination {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        a#pag {
+            display: inline-block;
+            width: 15px;
+            color: var(--color1);
+        }
     </style>
 </head>
 
@@ -114,13 +156,13 @@ $totalPaginas = ceil($quantidadeRegistros / $porPagina);
             <label for="status">Filtrar por status:</label>
             <select name="status" id="status">
                 <option value="">Todos</option>
-                <option value="adotado">Adotado</option>
-                <option value="disponivel">Disponível</option>
+                <option value="adotado" <?= $filtroStatus === 'adotado' ? 'selected' : '' ?>>Adotado</option>
+                <option value="disponivel" <?= $filtroStatus === 'disponivel' ? 'selected' : '' ?>>Disponível</option>
             </select>
             <label for="raca">Filtrar por raça:</label>
-            <input type="text" name="raca" id="raca" placeholder="Raça">
+            <input type="text" name="raca" id="raca" placeholder="Raça" value="<?= htmlspecialchars($filtroRaca, ENT_QUOTES, 'UTF-8'); ?>">
             <label for="pesquisa">Pesquisar:</label>
-            <input type="text" name="pesquisa" id="pesquisa" placeholder="Digite aqui...">
+            <input type="text" name="pesquisa" id="pesquisa" placeholder="Digite aqui..." value="<?= htmlspecialchars($filtroPesquisa, ENT_QUOTES, 'UTF-8'); ?>">
             <button type="submit">Filtrar</button>
         </form>
 
@@ -163,7 +205,7 @@ $totalPaginas = ceil($quantidadeRegistros / $porPagina);
 
         <div class="pagination">
             <?php for ($i = 1; $i <= $totalPaginas; $i++) : ?>
-                <a href="?pagina=<?= $i ?><?= !empty($filtroStatus) ? '&status=' . $filtroStatus : '' ?>"><?= $i ?></a>
+                <a id="pag" href="?pagina=<?= $i ?><?= !empty($filtroStatus) ? '&status=' . $filtroStatus : '' ?><?= !empty($filtroRaca) ? '&raca=' . urlencode($filtroRaca) : '' ?><?= !empty($filtroPesquisa) ? '&pesquisa=' . urlencode($filtroPesquisa) : '' ?>"><?= $i ?></a>
             <?php endfor; ?>
         </div>
 

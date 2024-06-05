@@ -108,12 +108,6 @@ $pet = $stmt->fetch(PDO::FETCH_ASSOC);
                     <select name="raca" id="raca">
                         <option value="<?= $pet['raca'] ?>"><?= $pet['raca'] ?></option>
                         <option value="null">Selecione uma opção</option>
-                        <option value="labrador">labrador</option>
-                        <option value="golden retriever">golden retriever</option>
-                        <option value="dalmata">dalmata</option>
-                        <option value="bulldog">bulldog</option>
-                        <option value="pitbull">pitbull</option>
-                        <option value="pincher">pincher</option>
                     </select>
                 </div>
 
@@ -154,8 +148,16 @@ $pet = $stmt->fetch(PDO::FETCH_ASSOC);
             const racaSelect = document.getElementById('raca');
 
             const racas = {
-                cachorro: ['labrador', 'golden retriever', 'dalmata', 'bulldog', 'pitbull', 'pincher'],
-                gato: ['persa', 'siamês', 'maine coon', 'bengal', 'sphynx']
+                cachorro: [
+                    'labrador', 'golden retriever', 'dalmata', 'bulldog', 'pitbull', 'pincher', 
+                    'beagle', 'boxer', 'chihuahua', 'cocker spaniel', 'dachshund', 'doberman', 
+                    'german shepherd', 'poodle', 'rottweiler', 'schnauzer', 'shih tzu', 'yorkshire terrier'
+                ],
+                gato: [
+                    'persa', 'siamês', 'maine coon', 'bengal', 'sphynx',
+                    'angorá', 'ragdoll', 'savannah', 'abissínio', 'birmanês',
+                    'chartreux', 'himalayan', 'manx', 'norwegian forest', 'scottish fold'
+                ]
             };
 
             especieRadios.forEach(radio => {

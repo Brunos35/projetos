@@ -31,7 +31,7 @@ $usuarioId = $_SESSION['usuId'];
 </head>
 
 <body>
-    <button id="volta"><a href="listaChats.php">Voltar</a></button>
+    <button id="volta"><a onclick="history.go(-1)">Voltar</a></button>
     <div id="chat">
         <h2>Chat</h2>
         <div id="messages">

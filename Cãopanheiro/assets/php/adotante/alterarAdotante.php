@@ -61,7 +61,7 @@ $dbh = Conexao::getConexao();
         <ul>
             <li><a href="adotante_dashboard.php">Meu Perfil</a></li>
             <li><a href="../catalogo.php">Pets disponíveis</a></li>
-            <li><a href="adotanteChats.php">Conversas</a></li>
+            <li><a href="../chats/listChats.php">Conversas</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>
@@ -89,9 +89,7 @@ $dbh = Conexao::getConexao();
                 <label for="dataNasc">Data de Nascimento: </label>
                 <input type="date" name="alterDataNasc" id="alterDataNasc" value="<?=$_SESSION['data'] ?>">
                 <br>
-                <label for="cpf">CPF: </label>
-                <input type="number" name="alterCpf" id="alterCpf" value="<?=$_SESSION['cpf']?>">
-                <br>
+
                 <label for="alterEndereco">Endereço: </label>
                 <input type="text" name="alterEndereco" id="alterEndereco" value="<?=$_SESSION['endereco']?>">
                 <br>
@@ -119,15 +117,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['alterNome'];
     $sobrenome = $_POST['alterSobrenome'];
     $dataNasc = $_POST['alterDataNasc'];
-    $cpf = $_POST['alterCpf'];
+
     $endereco = $_POST['alterEndereco'];
     $email = $_POST['alterEmail'];
     $senha = $_POST['alterSenha'];
 
     // Verificar se todos os campos estão preenchidos
-    if (!empty($nome) && !empty($sobrenome) && !empty($dataNasc) && !empty($cpf) && !empty($endereco) && !empty($email)) {
+    if (!empty($nome) && !empty($sobrenome) && !empty($dataNasc) && !empty($endereco) && !empty($email)) {
         // Atualizar os dados do usuário
-        $sql = "UPDATE caopanheiro.usuario SET nome = :nome, sobrenome = :sobrenome, data_nascimento = :dataNasc, CPF = :cpf, endereco = :endereco, email = :email";
+        $sql = "UPDATE caopanheiro.usuario SET nome = :nome, sobrenome = :sobrenome, data_nascimento = :dataNasc, endereco = :endereco, email = :email";
         
         // Se uma nova senha foi fornecida, atualizar também a senha
         if (!empty($senha)) {
@@ -143,7 +141,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':sobrenome', $sobrenome);
         $stmt->bindParam(':dataNasc', $dataNasc);
-        $stmt->bindParam(':cpf', $cpf);
         $stmt->bindParam(':endereco', $endereco);
         $stmt->bindParam(':email', $email);
         
@@ -160,7 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['nome'] = $nome;
             $_SESSION['sobrenome'] = $sobrenome;
             $_SESSION['data'] = $dataNasc;
-            $_SESSION['cpf'] = $cpf;
             $_SESSION['endereco'] = $endereco;
             $_SESSION['email'] = $email;
             header("Location: alterarAdotante.php?status=success");
