@@ -95,6 +95,7 @@
 .message.sent .text {
     background-color: var(--color1);
     color: #ffffff;
+
 }
 
 .message.received .text {
@@ -131,4 +132,13 @@
 #sendMessageForm button:hover {
     background-color: var(--color2);
     color: var(--color1);
+}
+
+div.hora{
+    font-size: 0.7em;
+    font-weight: 600;
+}
+
+.message.sent .hora{
+    text-align: right;
 }

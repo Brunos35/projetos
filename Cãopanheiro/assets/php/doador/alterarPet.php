@@ -95,6 +95,14 @@ $pet = $stmt->fetch(PDO::FETCH_ASSOC);
                     <input type="radio" name="porte" id="grande" value="grande" <?= $pet['porte'] == 'grande' ? 'checked' : '' ?>>
                 </div>
 
+                <div class="radio">
+                    <label>Espécie: </label>
+                    <label for="cachorro">Cachorro</label>
+                    <input type="radio" name="especie" id="cachorro" value="cachorro" required>
+                    <label for="gato">Gato</label>
+                    <input type="radio" name="especie" id="gato" value="gato" required>
+                </div>
+
                 <div class="raca">
                     <label>Raça: </label>
                     <select name="raca" id="raca">
@@ -140,74 +148,109 @@ $pet = $stmt->fetch(PDO::FETCH_ASSOC);
     </main>
     <script src="../../js/script.js"></script>
     <script src="../../js/alert.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const especieRadios = document.querySelectorAll('input[name="especie"]');
+            const racaContainer = document.getElementById('raca-container');
+            const racaSelect = document.getElementById('raca');
+
+            const racas = {
+                cachorro: ['labrador', 'golden retriever', 'dalmata', 'bulldog', 'pitbull', 'pincher'],
+                gato: ['persa', 'siamês', 'maine coon', 'bengal', 'sphynx']
+            };
+
+            especieRadios.forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    const especie = event.target.value;
+                    racaSelect.innerHTML = '<option value="null">Selecione uma opção</option>';
+                    if (racas[especie]) {
+                        racas[especie].forEach(raca => {
+                            const option = document.createElement('option');
+                            option.value = raca;
+                            option.textContent = raca;
+                            racaSelect.appendChild(option);
+                        });
+                        racaContainer.style.display = 'block';
+                    } else {
+                        racaContainer.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
 
 </body>
 
 </html>
 <?php
+// Função para validar e sanitizar entradas
+function sanitizeInput($data)
+{
+    return htmlspecialchars(strip_tags(trim($data)));
+}
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $petNome = $_POST['alterNome'];
-    $petNascimento = $_POST['alterPetNasc'];
-    $petPorte = $_POST['porte'];
-    $petRaca = $_POST['raca'];
-    $petSexo = $_POST['sexo'];
-    $descricao = $_POST['descricao'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $usuarioId = $_SESSION['usuId'];
+    $petId = isset($_POST['petId']) ? intval($_POST['petId']) : null;
+    $petNome = sanitizeInput($_POST['alterNome']);
+    $petNasc = sanitizeInput($_POST['alterPetNasc']);
+    $especie = sanitizeInput($_POST['especie']);
+    $porte = sanitizeInput($_POST['porte']);
+    $raca = sanitizeInput($_POST['raca']);
+    $sexo = sanitizeInput($_POST['sexo']);
+    $descricao = sanitizeInput($_POST['descricao']);
 
-    $relativeFilePath = $pet['foto']; // Preserva o caminho original da foto
+    if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] === UPLOAD_ERR_OK) {
+        $fotoTmpPath = $_FILES['uploadFoto']['tmp_name'];
+        $fotoName = basename($_FILES['uploadFoto']['name']);
+        $fotoSize = $_FILES['uploadFoto']['size'];
+        $fotoType = $_FILES['uploadFoto']['type'];
 
-    if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR_OK) {
-        $uploadFilePath = __DIR__ . '/imgPets/';
+        $uploadDir = '../../uploads/';
+        $destPath = $uploadDir . $fotoName;
 
-        if (!is_dir($uploadFilePath)) {
-            if (!mkdir($uploadFilePath, 0777, true)) {
-                die('Erro ao criar o diretório de upload.');
-            }
-        }
+        $fotoTmpPath = $_FILES['uploadFoto']['tmp_name'];
+        $fotoName = basename($_FILES['uploadFoto']['name']);
+        $fotoSize = $_FILES['uploadFoto']['size'];
+        $fotoType = $_FILES['uploadFoto']['type'];
 
-        if (!is_writable($uploadFilePath)) {
-            die('O diretório de upload não possui permissões de escrita.');
-        }
+        $uploadDir = '../../uploads/';
+        $destPath = $uploadDir . $fotoName;
 
-        $fileTmpPath = $_FILES['uploadFoto']['tmp_name'];
-        $fileName = $_FILES['uploadFoto']['name'];
-        $fileNameCmps = explode(".", $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
-        $allowedfileExtensions = array('jpg', 'gif', 'png', 'jpeg');
+        // Mensagem de depuração para verificar o caminho temporário da foto
+        echo "Caminho temporário da foto: " . $fotoTmpPath . "<br>";
 
-        if (in_array($fileExtension, $allowedfileExtensions)) {
-            $newFileName = time() . '.' . $fileExtension;
-            $dest_path = $uploadFilePath . $newFileName;
+        // Mensagem de depuração para verificar o nome da foto
+        echo "Nome da foto: " . $fotoName . "<br>";
 
-            if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                $relativeFilePath = 'doador/imgPets/' . $newFileName;
-            } else {
-                echo "Erro ao mover o arquivo para o diretório de upload.";
+        // Mensagem de depuração para verificar o tamanho da foto
+        echo "Tamanho da foto: " . $fotoSize . " bytes<br>";
+
+        // Mensagem de depuração para verificar o tipo da foto
+        echo "Tipo da foto: " . $fotoType . "<br>";
+
+        if (move_uploaded_file($fotoTmpPath, $destPath)) {
+            try {
+                $dbh = Conexao::getConexao();
+                $stmt = $dbh->prepare("UPDATE pets SET nome = ?, dataNascimento = ?, especie = ?, porte = ?, raca = ?, sexo = ?, descricao = ?, foto = ? WHERE petId = ?");
+                $stmt->execute([$petNome, $petNasc, $especie, $porte, $raca, $sexo, $descricao, $fotoName, $petId]);
+                echo "Informações do pet atualizadas com sucesso!";
+            } catch (PDOException $e) {
+                echo "Erro ao atualizar informações do pet: " . $e->getMessage();
             }
         } else {
-            echo "Tipo de arquivo não permitido.";
+            echo "Erro ao fazer upload da foto.";
         }
-    }
-
-    $query = "UPDATE caopanheiro.pets SET nome = :nome, dataNascimento = :dataNascimento, raca = :raca, porte = :porte, sexo = :sexo, descricao = :descricao, foto = :foto WHERE petId = :petId";
-    $stmt = $dbh->prepare($query);
-    $stmt->bindParam(':nome', $petNome);
-    $stmt->bindParam(':dataNascimento', $petNascimento);
-    $stmt->bindParam(':raca', $petRaca);
-    $stmt->bindParam(':porte', $petPorte);
-    $stmt->bindParam(':sexo', $petSexo);
-    $stmt->bindParam(':descricao', $descricao);
-    $stmt->bindParam(':foto', $relativeFilePath);
-    $stmt->bindParam(':petId', $petId, PDO::PARAM_INT);
-    $result = $stmt->execute();
-
-    if ($result) {
-        header("Location: alterarPet.php?Id=$petId&status=success");
-        exit;
     } else {
-        echo '<p>Não foi possível cadastrar o pet!</p>';
-        $error = $dbh->errorInfo();
-        print_r($error);
+        try {
+            $dbh = Conexao::getConexao();
+            $stmt = $dbh->prepare("UPDATE pets SET nome = ?, dataNascimento = ?, especie = ?, porte = ?, raca = ?, sexo = ?, descricao = ? WHERE petId = ?");
+            $stmt->execute([$petNome, $petNasc, $especie, $porte, $raca, $sexo, $descricao, $petId]);
+            echo "Informações do pet atualizadas!";
+        } catch (PDOException $e) {
+            echo "Erro ao atualizar informações do pet: " . $e->getMessage();
+        }
     }
 }
 ?>

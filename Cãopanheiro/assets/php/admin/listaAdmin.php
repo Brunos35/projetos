@@ -1,16 +1,61 @@
 <?php
 session_start();
-
 require __DIR__ . '/../conexao.php';
 
 try {
     $dbh = Conexao::getConexao();
 
-    $query = "SELECT * FROM caopanheiro.administrador";
+    // Definindo variáveis para paginação
+    $porPagina = 5; // Número de registros por página
+    $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1; // Página atual
+
+    // Definindo variáveis para os filtros e pesquisa
+    $filtroStatus = isset($_GET['status']) ? $_GET['status'] : '';
+    $filtroPesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '';
+
+    // Construindo a query base
+    $query = "SELECT * FROM caopanheiro.administrador WHERE 1";
+
+    // Adicionando filtros
+    if (!empty($filtroStatus)) {
+        $query .= " AND status = :status";
+    }
+    if (!empty($filtroPesquisa)) {
+        $query .= " AND (nome LIKE :pesquisa OR sobrenome LIKE :pesquisa OR email LIKE :pesquisa)";
+    }
+
+    // Preparando a query com os filtros
     $stmt = $dbh->prepare($query);
+
+    // Adicionando valores dos filtros
+    if (!empty($filtroStatus)) {
+        $stmt->bindValue(':status', $filtroStatus, PDO::PARAM_STR);
+    }
+    if (!empty($filtroPesquisa)) {
+        $stmt->bindValue(':pesquisa', '%' . $filtroPesquisa . '%', PDO::PARAM_STR);
+    }
+
     $stmt->execute();
 
-    $quantidadeRegistros = $stmt->rowCount();
+    // Calculando total de registros e páginas
+    $totalRegistros = $stmt->rowCount();
+    $totalPaginas = ceil($totalRegistros / $porPagina);
+
+    // Calculando o offset para a página atual
+    $offset = ($paginaAtual - 1) * $porPagina;
+
+    // Construindo a query com limit e offset
+    $query .= " LIMIT $porPagina OFFSET $offset";
+
+    // Executando a query final
+    $stmt = $dbh->prepare($query);
+    if (!empty($filtroStatus)) {
+        $stmt->bindValue(':status', $filtroStatus, PDO::PARAM_STR);
+    }
+    if (!empty($filtroPesquisa)) {
+        $stmt->bindValue(':pesquisa', '%' . $filtroPesquisa . '%', PDO::PARAM_STR);
+    }
+    $stmt->execute();
 } catch (PDOException $e) {
     echo "Erro na conexão: " . $e->getMessage();
     die();
@@ -24,6 +69,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
     <link rel="stylesheet" href="../../css/dashboards.css">
+    <link rel="stylesheet" href="../../css/filtro.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
         #admin {
@@ -59,6 +105,19 @@ try {
         <div class="content" id="conteudo">
             <h1>Administradores cadastrados</h1>
             <hr>
+            <!-- Formulário de filtro e pesquisa -->
+            <form action="" method="GET">
+                <label for="status">Filtrar por status:</label>
+                <select name="status" id="status">
+                    <option value="">Todos</option>
+                    <option value="ativo" <?php if ($filtroStatus == 'ativo') echo 'selected'; ?>>Ativo</option>
+                    <option value="inativo" <?php if ($filtroStatus == 'inativo') echo 'selected'; ?>>Inativo</option>
+                </select>
+
+                <label for="pesquisa">Pesquisar:</label>
+                <input type="text" name="pesquisa" id="pesquisa" value="<?= $filtroPesquisa ?>" placeholder="Digite aqui...">
+                <button type="submit">Filtrar</button>
+            </form>
             <section>
                 <table>
                     <thead>
@@ -73,7 +132,7 @@ try {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if ($quantidadeRegistros == 0) : ?>
+                        <?php if ($totalRegistros == 0) : ?>
                             <tr>
                                 <td colspan="9">Não existem usuários cadastrados.</td>
                             </tr>
@@ -101,6 +160,12 @@ try {
                     </tbody>
                 </table>
             </section>
+            <!-- Paginação -->
+            <div class="pagination">
+                <?php for ($i = 1; $i <= $totalPaginas; $i++) : ?>
+                    <a href="?pagina=<?= $i ?>&status=<?= $filtroStatus ?>&perfil=<?= $filtroPerfil ?>&pesquisa=<?= $filtroPesquisa ?>"><?= $i ?></a>
+                <?php endfor; ?>
+            </div>
             <button id="admin"><a href="crud-admin/newAdmin.php">Novo Administador</a></button>
         </div>
     </main>

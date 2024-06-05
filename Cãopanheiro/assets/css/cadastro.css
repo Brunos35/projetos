@@ -5,7 +5,7 @@ html {
 body {
     background: var(--color1);
     width: 98vw !important;
-    height: 135vh !important;
+    height: 145vh !important;
 }
 
 div.cadastro {
@@ -18,9 +18,10 @@ div.cadastro {
 
 form {
     width: 50%;
-    background-color: var(--color2);
+    background-color: var(--color4);
     padding-bottom: 10px;
     border-radius: 10px;
+    font-weight: 600;
 }
 
 .inputbox {

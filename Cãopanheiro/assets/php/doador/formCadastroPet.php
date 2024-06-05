@@ -13,10 +13,11 @@ require __DIR__ . '/../conexao.php';
     <link rel="stylesheet" href="../../css/cadastroPet.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
-        nav{
+        nav {
             height: 115% !important;
         }
-        .content{
+
+        .content {
             height: 115%;
         }
     </style>
@@ -28,7 +29,7 @@ require __DIR__ . '/../conexao.php';
                 menu
             </span></button>
         <figure class="logo"><img src="../../img/logo1.png" alt=""></figure>
-        <div class="user-info">Bem-vindo, <?= $_SESSION['nome']; ?> <span id="username"></span></div>
+        <div class="user-info">Bem-vindo, <?= htmlspecialchars($_SESSION['nome'], ENT_QUOTES, 'UTF-8'); ?> <span id="username"></span></div>
     </header>
     <nav>
         <ul>
@@ -43,67 +44,95 @@ require __DIR__ . '/../conexao.php';
         <form action="cadastrarPets.php" method="post" enctype="multipart/form-data">
             <div>
                 <label for="petNome">Nome do Pet: </label>
-                <input type="text" name="petNome" id="petNome">
+                <input type="text" name="petNome" id="petNome" required>
             </div>
             <div>
                 <label for="petNasc">Data de nascimento: </label>
-                <input type="date" name="petNasc" id="petNasc">
+                <input type="date" name="petNasc" id="petNasc" required>
             </div>
 
             <div class="radio">
-            <label>Porte: </label>
-                <label for="pequeno">Pequeno</label>
-                <input type="radio" name="porte" id="pequeno" value="pequeno">
-                <label for="medio">Médio</label>
-                <input type="radio" name="porte" id="medio" value="medio">
-                <label for="grande">Grande</label>
-                <input type="radio" name="porte" id="grande" value="grande">
-                
+                <label>Espécie: </label>
+                <label for="cachorro">Cachorro</label>
+                <input type="radio" name="especie" id="cachorro" value="cachorro" required>
+                <label for="gato">Gato</label>
+                <input type="radio" name="especie" id="gato" value="gato" required>
             </div>
-            
-            <div class="raca">
+
+            <div class="radio">
+                <label>Porte: </label>
+                <label for="pequeno">Pequeno</label>
+                <input type="radio" name="porte" id="pequeno" value="pequeno" required>
+                <label for="medio">Médio</label>
+                <input type="radio" name="porte" id="medio" value="medio" required>
+                <label for="grande">Grande</label>
+                <input type="radio" name="porte" id="grande" value="grande" required>
+            </div>
+
+            <div class="raca" id="raca-container" style="display: none;">
                 <label>Raça: </label>
                 <select name="raca" id="raca" required>
                     <option value="null">Selecione uma opção</option>
-                    <option value="labrador">labrador</option>
-                    <option value="golden retriever">golden retriever</option>
-                    <option value="dalmata">dalmata</option>
-                    <option value="bulldog">bulldog</option>
-                    <option value="pitbull">pitbull</option>
-                    <option value="pincher">pincher</option>
                 </select>
             </div>
-            
+
             <div class="radio">
                 <label>Sexo: </label>
                 <label for="macho">Macho</label>
-                <input type="radio" name="sexo" id="macho" value="M">
+                <input type="radio" name="sexo" id="macho" value="M" required>
                 <label for="femea">Fêmea</label>
-                <input type="radio" name="sexo" id="femea" value="F">
+                <input type="radio" name="sexo" id="femea" value="F" required>
             </div>
             <label for="descricao">Descrição:</label>
-            <textarea name="descricao" id="descricao" cols="30" rows="4" placeholder="Fale um pouco sobre o pet"></textarea>
-        
-        <div class="dropzone-box" method="post">
-        <label>Adicione as fotos: </label>
-            <div class="dropzone-area">
-                <div class="uploadIcon">ICONE</div>
-                <input type="file" required id="uploadFoto" name="uploadFoto">
-                <p class="fotoInfo">Sem arquivo selecionado</p>
+            <textarea name="descricao" id="descricao" cols="30" rows="4" placeholder="Fale um pouco sobre o pet" required></textarea>
+
+            <div class="dropzone-box" method="post">
+                <label>Adicione as fotos: </label>
+                <div class="dropzone-area">
+                    <div class="uploadIcon">ICONE</div>
+                    <input type="file" id="uploadFoto" name="uploadFoto" required>
+                    <p class="fotoInfo">Sem arquivo selecionado</p>
+                </div>
+                <div class="dropzone-actions">
+                    <button type="reset">Cancelar</button>
+                </div>
             </div>
-            <div class="dropzone-actions">
-                <button type="reset">Cancelar</button>
-                
+            <div id="submit">
+                <input type="submit" value="Salvar">
             </div>
-        </div>
-        <div id="submit">
-            <input type="submit" value="Salvar">
-        </div>
         </form>
     </div>
 
-    <script src="../../js/fotos.js"></script>
-    <script src="../../js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const especieRadios = document.querySelectorAll('input[name="especie"]');
+            const racaContainer = document.getElementById('raca-container');
+            const racaSelect = document.getElementById('raca');
+
+            const racas = {
+                cachorro: ['labrador', 'golden retriever', 'dalmata', 'bulldog', 'pitbull', 'pincher'],
+                gato: ['persa', 'siamês', 'maine coon', 'bengal', 'sphynx']
+            };
+
+            especieRadios.forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    const especie = event.target.value;
+                    racaSelect.innerHTML = '<option value="null">Selecione uma opção</option>';
+                    if (racas[especie]) {
+                        racas[especie].forEach(raca => {
+                            const option = document.createElement('option');
+                            option.value = raca;
+                            option.textContent = raca;
+                            racaSelect.appendChild(option);
+                        });
+                        racaContainer.style.display = 'block';
+                    } else {
+                        racaContainer.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -15,7 +15,7 @@ if (!$dbh) {
 }
 
 $chatId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-$destinatario = htmlspecialchars($_GET['destinatario'], ENT_QUOTES, 'UTF-8');
+$destinatario = filter_input(INPUT_GET, 'destinatario', FILTER_SANITIZE_SPECIAL_CHARS);
 $usuarioId = $_SESSION['usuId'];
 
 ?>
@@ -28,12 +28,10 @@ $usuarioId = $_SESSION['usuId'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/chat.css">
     <title>Chat</title>
-
 </head>
 
 <body>
     <button id="volta"><a href="listaChats.php">Voltar</a></button>
-    <!-- Adicionando a área de chat -->
     <div id="chat">
         <h2>Chat</h2>
         <div id="messages">
@@ -41,8 +39,8 @@ $usuarioId = $_SESSION['usuId'];
         </div>
         <form id="sendMessageForm">
             <input type="hidden" name="destinatario" id="destinatario" value="<?= htmlspecialchars($destinatario, ENT_QUOTES, 'UTF-8') ?>">
-            <input type="hidden" name="chatId" id="chatId" value="<?= htmlspecialchars($chatId, ENT_QUOTES, 'UTF-8') ?>"> <!-- Campo oculto para chatId -->
-            <input type="hidden" name="usuarioId" id="usuarioId" value="<?= htmlspecialchars($usuarioId, ENT_QUOTES, 'UTF-8') ?>"> <!-- Campo oculto para usuarioId -->
+            <input type="hidden" name="chatId" id="chatId" value="<?= htmlspecialchars($chatId, ENT_QUOTES, 'UTF-8') ?>">
+            <input type="hidden" name="usuarioId" id="usuarioId" value="<?= htmlspecialchars($usuarioId, ENT_QUOTES, 'UTF-8') ?>">
             <textarea name="conteudo" id="conteudo" rows="3" required></textarea>
             <button type="submit">Enviar</button>
         </form>
@@ -56,7 +54,15 @@ $usuarioId = $_SESSION['usuId'];
             const sendMessageForm = document.getElementById('sendMessageForm');
             const conteudo = document.getElementById('conteudo');
 
-            // Função para carregar as mensagens
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                const month = ('0' + (date.getMonth() + 1)).slice(-2);
+                const day = ('0' + date.getDate()).slice(-2);
+                const hours = ('0' + date.getHours()).slice(-2);
+                const minutes = ('0' + date.getMinutes()).slice(-2);
+                return `${day}/${month} ${hours}:${minutes}`;
+            };
+
             const loadMessages = async () => {
                 try {
                     const response = await fetch(`receberMensagens.php?destinatario=${encodeURIComponent(destinatario)}`);
@@ -69,17 +75,16 @@ $usuarioId = $_SESSION['usuId'];
                     data.forEach(message => {
                         const messageDiv = document.createElement('div');
                         messageDiv.classList.add('message');
-                        messageDiv.classList.add(message.Remetente == usuarioId ? 'sent' : 'received');
-                        messageDiv.innerHTML = `<strong>${message.RemetenteNome}:</strong> <div class="text">${message.Conteudo}<br/> <div class="hora">${message.DataEnvio}</div></div>`;
+                        messageDiv.classList.add(message.remetente == usuarioId ? 'sent' : 'received');
+                        messageDiv.innerHTML = `<strong>${message.RemetenteNome}:</strong> <div class="text">${message.conteudo}<br/> <div class="hora">${formatDate(message.dataEnvio)}</div></div>`;
                         messagesDiv.appendChild(messageDiv);
                     });
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight; // Rolagem automática para o fim
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
                 } catch (error) {
                     console.error('Erro ao carregar mensagens:', error);
                 }
             };
 
-            // Enviar mensagem
             sendMessageForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const formData = new FormData(sendMessageForm);
@@ -99,7 +104,6 @@ $usuarioId = $_SESSION['usuId'];
                 }
             });
 
-            // Carregar mensagens inicialmente e a cada 10 segundos
             loadMessages();
             setInterval(loadMessages, 10000);
         });

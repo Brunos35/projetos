@@ -1,3 +1,8 @@
+<?php
+$nome = isset($_POST['nome']) ? $_POST['nome'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+$senha = isset($_POST['senha']) ? $_POST['senha'] : '';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -12,6 +17,24 @@
             $('#cpf').mask('000.000.000-00');
             $('#cep').mask('00000-000');
 
+            // Função para preencher os campos automaticamente ao inserir o CEP
+            $('#cep').on('blur', function() {
+                var cep = $(this).val().replace(/\D/g, '');
+                if (cep) {
+                    var url = 'https://viacep.com.br/ws/' + cep + '/json/';
+                    $.getJSON(url, function(data) {
+                        if (!("erro" in data)) {
+                            $('#cidade').val(data.localidade);
+                            $('#estado').val(data.uf);
+                            $('#endereco').val(data.logradouro);
+                            $('#complemento').val(data.complemento);
+                        } else {
+                            alert('CEP não encontrado');
+                        }
+                    });
+                }
+            });
+
             $('form').on('submit', function(e) {
                 let cpf = $('#cpf').val();
                 let cpfPattern = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
@@ -25,11 +48,6 @@
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/cadastro.css">
 </head>
-<?php
-$nome = isset($_POST['nome']) ? $_POST['nome'] : '';
-$email = isset($_POST['email']) ? $_POST['email'] : '';
-$senha = isset($_POST['senha']) ? $_POST['senha'] : '';
-?>
 
 <body>
     <div class="cadastro" id="cadastro">
@@ -93,4 +111,5 @@ $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
         </form>    
     </div>
 </body>
+
 </html>

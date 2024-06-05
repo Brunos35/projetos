@@ -16,7 +16,7 @@ if ($destinatario === false) {
 }
 
 try {
-    $query = "SELECT m.*, u.Nome as RemetenteNome FROM mensagens m JOIN usuarios u ON m.Remetente = u.UsuarioID WHERE (m.Remetente = :remetente AND m.Destinatario = :destinatario) OR (m.Remetente = :destinatario AND m.Destinatario = :remetente) ORDER BY m.DataEnvio ASC";
+    $query = "SELECT m.*, u.nome as RemetenteNome FROM mensagens m JOIN usuario u ON m.remetente = u.usuarioId WHERE (m.remetente = :remetente AND m.destinatario = :destinatario) OR (m.remetente = :destinatario AND m.destinatario = :remetente) ORDER BY m.dataEnvio ASC";
 
     $stmt = $dbh->prepare($query);
     $stmt->bindParam(':remetente', $remetente, PDO::PARAM_INT);

@@ -18,7 +18,7 @@ if ($destinatario === false || $chatId === false) {
 }
 
 try {
-    $query = "INSERT INTO mensagens (ChatID, Remetente, Destinatario, Conteudo, DataEnvio) VALUES (:chatId, :remetente, :destinatario, :conteudo, NOW())";
+    $query = "INSERT INTO mensagens (chatId, remetente, destinatario, conteudo, dataEnvio) VALUES (:chatId, :remetente, :destinatario, :conteudo, NOW())";
     
     $stmt = $dbh->prepare($query);
     $stmt->bindParam(':chatId', $chatId, PDO::PARAM_INT);

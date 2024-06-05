@@ -5,14 +5,46 @@ require __DIR__ . '/../../conexao.php';
 # solicita a conexão com o banco de dados e guarda na váriavel dbh.
 $dbh = Conexao::getConexao();
 
-# cria uma instrução SQL para selecionar todos os dados na tabela pet.
-$query = "SELECT * FROM caopanheiro.pets";
+# Definindo variáveis para paginação
+$porPagina = 5; // Número de registros por página
+$paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1; // Página atual
 
-# prepara a execução da query e retorna para uma variável chamada stmt.
+# Definindo variáveis para os filtros e pesquisa
+$filtroStatus = isset($_GET['status']) ? $_GET['status'] : '';
+$filtroSexo = isset($_GET['sexo']) ? $_GET['sexo'] : '';
+$filtroPesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '';
+
+# Cria uma instrução SQL para selecionar todos os dados na tabela pet.
+$query = "SELECT * FROM caopanheiro.pets WHERE 1";
+
+# Adicionando filtros
+if (!empty($filtroStatus)) {
+    $query .= " AND status = :status";
+}
+if (!empty($filtroSexo)) {
+    $query .= " AND sexo = :sexo";
+}
+if (!empty($filtroPesquisa)) {
+    $query .= " AND (doador LIKE :pesquisa OR nome LIKE :pesquisa OR raca LIKE :pesquisa)";
+}
+
+# Preparando a execução da query e retornando para uma variável chamada stmt.
 $stmt = $dbh->prepare($query);
+
+# Adicionando valores dos filtros
+if (!empty($filtroStatus)) {
+    $stmt->bindValue(':status', $filtroStatus, PDO::PARAM_STR);
+}
+if (!empty($filtroSexo)) {
+    $stmt->bindValue(':sexo', $filtroSexo, PDO::PARAM_STR);
+}
+if (!empty($filtroPesquisa)) {
+    $stmt->bindValue(':pesquisa', '%' . $filtroPesquisa . '%', PDO::PARAM_STR);
+}
+
 $stmt->execute();
 
-# devolve a quantidade de linhas retornada pela consulta a tabela.
+# Devolve a quantidade de linhas retornada pela consulta a tabela.
 $quantidadeRegistros = $stmt->rowCount();
 
 # Cria um array para armazenar os IDs dos pets.
@@ -26,6 +58,7 @@ $petIds = [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita</title>
     <link rel="stylesheet" href="../../../css/dashboards.css">
+    <link rel="stylesheet" href="../../../css/filtro.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
 
@@ -55,6 +88,25 @@ $petIds = [];
         </section>
 
         <hr>
+
+        <!-- Formulário de filtro e pesquisa -->
+        <form action="" method="GET">
+            <label for="status">Filtrar por status:</label>
+            <select name="status" id="status">
+                <option value="">Todos</option>
+                <option value="adotado" <?php if ($filtroStatus == 'adotado') echo 'selected'; ?>>Adotado</option>
+                <option value="disponivel" <?php if ($filtroStatus == 'disponivel') echo 'selected'; ?>>Disponível</option>
+            </select>
+            <label for="sexo">Filtrar por sexo:</label>
+            <select name="sexo" id="sexo">
+                <option value="">Todos</option>
+                <option value="M" <?php if ($filtroSexo == 'macho') echo 'selected'; ?>>Macho</option>
+                <option value="F" <?php if ($filtroSexo == 'femea') echo 'selected'; ?>>Fêmea</option>
+            </select>
+            <label for="pesquisa">Pesquisar:</label>
+            <input type="text" name="pesquisa" id="pesquisa" value="<?= $filtroPesquisa ?>" placeholder="Digite aqui...">
+            <button type="submit">Filtrar</button>
+        </form>
 
         <section>
             <table id="pet">
@@ -105,6 +157,18 @@ $petIds = [];
                 </tbody>
             </table>
         </section>
+        <!-- Paginação -->
+        <div class="pagination">
+            <?php
+            # Calcula o total de páginas
+            $totalPaginas = ceil(count($petIds) / $porPagina);
+
+            # Exibe os links para navegação entre páginas
+            for ($i = 1; $i <= $totalPaginas; $i++) :
+            ?>
+                <a href="?pagina=<?= $i ?>&status=<?= $filtroStatus ?>&sexo=<?= $filtroSexo ?>&pesquisa=<?= $filtroPesquisa ?>"><?= $i ?></a>
+            <?php endfor; ?>
+        </div>
     </div>
 
     <script src="../../../js/script.js"></script>
