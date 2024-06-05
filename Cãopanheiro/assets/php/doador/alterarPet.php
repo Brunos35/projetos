@@ -73,8 +73,8 @@ $pet = $stmt->fetch(PDO::FETCH_ASSOC);
                 </div>';
             }
             ?>
-            <form action="alterarPet.php?Id=<?= $petId ?>" method="post">
-                <input type="hidden" name="Id" value="<?= $petId ?>">
+            <form action="alterarPet.php?Id=<?= $petId ?>" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="petId" value="<?= $petId ?>">
                 <div>
                     <label for="alterNome">Nome do Pet: </label>
                     <input type="text" name="alterNome" id="alterNome" value="<?= $pet['nome'] ?>">
@@ -98,9 +98,9 @@ $pet = $stmt->fetch(PDO::FETCH_ASSOC);
                 <div class="radio">
                     <label>Espécie: </label>
                     <label for="cachorro">Cachorro</label>
-                    <input type="radio" name="especie" id="cachorro" value="cachorro" required>
+                    <input type="radio" name="especie" id="cachorro" value="cachorro" required <?= $pet['especie'] == 'cachorro' ? 'checked' : '' ?>>
                     <label for="gato">Gato</label>
-                    <input type="radio" name="especie" id="gato" value="gato" required>
+                    <input type="radio" name="especie" id="gato" value="gato" required <?= $pet['especie'] == 'gato' ? 'checked' : '' ?>>
                 </div>
 
                 <div class="raca">
@@ -127,7 +127,7 @@ $pet = $stmt->fetch(PDO::FETCH_ASSOC);
                 <label for="descricao">Descrição:</label>
                 <textarea name="descricao" id="descricao" cols="30" rows="4" placeholder="Fale um pouco sobre o pet"><?= $pet['descricao'] ?></textarea>
 
-                <div class="dropzone-box" method="post">
+                <div class="dropzone-box">
                     <label>Adicione as fotos: </label>
                     <div class="dropzone-area">
                         <div class="uploadIcon">ICONE</div>
@@ -136,7 +136,6 @@ $pet = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
                     <div class="dropzone-actions">
                         <button type="reset">Cancelar</button>
-
                     </div>
                 </div>
                 <div id="submit">
@@ -179,7 +178,6 @@ $pet = $stmt->fetch(PDO::FETCH_ASSOC);
         });
     </script>
 
-
 </body>
 
 </html>
@@ -204,38 +202,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] === UPLOAD_ERR_OK) {
         $fotoTmpPath = $_FILES['uploadFoto']['tmp_name'];
         $fotoName = basename($_FILES['uploadFoto']['name']);
-        $fotoSize = $_FILES['uploadFoto']['size'];
-        $fotoType = $_FILES['uploadFoto']['type'];
-
-        $uploadDir = '../../uploads/';
+        $uploadDir = __DIR__ . '/imgPets/';
+        $relativePath = 'doador/imgPets/' . $fotoName;
         $destPath = $uploadDir . $fotoName;
 
-        $fotoTmpPath = $_FILES['uploadFoto']['tmp_name'];
-        $fotoName = basename($_FILES['uploadFoto']['name']);
-        $fotoSize = $_FILES['uploadFoto']['size'];
-        $fotoType = $_FILES['uploadFoto']['type'];
-
-        $uploadDir = '../../uploads/';
-        $destPath = $uploadDir . $fotoName;
-
-        // Mensagem de depuração para verificar o caminho temporário da foto
-        echo "Caminho temporário da foto: " . $fotoTmpPath . "<br>";
-
-        // Mensagem de depuração para verificar o nome da foto
-        echo "Nome da foto: " . $fotoName . "<br>";
-
-        // Mensagem de depuração para verificar o tamanho da foto
-        echo "Tamanho da foto: " . $fotoSize . " bytes<br>";
-
-        // Mensagem de depuração para verificar o tipo da foto
-        echo "Tipo da foto: " . $fotoType . "<br>";
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
 
         if (move_uploaded_file($fotoTmpPath, $destPath)) {
             try {
                 $dbh = Conexao::getConexao();
                 $stmt = $dbh->prepare("UPDATE pets SET nome = ?, dataNascimento = ?, especie = ?, porte = ?, raca = ?, sexo = ?, descricao = ?, foto = ? WHERE petId = ?");
-                $stmt->execute([$petNome, $petNasc, $especie, $porte, $raca, $sexo, $descricao, $fotoName, $petId]);
-                echo "Informações do pet atualizadas com sucesso!";
+                $stmt->execute([$petNome, $petNasc, $especie, $porte, $raca, $sexo, $descricao, $relativePath, $petId]);
+                header("location: alterarPet.php?status=success&Id=$petId");
             } catch (PDOException $e) {
                 echo "Erro ao atualizar informações do pet: " . $e->getMessage();
             }
@@ -248,6 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $dbh->prepare("UPDATE pets SET nome = ?, dataNascimento = ?, especie = ?, porte = ?, raca = ?, sexo = ?, descricao = ? WHERE petId = ?");
             $stmt->execute([$petNome, $petNasc, $especie, $porte, $raca, $sexo, $descricao, $petId]);
             echo "Informações do pet atualizadas!";
+            header("location: alterarPet.php?status=success&Id=$petId");
         } catch (PDOException $e) {
             echo "Erro ao atualizar informações do pet: " . $e->getMessage();
         }

@@ -29,15 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fotoSize = $_FILES['uploadFoto']['size'];
         $fotoType = $_FILES['uploadFoto']['type'];
 
-        $uploadDir = '../../uploads/';
+        $uploadDir = __DIR__ . '/imgPets/';
+        $relativePath = 'doador/imgPets/' . $fotoName;
         $destPath = $uploadDir . $fotoName;
 
         if (move_uploaded_file($fotoTmpPath, $destPath)) {
             try {
                 $dbh = Conexao::getConexao();
-                $stmt = $dbh->prepare("INSERT INTO pets (usuario_id, nome, dataNascimento, especie, porte, raca, sexo, descricao, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$usuarioId, $petNome, $petNasc, $especie, $porte, $raca, $sexo, $descricao, $fotoName]);
-                echo "Pet cadastrado com sucesso!";
+                $stmt = $dbh->prepare("INSERT INTO pets (doador, nome, dataNascimento, especie, porte, raca, sexo, descricao, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$usuarioId, $petNome, $petNasc, $especie, $porte, $raca, $sexo, $descricao, $relativePath]);
+                header("location: formCadastroPet.php?status=success");
             } catch (PDOException $e) {
                 echo "Erro ao cadastrar pet: " . $e->getMessage();
             }

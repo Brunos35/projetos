@@ -41,6 +41,14 @@ require __DIR__ . '/../conexao.php';
     </nav>
     <div class="content" id="conteudo">
         <h1>Cadastrar pets</h1>
+        <?php
+        if (isset($_GET['status']) && $_GET['status'] == 'success') {
+            echo '<div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display = \'none\';">&times;</span>
+                Dados Alterados com sucesso!
+                </div>';
+        }
+        ?>
         <form action="cadastrarPets.php" method="post" enctype="multipart/form-data">
             <div>
                 <label for="petNome">Nome do Pet: </label>
@@ -133,6 +141,7 @@ require __DIR__ . '/../conexao.php';
             });
         });
     </script>
+    <script src="../../js/alert.js"></script>
 </body>
 
 </html>
