@@ -2,82 +2,23 @@
 ob_start();
 session_start();
 require __DIR__ . '/../conexao.php';
+
 $dbh = Conexao::getConexao();
 
-// Verifica se o formulário foi submetido
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $petNome = $_POST['alterNome'];
-    $petNascimento = $_POST['alterPetNasc'];
-    $petPorte = $_POST['porte'];
-    $petRaca = $_POST['raca'];
-    $petSexo = $_POST['sexo'];
-    $descricao = $_POST['descricao'];
-
-    // Verifica se o upload da foto foi realizado com sucesso
-    if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR_OK) {
-        // Diretório de upload
-        $uploadFilePath = __DIR__ . '/imgPets/';
-        
-        // Verifica e cria o diretório de upload, se necessário
-        if (!is_dir($uploadFilePath)) {
-            if (!mkdir($uploadFilePath, 0777, true)) {
-                die('Erro ao criar o diretório de upload.');
-            }
-        }
-
-        // Verifica se o diretório de upload possui permissões de escrita
-        if (!is_writable($uploadFilePath)) {
-            die('O diretório de upload não possui permissões de escrita.');
-        }
-
-        // Informações do arquivo enviado
-        $fileTmpPath = $_FILES['uploadFoto']['tmp_name'];
-        $fileName = $_FILES['uploadFoto']['name'];
-        $fileNameCmps = explode(".", $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
-        $allowedfileExtensions = array('jpg', 'gif', 'png', 'jpeg');
-
-        // Verifica a extensão do arquivo
-        if (in_array($fileExtension, $allowedfileExtensions)) {
-            // Gera um novo nome único para o arquivo
-            $newFileName = time() . '.' . $fileExtension;
-            $dest_path = $uploadFilePath . $newFileName;
-
-            // Move o arquivo para o diretório de upload
-            if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                $relativeFilePath = 'doador/imgPets/' . $newFileName;
-                $query = "UPDATE caopanheiro.pets SET nome = :nome, dataNascimento = :dataNascimento, raca = :raca, porte = :porte, sexo = :sexo, descricao = :descricao, foto = :foto WHERE petId = :petId";
-                $stmt = $dbh->prepare($query);
-                $stmt->bindParam(':nome', $petNome);
-                $stmt->bindParam(':dataNascimento', $petNascimento);
-                $stmt->bindParam(':raca', $petRaca);
-                $stmt->bindParam(':porte', $petPorte);
-                $stmt->bindParam(':sexo', $petSexo);
-                $stmt->bindParam(':descricao', $descricao);
-                $stmt->bindParam(':foto', $relativeFilePath);
-                $stmt->bindParam(':petId', $_SESSION['petId']);
-                $result = $stmt->execute();
-
-                // Redireciona após a operação ser concluída
-                if ($result) {
-                    header("Location: pets.php?status=success");
-                    exit;
-                } else {
-                    echo '<p>Não foi possível cadastrar o pet!</p>';
-                    $error = $dbh->errorInfo();
-                    print_r($error);
-                }
-            } else {
-                echo "Erro ao mover o arquivo para o diretório de upload.";
-            }
-        } else {
-            echo "Tipo de arquivo não permitido.";
-        }
-    } else {
-        echo "Nenhuma imagem enviada ou houve um erro no upload.";
-    }
+if (isset($_GET['Id'])) {
+    $petId = intval($_GET['Id']);
+} elseif (isset($_POST['petId'])) {
+    $petId = intval($_POST['petId']);
+} else {
+    die('ID do pet não fornecido.');
 }
 
+$query = "SELECT * FROM caopanheiro.pets WHERE petId = :id";
+$stmt = $dbh->prepare($query);
+$stmt->bindValue(':id', $petId, PDO::PARAM_INT);
+$stmt->execute();
+
+$pet = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -115,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <ul>
             <li><a href="pets.php">Meus Pet</a></li>
             <li><a href="doador_dashboard.php">Meu Perfil</a></li>
-            <li><a href="../chat/listaChats.php">Conversas</a></li>
+            <li><a href="chatsDoador.php">Conversas</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>
@@ -132,31 +73,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>';
             }
             ?>
-            <form action="alterarPet.php" method="post">
+            <form action="alterarPet.php?Id=<?= $petId ?>" method="post">
+                <input type="hidden" name="Id" value="<?= $petId ?>">
                 <div>
                     <label for="alterNome">Nome do Pet: </label>
-                    <input type="text" name="alterNome" id="alterNome" value="<?= $_SESSION['petNome'] ?>">
+                    <input type="text" name="alterNome" id="alterNome" value="<?= $pet['nome'] ?>">
                 </div>
 
                 <div>
                     <label for="alterPetNasc">Data de nascimento: </label>
-                    <input type="date" name="alterPetNasc" id="alterPetNasc" value="<?= $_SESSION['petDataNasc'] ?>">
+                    <input type="date" name="alterPetNasc" id="alterPetNasc" value="<?= $pet['dataNascimento'] ?>">
                 </div>
 
                 <div class="radio">
                     <label>Porte: </label>
                     <label for="pequeno">Pequeno</label>
-                    <input type="radio" name="porte" id="pequeno" value="pequeno" <?= $_SESSION['petPorte'] == 'pequeno' ? 'checked' : '' ?>>
+                    <input type="radio" name="porte" id="pequeno" value="pequeno" <?= $pet['porte'] == 'pequeno' ? 'checked' : '' ?>>
                     <label for="medio">Médio</label>
-                    <input type="radio" name="porte" id="medio" value="medio" <?= $_SESSION['petPorte'] == 'medio' ? 'checked' : '' ?>>
+                    <input type="radio" name="porte" id="medio" value="medio" <?= $pet['porte'] == 'medio' ? 'checked' : '' ?>>
                     <label for="grande">Grande</label>
-                    <input type="radio" name="porte" id="grande" value="grande" <?= $_SESSION['petPorte'] == 'grande' ? 'checked' : '' ?>>
+                    <input type="radio" name="porte" id="grande" value="grande" <?= $pet['porte'] == 'grande' ? 'checked' : '' ?>>
                 </div>
 
                 <div class="raca">
                     <label>Raça: </label>
                     <select name="raca" id="raca">
-                       <option value="<?= $_SESSION['petRaca'] ?>"><?= $_SESSION['petRaca'] ?></option> <option value="null">Selecione uma opção</option>                        
+                        <option value="<?= $pet['raca'] ?>"><?= $pet['raca'] ?></option>
+                        <option value="null">Selecione uma opção</option>
                         <option value="labrador">labrador</option>
                         <option value="golden retriever">golden retriever</option>
                         <option value="dalmata">dalmata</option>
@@ -169,18 +112,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="radio">
                     <label>Sexo: </label>
                     <label for="macho">Macho</label>
-                    <input type="radio" name="sexo" id="macho" value="M" <?= $_SESSION['petSexo'] == 'M' ? 'checked' : '' ?>>
+                    <input type="radio" name="sexo" id="macho" value="M" <?= $pet['sexo'] == 'M' ? 'checked' : '' ?>>
                     <label for="femea">Fêmea</label>
-                    <input type="radio" name="sexo" id="femea" value="F" <?= $_SESSION['petSexo'] == 'F' ? 'checked' : '' ?>>
+                    <input type="radio" name="sexo" id="femea" value="F" <?= $pet['sexo'] == 'F' ? 'checked' : '' ?>>
                 </div>
                 <label for="descricao">Descrição:</label>
-                <textarea name="descricao" id="descricao" cols="30" rows="4" placeholder="Fale um pouco sobre o pet"><?= $_SESSION['petDescricao'] ?></textarea>
+                <textarea name="descricao" id="descricao" cols="30" rows="4" placeholder="Fale um pouco sobre o pet"><?= $pet['descricao'] ?></textarea>
 
                 <div class="dropzone-box" method="post">
                     <label>Adicione as fotos: </label>
                     <div class="dropzone-area">
                         <div class="uploadIcon">ICONE</div>
-                        <input type="file" id="uploadFoto" name="uploadFoto" >
+                        <input type="file" id="uploadFoto" name="uploadFoto">
                         <p class="fotoInfo">Sem arquivo selecionado</p>
                     </div>
                     <div class="dropzone-actions">
@@ -201,3 +144,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $petNome = $_POST['alterNome'];
+    $petNascimento = $_POST['alterPetNasc'];
+    $petPorte = $_POST['porte'];
+    $petRaca = $_POST['raca'];
+    $petSexo = $_POST['sexo'];
+    $descricao = $_POST['descricao'];
+
+    $relativeFilePath = $pet['foto']; // Preserva o caminho original da foto
+
+    if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR_OK) {
+        $uploadFilePath = __DIR__ . '/imgPets/';
+
+        if (!is_dir($uploadFilePath)) {
+            if (!mkdir($uploadFilePath, 0777, true)) {
+                die('Erro ao criar o diretório de upload.');
+            }
+        }
+
+        if (!is_writable($uploadFilePath)) {
+            die('O diretório de upload não possui permissões de escrita.');
+        }
+
+        $fileTmpPath = $_FILES['uploadFoto']['tmp_name'];
+        $fileName = $_FILES['uploadFoto']['name'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+        $allowedfileExtensions = array('jpg', 'gif', 'png', 'jpeg');
+
+        if (in_array($fileExtension, $allowedfileExtensions)) {
+            $newFileName = time() . '.' . $fileExtension;
+            $dest_path = $uploadFilePath . $newFileName;
+
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                $relativeFilePath = 'doador/imgPets/' . $newFileName;
+            } else {
+                echo "Erro ao mover o arquivo para o diretório de upload.";
+            }
+        } else {
+            echo "Tipo de arquivo não permitido.";
+        }
+    }
+
+    $query = "UPDATE caopanheiro.pets SET nome = :nome, dataNascimento = :dataNascimento, raca = :raca, porte = :porte, sexo = :sexo, descricao = :descricao, foto = :foto WHERE petId = :petId";
+    $stmt = $dbh->prepare($query);
+    $stmt->bindParam(':nome', $petNome);
+    $stmt->bindParam(':dataNascimento', $petNascimento);
+    $stmt->bindParam(':raca', $petRaca);
+    $stmt->bindParam(':porte', $petPorte);
+    $stmt->bindParam(':sexo', $petSexo);
+    $stmt->bindParam(':descricao', $descricao);
+    $stmt->bindParam(':foto', $relativeFilePath);
+    $stmt->bindParam(':petId', $petId, PDO::PARAM_INT);
+    $result = $stmt->execute();
+
+    if ($result) {
+        header("Location: alterarPet.php?Id=$petId&status=success");
+        exit;
+    } else {
+        echo '<p>Não foi possível cadastrar o pet!</p>';
+        $error = $dbh->errorInfo();
+        print_r($error);
+    }
+}
+?>

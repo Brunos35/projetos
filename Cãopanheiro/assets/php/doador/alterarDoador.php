@@ -61,7 +61,7 @@ $dbh = Conexao::getConexao();
         <ul>
             <li><a href="pets.php">Meus Pet</a></li>
             <li><a href="doador_dashboard.php">Meu Perfil</a></li>
-            <li><a href="../chat/listaChats.php">Conversas</a></li>
+            <li><a href="chatsDoador.php">Conversas</a></li>
             <li><a href="../logout.php">Sair</a></li>
         </ul>
     </nav>
@@ -96,8 +96,8 @@ $dbh = Conexao::getConexao();
                 <input type="text" name="alterEndereco" id="alterEndereco" value="<?=$_SESSION['endereco']?>">
                 <br>
                 <label for="alterEmail">E-mail</label>
-                <input type="email" name="alterEmail" id="alterEmail" required autofocus value="<?=$_SESSION['email']?>"><br>
-
+                <input type="email" name="alterEmail" id="alterEmail" required autofocus value="<?=$_SESSION['email']?>">
+                <br>
                 <label for="alterSenha">Nova senha: </label>
                 <input type="password" name="alterSenha" id="alterSenha">
                 <br>

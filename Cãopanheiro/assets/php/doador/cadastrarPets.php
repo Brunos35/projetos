@@ -55,6 +55,7 @@ if (isset($_FILES['uploadFoto']) && $_FILES['uploadFoto']['error'] == UPLOAD_ERR
 
             if ($result) {
                 echo "<script>alert('Cadastrado com Sucesso!');</script>";
+                
                 header("Location: pets.php");
                 exit;
             } else {

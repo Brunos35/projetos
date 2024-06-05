@@ -43,7 +43,7 @@ try {
             <li><a href="listaUsuarios.php">Usuários cadastrados</a></li>
             <li><a href="../administrador_dashboard.php">Meu Perfil</a></li>
             <li><a href="../listaAdmin.php">Administradores</a></li>
-            <li><a href="../chat/listaChats.php">Conversas</a></li>
+            <li><a href="../adminChats.php">Conversas</a></li>
             <li><a href="../../logout.php">Sair</a></li>
         </ul>
     </nav>
@@ -83,7 +83,7 @@ try {
                                     <td><?= htmlspecialchars($row['perfil'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?= ($row['status'] == 'ativo') ? 'ATIVO' : 'INATIVO'; ?></td>
                                     <td class="acoes">
-                                        <button class="acoes"><a class="btnalterar" href="alterarUsuarios.php?Id=<?= intval($row['UsuarioID']); ?>">Alterar</a></button>
+                                        <button class="acoes"><a class="btnalterar" href="alterarUsuarios.php?Id=<?=intval($row['usuarioId']); ?>">Alterar</a></button>
                                         <?php if ($row['status'] == 'ativo'): ?>
                                             <button class="acoes"><a class="btnexcluir" href="excluirUsuarios.php?Id=<?= intval($row['usuarioId']); ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a></button>
                                         <?php else: ?>

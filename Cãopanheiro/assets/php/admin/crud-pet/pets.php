@@ -6,7 +6,7 @@ require __DIR__ . '/../../conexao.php';
 $dbh = Conexao::getConexao();
 
 # cria uma instrução SQL para selecionar todos os dados na tabela pet.
-$query = "SELECT * FROM caopanheiro.pet";
+$query = "SELECT * FROM caopanheiro.pets";
 
 # prepara a execução da query e retorna para uma variável chamada stmt.
 $stmt = $dbh->prepare($query);
@@ -46,7 +46,7 @@ $petIds = [];
             <li><a href="../crud-usuario/listaUsuarios.php">Usuários cadastrados</a></li>
             <li><a href="../administrador_dashboard.php">Meu Perfil</a></li>
             <li><a href="../listaAdmin.php">Administradores</a></li>
-            <li><a href="../chat/listaChats.php">Conversas</a></li>
+            <li><a href="adminChats.php">Conversas</a></li>
             <li><a href="../../logout.php">Sair</a></li>
         </ul>
     </nav>

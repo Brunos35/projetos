@@ -9,7 +9,7 @@ if (isset($_GET['Id'])) {
     $usuId = intval($_GET['Id']);
 
     // Buscar os dados do usuário no banco de dados
-    $sql = "SELECT * FROM caopanheiro.usuarios WHERE usuarioId = :usuarioId";
+    $sql = "SELECT * FROM caopanheiro.usuario WHERE usuarioId = :usuarioId";
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':usuarioId', $usuId);
     $stmt->execute();
@@ -93,7 +93,7 @@ if (isset($_GET['Id'])) {
             <li><a href="listaUsuarios.php">Usuários cadastrados</a></li>
             <li><a href="../administrador_dashboard.php">Meu Perfil</a></li>
             <li><a href="../listaAdmin.php">Administradores</a></li>
-            <li><a href="../chat/listaChats.php">Conversas</a></li>
+            <li><a href="../adminChats.php">Conversas</a></li>
             <li><a href="../../logout.php">Sair</a></li>
         </ul>
     </nav>
