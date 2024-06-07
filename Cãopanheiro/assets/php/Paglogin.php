@@ -34,17 +34,16 @@
                         <label for="emailLogin">E-mail</label>
                     </div>
                     <div class="inputbox">
-                        <input type="password" name="senhaLogin" id="senhaLogin" required autocomplete="current-password"
-                            minlength="5" maxlength="20">
+                        <input type="password" name="senhaLogin" id="senhaLogin" required autocomplete="current-password" minlength="5" maxlength="20">
                         <label for="senhaLogin">Senha</label>
                     </div>
                     <button class="env">Entrar</button>
-                    
+
                 </form>
                 <button onclick="trocaLado()" class="regs">Registrar-se</button>
                 <br><br>
 
-                <button class="regs" ><a href="formRecuperar.php">Esqueci minha senha</a></button>
+                <button class="regs"><a href="formRecuperar.php">Esqueci minha senha</a></button>
             </div>
             <div class="registro" id="registro">
                 <form action="cadastro.php" method="post" autocomplete="on">
@@ -64,7 +63,7 @@
                     <button class="env">Continuar</button>
                 </form>
                 <button class="regs" onclick="trocaLado()">Sou cadastrado</button>
-                
+
             </div>
 
         </div>
@@ -79,8 +78,6 @@
                 imagem.style.transform = "translateX(0%)";
             }
         }
-
-       
     </script>
 </body>
 

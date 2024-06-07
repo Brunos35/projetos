@@ -93,7 +93,6 @@ if (isset($_GET['Id'])) {
             <li><a href="listaUsuarios.php">Usuários cadastrados</a></li>
             <li><a href="../administrador_dashboard.php">Meu Perfil</a></li>
             <li><a href="../listaAdmin.php">Administradores</a></li>
-            <li><a href="../adminChats.php">Conversas</a></li>
             <li><a href="../../logout.php">Sair</a></li>
         </ul>
     </nav>

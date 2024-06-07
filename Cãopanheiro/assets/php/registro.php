@@ -5,11 +5,13 @@ header('Content-Type: text/html; charset=utf-8');
 require_once 'conexao.php';
 
 function validarEntrada($data) {
-    return htmlspecialchars(stripslashes(trim($data)));
+    $data = trim($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
 function validarCPF($cpf) {
-    // Remove caracteres especiais
+    // Remove caracteres não numéricos
     $cpf = preg_replace('/[^0-9]/', '', $cpf);
 
     // Verifica se o CPF tem 11 dígitos
@@ -17,19 +19,33 @@ function validarCPF($cpf) {
         return false;
     }
 
-    // Calcula os dígitos verificadores para verificar se o CPF é válido
-    for ($t = 9; $t < 11; $t++) {
-        for ($d = 0, $c = 0; $c < $t; $c++) {
-            $d += $cpf[$c] * (($t + 1) - $c);
-        }
-        $d = ((10 * $d) % 11) % 10;
-        if ($cpf[$c] != $d) {
-            return false;
-        }
+    // Verifica se todos os dígitos são iguais
+    if (preg_match('/(\d)\1{10}/', $cpf)) {
+        return false;
+    }
+
+    // Calcula o primeiro dígito verificador
+    for ($i = 0, $soma1 = 0; $i < 9; $i++) {
+        $soma1 += $cpf[$i] * (10 - $i);
+    }
+    $resto1 = $soma1 % 11;
+    $dv1 = $resto1 < 2 ? 0 : 11 - $resto1;
+
+    // Calcula o segundo dígito verificador
+    for ($i = 0, $soma2 = 0; $i < 10; $i++) {
+        $soma2 += $cpf[$i] * (11 - $i);
+    }
+    $resto2 = $soma2 % 11;
+    $dv2 = $resto2 < 2 ? 0 : 11 - $resto2;
+
+    // Verifica se os dígitos verificadores são válidos
+    if ($cpf[9] != $dv1 || $cpf[10] != $dv2) {
+        return false;
     }
 
     return true;
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = validarEntrada($_POST['nome']);
@@ -40,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cidade = validarEntrada($_POST['cidade']);
     $estado = validarEntrada($_POST['estado']);
     $complemento = validarEntrada($_POST['complemento']);
+    $enderecoCompleto = $endereco . ' ' . $complemento;
     $email = filter_var(validarEntrada($_POST['email']), FILTER_SANITIZE_EMAIL);
     $senha = password_hash(validarEntrada($_POST['senha']), PASSWORD_DEFAULT);
     $perfil = validarEntrada($_POST['perfil']);
@@ -51,14 +68,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (!validarCPF($cpf)) {
+        echo "<script>alert('CPF Inválido')</script>";
         $_SESSION['mensagem'] = 'CPF inválido.';
-        header('Location: cadastro.php');
+        echo "<script>window.alert.href = cadastro.php</script>";
         exit;
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('Email Inválido')</script>";
         $_SESSION['mensagem'] = 'E-mail inválido.';
-        header('Location: cadastro.php');
+        echo "<script>window.alert.href = cadastro.php</script>";
         exit;
     }
 
@@ -76,22 +95,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':cpf', $cpf);
         $stmt->bindParam(':cidade', $cidade);
         $stmt->bindParam(':estado', $estado);
-        $stmt->bindParam(':endereco', $endereco);
+        $stmt->bindParam(':endereco', $enderecoCompleto);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':senha', $senha);
         $stmt->bindParam(':perfil', $perfil);
 
         if ($stmt->execute()) {
+            
             $_SESSION['mensagem'] = 'Cadastrado com Sucesso!';
             header('Location: Paglogin.php');
             exit;
         } else {
+            echo "<script>alert('Não foi possivel inserir Usuário!')</script>";
             $_SESSION['mensagem'] = 'Não foi possível inserir Usuário!';
             $error = $stmt->errorInfo();
             print_r($error);
         }
     } catch (PDOException $e) {
         $_SESSION['mensagem'] = 'Erro ao conectar-se ao banco de dados: ' . $e->getMessage();
+        header('Location: cadastro.php');
+        exit;
     } finally {
         $dbh = null;
     }
@@ -99,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: cadastro.php');
     exit;
 } else {
+    echo "ERRO !";
     $_SESSION['mensagem'] = 'Método de requisição inválido.';
     header('Location: cadastro.php');
     exit;

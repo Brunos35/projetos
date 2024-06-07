@@ -1,8 +1,32 @@
 <?php
-$nome = isset($_POST['nome']) ? $_POST['nome'] : '';
-$email = isset($_POST['email']) ? $_POST['email'] : '';
-$senha = isset($_POST['senha']) ? $_POST['senha'] : '';
+// Receber e sanitizar os dados do formulário
+$nome = isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '';
+$email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '';
+$senha = isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '';
+
+
+// Importar a conexão com o banco de dados
+require_once 'conexao.php';
+
+try {
+    $dbh = Conexao::getConexao();
+    // Verificar se o email já está cadastrado
+    $stmt = $dbh->prepare("SELECT email FROM usuario WHERE email = :email");
+    $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        // Email já cadastrado
+        echo "<script>alert('Email já cadastrado'); window.location.href='Paglogin.php';</script>";
+        echo "<script>window.location.href=Paglogin.php</script>";     
+        exit();
+    }
+
+} catch (PDOException $e) {
+    die("Erro de conexão: " . $e->getMessage());
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -54,7 +78,7 @@ $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
         <form action="registro.php" autocomplete="on" method="POST">
             <h2>Cadastro</h2>
             <div class="inputbox">
-                <input type="text" name="nome" id="nome" required value="<?=$nome?>">
+                <input type="text" name="nome" id="nome" required value="<?= htmlspecialchars($nome) ?>">
                 <label for="nome">Nome:</label>
             </div>
             <div class="inputbox">
@@ -92,23 +116,23 @@ $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
                 <label for="complemento">Complemento:</label>
             </div>
             <div class="inputbox">
-                <input type="email" name="email" id="email" required value="<?=$email?>">
+                <input type="email" name="email" id="email" required value="<?= htmlspecialchars($email) ?>">
                 <label for="email">E-mail:</label>
             </div>
             <div class="inputbox">
-                <input type="password" name="senha" id="senha" required value="<?=$senha?>">
+                <input type="password" name="senha" id="senha" required value="<?= htmlspecialchars($senha) ?>">
                 <label for="senha">Senha:</label>
             </div>
             <div class="radio">
                 <p>Qual seu objetivo? </p>
                 <input type="radio" name="perfil" id="adotante" value="adotante" required>
-                <label for="perfil">Adotar</label>
+                <label for="adotante">Adotar</label>
                 <input type="radio" name="perfil" id="doador" value="doador" required>
-                <label for="perfil">Doar</label>
+                <label for="doador">Doar</label>
             </div>
             <input type="submit" value="Cadastrar" id="env">
             <button id="back"><a href="Paglogin.php">Sou cadastrado</a></button>
-        </form>    
+        </form>
     </div>
 </body>
 
