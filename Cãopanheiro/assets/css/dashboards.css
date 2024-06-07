@@ -35,7 +35,7 @@ button.nav-toggle {
   box-shadow: 0 0 0 0;
 }
 
-button.nav-toggle:hover{
+button.nav-toggle:hover {
   background: transparent !important;
   cursor: pointer;
 }
@@ -149,7 +149,7 @@ select {
   margin: 0 0 80px 0;
 }
 
-input[type="submit"]{
+input[type="submit"] {
   width: 30%;
   text-align: center;
   background-color: var(--color1);
@@ -181,10 +181,10 @@ th#nome {
 
 tr {
   text-align: center;
-  
+
 }
 
-td{
+td {
   padding: 2px;
 }
 
@@ -202,11 +202,11 @@ button {
   color: white;
 }
 
-button:hover{
+button:hover {
   background-color: var(--color3) !important;
 }
 
-button#usu{
+button#usu {
   width: 100px !important;
 }
 
@@ -256,14 +256,18 @@ input[type="radio"] {
 select#raca {
   margin: 10px 0 0 10px;
 }
+
 /* Estilização do alert*/
 .alert {
   padding: 20px;
-  background-color: #4CAF50; /* Verde */
+  background-color: #4CAF50;
+  /* Verde */
   color: white;
   opacity: 1;
-  transition: opacity 0.6s; /* 600ms para esmaecer */
-  margin-bottom: 15px;}
+  transition: opacity 0.6s;
+  /* 600ms para esmaecer */
+  margin-bottom: 15px;
+}
 
 .closebtn {
   margin-left: 15px;
@@ -273,15 +277,42 @@ select#raca {
   font-size: 22px;
   line-height: 20px;
   cursor: pointer;
-  transition: 0.3s;}
-  .closebtn:hover {
-  color: black;}
+  transition: 0.3s;
+}
 
-  div#delete{
-    display: flex;
-    justify-content: end;
-  }
+.closebtn:hover {
+  color: black;
+}
 
+div#delete {
+  display: flex;
+  justify-content: end;
+}
+
+/*Estilos para pagina de adoção*/
+
+.pets{
+  background-color: var(--color1);
+  width: 50%;
+  min-height: 50%;
+  border-radius: 15px;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.411);
+  text-align: center;
+  color: var(--color2);
+}
+.pets a{
+  text-align: center;
+  position: relative;
+  right: 5% ;
+  font-size: 1.2em;
+  display: inline-block;
+  margin: 10px;
+  width: 50%;
+}
+.pets a:hover{
+  text-decoration: underline;
+  color: var(--color3);
+}
 /* Estilos para o menu responsivo */
 @media (max-width: 768px) {
   nav {

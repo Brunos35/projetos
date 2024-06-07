@@ -142,3 +142,32 @@ div.hora{
 .message.sent .hora{
     text-align: right;
 }
+
+#adocao{
+    width: 200px;
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    top: 94%;
+    right: 1%;    
+    background-color: var(--color3);
+    border-radius: 15px;
+    border: 0;
+    box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.411);
+}
+
+
+#adocao a{
+    position: relative;
+    top: 20%;
+    color: var(--color1);
+    width: 100%;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#adocao:hover, #adocao a:hover{
+    background-color: var(--color2);
+    color: var(--color1);
+}

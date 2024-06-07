@@ -192,8 +192,12 @@ $stmt->execute();
                                 <td><?= htmlspecialchars($row['sexo'], ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td><?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td class="acoes">
+                                <?php if ($row['status'] == 'disponivel') : ?>
                                     <button class="acoes"><a class="btnalterar" href="alterarPet.php?Id=<?= intval($row['petId']); ?>">Alterar</a></button>
                                     <button class="acoes"><a class="btnexcluir" href="excluirPet.php?Id=<?= intval($row['petId']); ?>" onclick="return confirm('Deseja confirmar a operação?');">Excluir</a></button>
+                                    <?php else : ?>
+                                    <p style="margin-left:45px;">Não é possivel alterar!</p>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endwhile; ?>

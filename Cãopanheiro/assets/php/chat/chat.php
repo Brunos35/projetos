@@ -45,7 +45,12 @@ $usuarioId = $_SESSION['usuId'];
             <button type="submit">Enviar</button>
         </form>
     </div>
+    <?php
+    if ($_SESSION['perfil'] == 'doador') {
+        echo "<div id='adocao'><a href='../doador/adotarPets.php?adotante=$destinatario' onclick=\"return confirm('Deseja doar um pet para esse usuario?');\">Finalizar adoção</a></div>";
+    }
 
+    ?>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const destinatario = document.getElementById('destinatario').value;
