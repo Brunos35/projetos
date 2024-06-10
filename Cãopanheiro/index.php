@@ -4,7 +4,7 @@ require __DIR__ . '/assets/php/conexao.php';
 
 $dbh = Conexao::getConexao();
 
-$query = "SELECT * FROM caopanheiro.pets Limit 6";
+$query = "SELECT * FROM caopanheiro.pets where status = 'disponivel' Limit 6";
 $stmt = $dbh->prepare($query);
 $stmt->execute();
 $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +48,7 @@ $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <section class="home">
                 <h1>Cãopanheiro</h1>
                 <h2>Adote o seu amigo</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum aliquid nesciunt maiores sed suscipit quo, voluptatibus nulla quod ut unde, exercitationem natus nisi aliquam quisquam iusto, hic quasi error voluptates!</p>
+                <p>Bem-vindo ao nosso site de adoção de pets, Cãopanheiro. Navegue pelo nosso catálogo de pets disponíveis para adoção e descubra como você pode transformar a vida de um amigo de quatro patas</p>
                 <button class="home" href="assets/php/Paglogin.php">Quero adotar</button>
             </section>
             <figure class="cachorro"><img src="assets/img/dogPrincip.webp" alt="" id="cachorro"></figure>
@@ -96,7 +96,7 @@ $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </section>
         <section class="sobre_nos">
             <h1>Sobre nos</h1>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis facilis sapiente adipisci vel earum id similique tempora eius, excepturi nostrum deleniti nesciunt vero quae numquam suscipit, sit incidunt rerum officiis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore, autem? Sit labore voluptatum facilis debitis illo fuga, totam beatae? A non dignissimos vitae. Neque quos, unde libero tempore suscipit pariatur!</p>
+            <p>Somos o Cãopanheiroum lugar dedicado a conectar animais de estimação carentes com lares amorosos e responsáveis. Nossa missão é promover a adoção consciente, oferecendo informações detalhadas sobre cada pet, incluindo sua história, personalidade e necessidades especiais. Acreditamos que todo animal merece uma segunda chance e um lar onde possa ser amado e cuidado. Juntos, podemos fazer a diferença e proporcionar um futuro melhor para esses animais.</p>
             <figure><img src="assets/img/gato.png" alt=""></figure>
             
         </section>

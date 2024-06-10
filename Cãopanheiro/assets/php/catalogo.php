@@ -14,23 +14,17 @@ $offset = ($pagina - 1) * $itemsPorPagina;
 
 // Parâmetros de filtro
 $sexo = isset($_GET['sexo']) ? $_GET['sexo'] : '';
-$status = isset($_GET['status']) ? $_GET['status'] : '';
 
 // Pesquisa
 $pesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '';
 
 // Construção da consulta SQL com base nos filtros e pesquisa
-$query = "SELECT * FROM caopanheiro.pets WHERE 1=1";
+$query = "SELECT * FROM caopanheiro.pets WHERE 1=1 AND status = 'disponivel'";
 $params = array();
 
 if (!empty($sexo)) {
     $query .= " AND sexo = ?";
     $params[] = $sexo;
-}
-
-if (!empty($status)) {
-    $query .= " AND status = ?";
-    $params[] = $status;
 }
 
 if (!empty($pesquisa)) {
@@ -45,14 +39,10 @@ $stmt->execute($params);
 $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Contagem total de registros para a paginação
-$totalQuery = "SELECT COUNT(*) AS total FROM caopanheiro.pets WHERE 1=1";
+$totalQuery = "SELECT COUNT(*) AS total FROM caopanheiro.pets WHERE 1=1 AND status = 'disponivel'";
 
 if (!empty($sexo)) {
     $totalQuery .= " AND sexo = ?";
-}
-
-if (!empty($status)) {
-    $totalQuery .= " AND status = ?";
 }
 
 if (!empty($pesquisa)) {
@@ -85,14 +75,9 @@ $totalPaginas = ceil($totalPets / $itemsPorPagina);
         <form action="" method="get">
             <input type="text" name="pesquisa" placeholder="Pesquisar">
             <select name="sexo">
-                <option value="">Todos</option>
+                <option value="">Sexo</option>
                 <option value="Macho">Macho</option>
                 <option value="Fêmea">Fêmea</option>
-            </select>
-            <select name="status">
-                <option value="">Todos</option>
-                <option value="adotado">Adotado</option>
-                <option value="disponível">Disponível</option>
             </select>
             <button type="submit">Filtrar</button>
         </form>
