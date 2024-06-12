@@ -1988,7 +1988,7 @@ body {
   position: fixed;
   left: 0;
   width: 100%;
-  top: 30px; /* Cambiado de "bottom: 10px;" a "top: 0;" */
+  top: 25px; /* Cambiado de "bottom: 10px;" a "top: 0;" */
   text-align: center;
   font-size: 15px;
   z-index: 9999;
