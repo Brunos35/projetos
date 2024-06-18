@@ -68,9 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (!validarCPF($cpf)) {
-        echo "<script>alert('CPF Inválido')</script>";
+        echo "<script>
+        alert('CPF Inválido');
+        window.location.href = 'cadastro.php';
+        </script>";
         $_SESSION['mensagem'] = 'CPF inválido.';
-        echo "<script>window.alert.href = cadastro.php</script>";
         exit;
     }
 

@@ -87,7 +87,7 @@ try {
             </div>
             <div class="inputbox">
                 <input type="date" name="dataNasc" id="dataNasc" required>
-                <label for="dataNasc">Data de Nascimento:</label>
+                <label for="dataNasc" style="position:absolute;top:-10%;">Data de Nascimento:</label>
             </div>
             <div class="inputbox">
                 <input type="text" name="cpf" id="cpf" required>
