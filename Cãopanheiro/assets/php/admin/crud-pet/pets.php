@@ -61,8 +61,11 @@ $petIds = [];
     <link rel="stylesheet" href="../../../css/filtro.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
+        nav{
+            height: 84vh;
+        }
         div.content {
-            height: 85%;
+            height: 84%;
         }
 
         div.pagination {

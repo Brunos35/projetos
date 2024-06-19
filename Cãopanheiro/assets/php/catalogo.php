@@ -68,16 +68,24 @@ $totalPaginas = ceil($totalPets / $itemsPorPagina);
 
 <body>
     <header>
-        <span class="material-symbols-outlined" onclick="history.go(-1)">
-            arrow_back
-        </span>
+        <?php if (
+           isset($_SESSION['perfil']) && $_SESSION['perfil'] == 'adotante') : ?>
+            <span class="material-symbols-outlined" onclick="window.location.href='adotante/adotante_dashboard.php'">
+                arrow_back
+            </span>
+        <?php else : ?>
+            <span class="material-symbols-outlined" onclick="window.location.href='../../index.php'">
+                arrow_back
+            </span>
+        <?php endif; ?>
+
         <h1>Lista de Pets</h1>
         <form action="" method="get">
             <input type="text" name="pesquisa" placeholder="Pesquisar">
             <select name="sexo">
                 <option value="">Sexo</option>
-                <option value="Macho">Macho</option>
-                <option value="Fêmea">Fêmea</option>
+                <option value="M">Macho</option>
+                <option value="F">Fêmea</option>
             </select>
             <button type="submit">Filtrar</button>
         </form>

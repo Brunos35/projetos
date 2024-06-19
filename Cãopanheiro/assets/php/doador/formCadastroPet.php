@@ -41,7 +41,7 @@ require __DIR__ . '/../conexao.php';
         if (isset($_GET['status']) && $_GET['status'] == 'success') {
             echo '<div class="alert">
                 <span class="closebtn" onclick="this.parentElement.style.display = \'none\';">&times;</span>
-                Dados alterados com sucesso!
+                Pet cadastrado com sucesso!
                 </div>';
         }
         ?>

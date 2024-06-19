@@ -91,7 +91,7 @@ try {
             </div>
             <div class="inputbox">
                 <input type="text" name="cpf" id="cpf" required>
-                <label for="cpf">CPF:</label>
+                <label for="cpf" id="cpf">CPF:</label>
             </div>
 
             <div class="inputbox">
@@ -120,7 +120,7 @@ try {
                 <label for="email">E-mail:</label>
             </div>
             <div class="inputbox">
-                <input type="password" name="senha" id="senha" required value="<?= htmlspecialchars($senha) ?>">
+                <input type="password" name="senha" id="senha" required value="<?= htmlspecialchars($senha) ?>" minlength="8">
                 <label for="senha">Senha:</label>
             </div>
             <div class="radio">

@@ -80,6 +80,15 @@ try {
             text-decoration: none;
             color: white;
         }
+        nav{
+            height: 84vh;
+        }
+        div.content {
+            height: 84%;
+        }
+        .email{
+            width: 20%;
+        }
     </style>
 </head>
 
@@ -123,8 +132,8 @@ try {
                         <tr>
                             <th>ID</th>
                             <th id="nome">Nome</th>
-                            <th id="raca">Sobrenome</th>
-                            <th>Email</th>
+                            <th>Sobrenome</th>
+                            <th class="email">Email</th>
                             <th>Perfil</th>
                             <th>Status</th>
                             <th colspan="2" class="acoes">Ações</th>
@@ -141,7 +150,7 @@ try {
                                     <td><?= intval($row['adminId']); ?></td>
                                     <td><?= htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?= htmlspecialchars($row['sobrenome'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td><?= htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td class="email"><?= htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?= htmlspecialchars($row['perfil'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?= ($row['status'] == 'ativo') ? 'ATIVO' : 'INATIVO'; ?></td>
                                     <td class="acoes">

@@ -4,13 +4,15 @@ header('Content-Type: text/html; charset=utf-8');
 
 require_once 'conexao.php';
 
-function validarEntrada($data) {
+function validarEntrada($data)
+{
     $data = trim($data);
     $data = htmlspecialchars($data);
     return $data;
 }
 
-function validarCPF($cpf) {
+function validarCPF($cpf)
+{
     // Remove caracteres não numéricos
     $cpf = preg_replace('/[^0-9]/', '', $cpf);
 
@@ -69,9 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!validarCPF($cpf)) {
         echo "<script>
-        alert('CPF Inválido');
-        window.location.href = 'cadastro.php';
-        </script>";
+    alert('CPF Inválido');
+    history.go(-1);
+    
+    </script>";
         $_SESSION['mensagem'] = 'CPF inválido.';
         exit;
     }
@@ -103,9 +106,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':perfil', $perfil);
 
         if ($stmt->execute()) {
-            
+            echo "<script>
+            alert('Cadastrado com Sucesso!');
+            history.go(+1);
+                </script>";
             $_SESSION['mensagem'] = 'Cadastrado com Sucesso!';
-            header('Location: Paglogin.php');
             exit;
         } else {
             echo "<script>alert('Não foi possivel inserir Usuário!')</script>";
@@ -129,4 +134,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: cadastro.php');
     exit;
 }
-?>

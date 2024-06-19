@@ -204,7 +204,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <p class="fotoInfo">Sem arquivo selecionado</p>
                     </div>
                     <div class="dropzone-actions">
-                        <button type="reset">Cancelar</button>
+                        <button type="reset" onclick="window.location.href='pets.php'">Cancelar</button>
                     </div>
                 </div>
                 <div id="submit">

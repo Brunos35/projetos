@@ -4,7 +4,7 @@
     $dbh = Conexao::getConexao();
 
     # cria o comando DELETE filtrado pelo campo id
-    $query = "DELETE FROM usuario WHERE usuarioId = :id;";
+    $query = "UPDATE usuario SET status='inativo' WHERE usuarioId = :id;";
 
     $stmt = $dbh->prepare($query);
     $stmt->bindParam(':id', $_SESSION['usuId']);

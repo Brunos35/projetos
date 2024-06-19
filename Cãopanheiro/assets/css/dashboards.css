@@ -170,12 +170,12 @@ th {
 }
 
 th#raca,
-th.acoes {
-  width: 150px;
+th.acoes,td.acoes {
+  width: 230px;
 }
 
 th#nome {
-  width: 80px;
+  width: 90px;
   max-width: 110px;
 }
 
@@ -185,7 +185,7 @@ tr {
 }
 
 td {
-  padding: 2px;
+  padding: 3px;
 }
 
 table {
