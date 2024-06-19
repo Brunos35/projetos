@@ -106,11 +106,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':perfil', $perfil);
 
         if ($stmt->execute()) {
-            echo "<script>
-            alert('Cadastrado com Sucesso!');
-            history.go(+1);
-                </script>";
             $_SESSION['mensagem'] = 'Cadastrado com Sucesso!';
+            echo "<script>
+                alert('Cadastrado com Sucesso!');
+                window.location.href='Paglogin.php';
+            </script>";
             exit;
         } else {
             echo "<script>alert('Não foi possivel inserir Usuário!')</script>";
