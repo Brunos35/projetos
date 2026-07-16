@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist SMC — Liquidez & Estrutura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0D12;
+    --surface:#12161E;
+    --surface-2:#171C26;
+    --border:#232B36;
+    --border-soft:#1B212B;
+    --text:#E8ECF2;
+    --muted:#7C8798;
+    --muted-2:#525C6B;
+    --bull:#34D399;
+    --bull-dim:#1C4A3B;
+    --bear:#F35B6A;
+    --bear-dim:#4A1F26;
+    --gold:#E3B341;
+    --gold-dim:#3E351A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at top left, #0D1219 0%, var(--bg) 45%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* faint chart grid backdrop */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(var(--border-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+    background-size: 42px 42px;
+    opacity:.35;
+    pointer-events:none;
+    z-index:0;
+  }
+  .app{
+    position:relative; z-index:1;
+    max-width:1180px;
+    margin:0 auto;
+    padding:36px 20px 90px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    display:flex; flex-direction:column; gap:6px;
+    margin-bottom:34px;
+    border-bottom:1px solid var(--border);
+    padding-bottom:22px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--gold);
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 8px var(--gold);
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(26px,3.4vw,38px);
+    margin:2px 0 4px;
+    letter-spacing:-.01em;
+  }
+  h1 span{color:var(--muted-2); font-weight:500;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:640px; line-height:1.55;}
+  .rule-banner{
+    margin-top:16px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-left:3px solid var(--gold);
+    border-radius:6px;
+    padding:12px 16px;
+    font-size:13.5px;
+    color:var(--text);
+    display:flex; gap:10px; align-items:baseline;
+  }
+  .rule-banner b{color:var(--gold); font-family:'JetBrains Mono',monospace; font-weight:600;}
+
+  /* ---------- LAYOUT ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  @media (max-width:820px){
+    .layout{grid-template-columns:1fr;}
+    .ladder{
+      display:flex; flex-direction:row; overflow-x:auto;
+      gap:10px; position:static !important; top:auto;
+    }
+    .ladder .level{min-width:120px;}
+  }
+
+  /* ---------- LADDER (signature element) ---------- */
+  .ladder{
+    position:sticky; top:24px;
+    display:flex; flex-direction:column;
+    gap:0;
+  }
+  .ladder .level{
+    position:relative;
+    padding:14px 0 14px 26px;
+    border-left:2px solid var(--border);
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:.03em;
+    color:var(--muted-2);
+    transition:all .35s ease;
+    cursor:default;
+  }
+  .ladder .level .lv-price{
+    font-size:10px; color:var(--muted-2); display:block; margin-bottom:3px;
+  }
+  .ladder .level .lv-name{
+    font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600;
+    color:var(--muted); text-transform:uppercase; letter-spacing:.04em;
+  }
+  .ladder .level::before{
+    content:"";
+    position:absolute; left:-7px; top:18px;
+    width:12px; height:12px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--border);
+    transition:all .35s ease;
+  }
+  .ladder .level.done{border-left-color:var(--bull);}
+  .ladder .level.done::before{background:var(--bull); border-color:var(--bull); box-shadow:0 0 10px rgba(52,211,153,.5);}
+  .ladder .level.done .lv-name{color:var(--bull);}
+  .ladder .level.current{border-left-color:var(--gold);}
+  .ladder .level.current::before{
+    background:var(--gold); border-color:var(--gold);
+    box-shadow:0 0 0 5px rgba(227,179,65,.15), 0 0 12px rgba(227,179,65,.5);
+    animation:pulse 1.8s infinite;
+  }
+  .ladder .level.current .lv-name{color:var(--gold);}
+  .ladder .level.locked .lv-name{color:var(--muted-2);}
+  .ladder .level.blocked::before{background:var(--bear); border-color:var(--bear); box-shadow:0 0 10px rgba(243,91,106,.5);}
+  .ladder .level.blocked{border-left-color:var(--bear);}
+  .ladder .level.blocked .lv-name{color:var(--bear);}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 5px rgba(227,179,65,.15), 0 0 12px rgba(227,179,65,.5);}
+    50%{box-shadow:0 0 0 8px rgba(227,179,65,.06), 0 0 16px rgba(227,179,65,.7);}
+  }
+
+  /* ---------- MAIN COLUMN ---------- */
+  main{display:flex; flex-direction:column; gap:16px;}
+
+  .block{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    transition:opacity .3s ease;
+  }
+  .block-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 20px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface-2);
+  }
+  .block-head .htitle{
+    display:flex; align-items:center; gap:10px;
+  }
+  .block-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px; color:var(--bg);
+    background:var(--muted-2);
+    border-radius:4px;
+    padding:3px 7px;
+    font-weight:700;
+  }
+  .block.done .block-num{background:var(--bull); color:#04140D;}
+  .block.blocked .block-num{background:var(--bear); color:#1A0508;}
+  .block-head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:16px; margin:0; font-weight:600;
+  }
+  .block-head .htag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px; color:var(--muted); letter-spacing:.05em;
+  }
+  .status-pill{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px; letter-spacing:.05em;
+    padding:4px 10px; border-radius:20px;
+    border:1px solid var(--border);
+    color:var(--muted);
+  }
+  .status-pill.ok{color:var(--bull); border-color:var(--bull-dim); background:rgba(52,211,153,.07);}
+  .status-pill.pending{color:var(--gold); border-color:var(--gold-dim); background:rgba(227,179,65,.06);}
+  .status-pill.locked{color:var(--muted-2);}
+  .status-pill.no{color:var(--bear); border-color:var(--bear-dim); background:rgba(243,91,106,.08);}
+
+  .block-body{padding:6px 20px 18px;}
+  .item{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    gap:16px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .item:last-child{border-bottom:none;}
+  .item p{margin:0; font-size:14px; line-height:1.5; color:var(--text);}
+  .item .q-idx{font-family:'JetBrains Mono',monospace; color:var(--muted-2); font-size:12px; margin-right:8px;}
+
+  .toggle{
+    display:flex; gap:6px; flex-shrink:0;
+  }
+  .toggle button{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px; font-weight:600; letter-spacing:.03em;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--muted);
+    padding:7px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .toggle button:hover{border-color:var(--muted);}
+  .toggle button.yes.active{background:var(--bull-dim); border-color:var(--bull); color:var(--bull);}
+  .toggle button.no.active{background:var(--bear-dim); border-color:var(--bear); color:var(--bear);}
+
+  .locked-note{
+    padding:22px 20px; text-align:center;
+    color:var(--muted-2); font-size:13px;
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:.02em;
+  }
+  .block.locked .block-body, .block.locked .item{display:none;}
+  .block.locked{opacity:.55;}
+
+  .stop-banner{
+    display:none;
+    background:var(--bear-dim);
+    border:1px solid var(--bear);
+    color:var(--bear);
+    border-radius:8px;
+    padding:14px 18px;
+    font-size:13.5px;
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:.02em;
+  }
+  .stop-banner.show{display:block;}
+
+  /* ---------- VERDICT ---------- */
+  .verdict{
+    border-radius:12px;
+    padding:26px 24px;
+    text-align:center;
+    border:1px solid var(--border);
+    background:var(--surface);
+    font-family:'Space Grotesk',sans-serif;
+  }
+  .verdict .vlabel{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+    margin-bottom:10px;
+  }
+  .verdict .vresult{
+    font-size:clamp(28px,4vw,42px);
+    font-weight:700; letter-spacing:-.01em;
+    color:var(--muted-2);
+    transition:color .3s ease;
+  }
+  .verdict.enter .vresult{color:var(--bull); text-shadow:0 0 24px rgba(52,211,153,.25);}
+  .verdict.deny .vresult{color:var(--bear); text-shadow:0 0 24px rgba(243,91,106,.25);}
+  .verdict .vsub{margin-top:8px; font-size:13px; color:var(--muted); font-family:'Inter',sans-serif;}
+
+  /* ---------- NOTES ---------- */
+  .notes{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:20px 22px;
+  }
+  .notes h3{
+    font-family:'Space Grotesk',sans-serif; font-size:15px; margin:0 0 4px;
+  }
+  .notes p.hint{color:var(--muted); font-size:12.5px; margin:0 0 14px;}
+  .notes textarea{
+    width:100%; min-height:110px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:var(--text);
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px; line-height:1.6;
+    padding:12px 14px;
+    resize:vertical;
+  }
+  .notes textarea:focus{outline:none; border-color:var(--gold);}
+  .notes-foot{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:10px;
+  }
+  .save-state{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted-2);}
+
+  /* ---------- FOOTER ACTIONS ---------- */
+  .actions{
+    display:flex; justify-content:space-between; align-items:center;
+    gap:12px; flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; font-weight:600;
+    letter-spacing:.03em;
+    border-radius:7px; padding:10px 18px;
+    cursor:pointer; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--text);
+    transition:all .15s ease;
+  }
+  .btn:hover{border-color:var(--muted);}
+  .btn.primary{background:var(--gold-dim); border-color:var(--gold); color:var(--gold);}
+  .progress-text{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="eyebrow">SMC · Índices · 15m → 1m</div>
+    <h1>Checklist de Entrada <span>/ mapa de liquidez</span></h1>
+    <p class="subtitle">Percorra os níveis na ordem. Cada nível só libera o próximo quando 100% dos critérios anteriores forem atendidos. Um único "não" interrompe a operação.</p>
+    <div class="rule-banner"><b>Regra de ouro:</b>&nbsp;se algum item não bateu, não entra. Não existe "quase todos os critérios" — é binário.</div>
+  </header>
+
+  <div class="layout">
+    <!-- LADDER -->
+    <div class="ladder" id="ladder"></div>
+
+    <!-- MAIN -->
+    <main>
+      <div id="stopBanner" class="stop-banner"></div>
+      <div id="blocks"></div>
+
+      <div class="verdict" id="verdict">
+        <div class="vlabel">Veredito da operação</div>
+        <div class="vresult" id="vresult">AGUARDANDO</div>
+        <div class="vsub" id="vsub">Complete os blocos na ordem para liberar o veredito.</div>
+      </div>
+
+      <div class="notes">
+        <h3>Ajustes pessoais</h3>
+        <p class="hint">Regras do seu book de estratégia — horários que evita operar, notícias de alto impacto, etc. Salvo automaticamente neste dispositivo.</p>
+        <textarea id="notesArea" placeholder="- Evitar operar WIN nos 5min antes/depois de NFP&#10;- Não operar 30min antes de reunião do FOMC&#10;- ..."></textarea>
+        <div class="notes-foot">
+          <span class="save-state" id="saveState">—</span>
+          <button class="btn" id="saveNotes">Salvar notas</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <span class="progress-text" id="progressText">0 / 19 critérios confirmados</span>
+        <button class="btn primary" id="resetBtn">Nova operação (limpar checklist)</button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {
+    key: 'contexto', name: 'Contexto', tag: '15M · MAPA MAIOR', price:'15m',
+    items: [
+      'Identifiquei a tendência/viés no 15m (estrutura de alta, baixa ou range)?',
+      'Marquei a última liquidez relevante (topo/fundo, equal highs/lows, sessão anterior)?',
+      'Sei para onde o preço provavelmente vai buscar liquidez (alvo do movimento)?',
+      'O movimento atual já varreu (sweep) alguma liquidez importante antes de reagir?'
+    ]
+  },
+  {
+    key:'estrutura', name:'Estrutura', tag:'MUDANÇA DE FLUXO', price:'BOS/CHoCH',
+    items:[
+      'Após a varredura de liquidez, houve quebra de estrutura (BOS/CHoCH) a favor da minha ideia?',
+      'Essa quebra aconteceu no timeframe certo (15m ou 1m, dependendo de onde veio a reação)?',
+      'O movimento que gerou a quebra teve impulso (candle de força, não um rompimento arrastado)?'
+    ]
+  },
+  {
+    key:'gatilho', name:'Gatilho', tag:'FVG · FAIR VALUE GAP', price:'FVG',
+    items:[
+      'O FVG que vou usar foi criado pelo próprio movimento de quebra de estrutura (não é um FVG aleatório antigo)?',
+      'O FVG está numa zona coerente com o contexto do 15m (não está "no meio do nada")?',
+      'O preço retornou ao FVG sem varrer um nível de liquidez importante que invalidaria a ideia no caminho?',
+      'Existe confluência no FVG (também é OB, 50% de uma perna, zona de desconto/premium)?'
+    ]
+  },
+  {
+    key:'entrada', name:'Entrada', tag:'1M · GATILHO FINAL', price:'1m',
+    items:[
+      'No 1m, dentro do FVG, apareceu alguma reação (rejeição, mini CHoCH, engolfo) confirmando entrada?',
+      'Meu stop loss tem um local técnico claro (abaixo/acima da estrutura que invalida a ideia)?',
+      'Meu alvo (take profit) está em uma liquidez real, e o R:R mínimo é aceitável antes de entrar?',
+      'Calculei o tamanho da posição baseado no meu risco fixo por operação — não no "sentimento" da entrada?'
+    ]
+  },
+  {
+    key:'emocional', name:'Filtro emocional', tag:'ANTES DO GATILHO', price:'MENTE',
+    items:[
+      'Se essa operação der loss agora, eu ainda concordaria que a análise estava certa?',
+      'Não estou entrando por medo de "perder o movimento" (FOMO)?',
+      'Não estou tentando recuperar um loss anterior nessa entrada (revenge trade)?',
+      'Estou dentro do meu limite diário de operações/losses seguidos?'
+    ]
+  }
+];
+
+let state = DATA.map(b => b.items.map(()=>null)); // null | true | false
+
+const ladderEl = document.getElementById('ladder');
+const blocksEl = document.getElementById('blocks');
+const stopBanner = document.getElementById('stopBanner');
+const verdictEl = document.getElementById('verdict');
+const vresult = document.getElementById('vresult');
+const vsub = document.getElementById('vsub');
+const progressText = document.getElementById('progressText');
+
+function blockStatus(i){
+  const answers = state[i];
+  if(answers.some(a => a === false)) return 'blocked';
+  if(answers.every(a => a === true)) return 'done';
+  return 'pending';
+}
+function isUnlocked(i){
+  if(i===0) return true;
+  for(let j=0;j<i;j++){ if(blockStatus(j) !== 'done') return false; }
+  return true;
+}
+
+function render(){
+  // ladder
+  ladderEl.innerHTML = DATA.map((b,i)=>{
+    const st = blockStatus(i);
+    const unlocked = isUnlocked(i);
+    let cls = 'level';
+    if(!unlocked) cls += ' locked';
+    else if(st==='blocked') cls += ' blocked';
+    else if(st==='done') cls += ' done';
+    else cls += ' current';
+    return `<div class="${cls}">
+      <span class="lv-price">${b.price}</span>
+      <span class="lv-name">${String(i+1).padStart(2,'0')} · ${b.name}</span>
+    </div>`;
+  }).join('');
+
+  // blocked banner
+  const blockedIdx = DATA.findIndex((_,i)=>blockStatus(i)==='blocked');
+  if(blockedIdx !== -1){
+    stopBanner.classList.add('show');
+    stopBanner.textContent = `⛔ PARE — critério não atendido no bloco "${DATA[blockedIdx].name}". A regra de ouro: se um item não bateu, não entra. Ajuste a análise ou aguarde um novo setup.`;
+  } else {
+    stopBanner.classList.remove('show');
+  }
+
+  // blocks
+  blocksEl.innerHTML = DATA.map((b,i)=>{
+    const unlocked = isUnlocked(i);
+    const st = blockStatus(i);
+    let pillClass = 'pending', pillText = 'Em análise';
+    if(!unlocked){ pillClass='locked'; pillText='Bloqueado'; }
+    else if(st==='done'){ pillClass='ok'; pillText='Confirmado'; }
+    else if(st==='blocked'){ pillClass='no'; pillText='Invalidado'; }
+
+    let bodyHTML;
+    if(!unlocked){
+      bodyHTML = `<div class="locked-note">🔒 aguardando liquidez do bloco anterior ser confirmada</div>`;
+    } else {
+      bodyHTML = `<div class="block-body">` + b.items.map((q,qi)=>{
+        const val = state[i][qi];
+        return `<div class="item">
+          <p><span class="q-idx">${String(qi+1).padStart(2,'0')}</span>${q}</p>
+          <div class="toggle">
+            <button class="yes ${val===true?'active':''}" data-b="${i}" data-q="${qi}" data-v="true">SIM</button>
+            <button class="no ${val===false?'active':''}" data-b="${i}" data-q="${qi}" data-v="false">NÃO</button>
+          </div>
+        </div>`;
+      }).join('') + `</div>`;
+    }
+
+    return `<div class="block ${st==='done'?'done':''} ${st==='blocked'?'blocked':''} ${!unlocked?'locked':''}">
+      <div class="block-head">
+        <div class="htitle">
+          <span class="block-num">${String(i+1).padStart(2,'0')}</span>
+          <div>
+            <h2>${b.name}</h2>
+            <div class="htag">${b.tag}</div>
+          </div>
+        </div>
+        <span class="status-pill ${pillClass}">${pillText}</span>
+      </div>
+      ${bodyHTML}
+    </div>`;
+  }).join('');
+
+  // progress
+  const total = DATA.reduce((s,b)=>s+b.items.length,0);
+  const done = state.reduce((s,arr)=>s+arr.filter(v=>v===true).length,0);
+  progressText.textContent = `${done} / ${total} critérios confirmados`;
+
+  // verdict
+  const allDone = DATA.every((_,i)=>blockStatus(i)==='done');
+  const anyBlocked = DATA.some((_,i)=>blockStatus(i)==='blocked');
+  verdictEl.classList.remove('enter','deny');
+  if(anyBlocked){
+    verdictEl.classList.add('deny');
+    vresult.textContent = 'NÃO ENTRE';
+    vsub.textContent = 'Pelo menos um critério não foi atendido. O setup está invalidado.';
+  } else if(allDone){
+    verdictEl.classList.add('enter');
+    vresult.textContent = 'ENTRAR';
+    vsub.textContent = 'Todos os blocos confirmados na ordem. Execute conforme o plano de risco.';
+  } else {
+    vresult.textContent = 'AGUARDANDO';
+    vsub.textContent = 'Complete os blocos na ordem para liberar o veredito.';
+  }
+
+  saveState();
+}
+
+blocksEl.addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-b]');
+  if(!btn) return;
+  const b = +btn.dataset.b, q = +btn.dataset.q, v = btn.dataset.v === 'true';
+  state[b][q] = state[b][q] === v ? null : v;
+  render();
+});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  state = DATA.map(b => b.items.map(()=>null));
+  render();
+});
+
+// ---------- persistence (per-user, this device) ----------
+const saveStateEl = document.getElementById('saveState');
+
+async function saveState(){
+  try{
+    if(window.storage){
+      await window.storage.set('smc-checklist-state', JSON.stringify(state), false);
+    }
+  }catch(err){ /* ignore */ }
+}
+
+async function loadState(){
+  try{
+    if(window.storage){
+      const res = await window.storage.get('smc-checklist-state', false);
+      if(res && res.value){
+        const parsed = JSON.parse(res.value);
+        if(Array.isArray(parsed) && parsed.length === DATA.length){
+          state = parsed;
+        }
+      }
+    }
+  }catch(err){ /* key not found yet, ignore */ }
+}
+
+async function loadNotes(){
+  try{
+    if(window.storage){
+      const res = await window.storage.get('smc-checklist-notes', false);
+      if(res && res.value){
+        document.getElementById('notesArea').value = res.value;
+        saveStateEl.textContent = 'notas carregadas';
+      }
+    }
+  }catch(err){ /* no notes saved yet */ }
+}
+
+document.getElementById('saveNotes').addEventListener('click', async ()=>{
+  const val = document.getElementById('notesArea').value;
+  try{
+    if(window.storage){
+      await window.storage.set('smc-checklist-notes', val, false);
+      saveStateEl.textContent = 'salvo ✓ ' + new Date().toLocaleTimeString('pt-BR');
+    } else {
+      saveStateEl.textContent = 'armazenamento indisponível';
+    }
+  }catch(err){
+    saveStateEl.textContent = 'erro ao salvar';
+  }
+});
+
+(async function init(){
+  await loadState();
+  await loadNotes();
+  render();
+})();
+</script>
+</body>
+</html>
