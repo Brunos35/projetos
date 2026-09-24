@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checklist SMC — Liquidez & Estrutura</title>
+<title>Checklist SMC — Setup A+ 1:2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -335,10 +335,10 @@
 <div class="app">
 
   <header>
-    <div class="eyebrow">SMC · Índices · 15m → 1m</div>
-    <h1>Checklist de Entrada <span>/ mapa de liquidez</span></h1>
-    <p class="subtitle">Percorra os níveis na ordem. Cada nível só libera o próximo quando 100% dos critérios anteriores forem atendidos. Um único "não" interrompe a operação.</p>
-    <div class="rule-banner"><b>Regra de ouro:</b>&nbsp;se algum item não bateu, não entra. Não existe "quase todos os critérios" — é binário.</div>
+    <div class="eyebrow">SMC · Índices · Setup A+ · RR 1:2</div>
+    <h1>Checklist de Entrada <span>/ seletivo · máx. 3 trades</span></h1>
+    <p class="subtitle">Percorra os níveis na ordem. O objetivo agora é operar menos e melhor: só setups A+, com alvo padrão de 2R e no máximo 3 trades por dia.</p>
+    <div class="rule-banner"><b>Regra de ouro:</b>&nbsp;não use os 3 trades como cota. Se o mercado estiver em equilíbrio ou o setup não for A+, não entra.</div>
   </header>
 
   <div class="layout">
@@ -357,9 +357,9 @@
       </div>
 
       <div class="notes">
-        <h3>Ajustes pessoais</h3>
-        <p class="hint">Regras do seu book de estratégia — horários que evita operar, notícias de alto impacto, etc. Salvo automaticamente neste dispositivo.</p>
-        <textarea id="notesArea" placeholder="- Evitar operar WIN nos 5min antes/depois de NFP&#10;- Não operar 30min antes de reunião do FOMC&#10;- ..."></textarea>
+        <h3>Plano diário / observações</h3>
+        <p class="hint">Registre contexto, horário, notícias, número do trade e qualquer motivo de invalidação. Salvo automaticamente neste dispositivo.</p>
+        <textarea id="notesArea" placeholder="- Trade 1/3&#10;- Viés M15/M5:&#10;- VWAP/regime:&#10;- Liquidez varrida:&#10;- Motivo para entrar ou ficar de fora:"></textarea>
         <div class="notes-foot">
           <span class="save-state" id="saveState">—</span>
           <button class="btn" id="saveNotes">Salvar notas</button>
@@ -367,7 +367,7 @@
       </div>
 
       <div class="actions">
-        <span class="progress-text" id="progressText">0 / 19 critérios confirmados</span>
+        <span class="progress-text" id="progressText">0 / critérios confirmados</span>
         <button class="btn primary" id="resetBtn">Nova operação (limpar checklist)</button>
       </div>
     </main>
@@ -377,49 +377,75 @@
 <script>
 const DATA = [
   {
-    key: 'contexto', name: 'Contexto', tag: '15M · MAPA MAIOR', price:'15m',
-    items: [
-      { text:'Identifiquei a tendência/viés no 15m (estrutura de alta, baixa ou range)?' },
-      { text:'Marquei a última liquidez relevante (topo/fundo, equal highs/lows, sessão anterior)?' },
-      { text:'Sei para onde o preço provavelmente vai buscar liquidez (alvo do movimento)?' },
-      { text:'O movimento atual já varreu (sweep) alguma liquidez importante antes de reagir?' }
+    key:'regime', name:'Regime', tag:'NY · EXPANSÃO OU EQUILÍBRIO', price:'REGIME',
+    items:[
+      { text:'O mercado está fora de um range estreito e mostrando intenção clara de expansão?' },
+      { text:'A VWAP está inclinada ou o preço está conseguindo permanecer de um lado dela, sem cruzamentos repetidos?' },
+      { text:'Não há sinais claros de chop: candles muito sobrepostos, pavios dos dois lados e micro BOS/CHoCH alternando?' },
+      { text:'Se houve 3 ou mais cruzamentos completos da VWAP em ~30 min, já apareceu uma nova informação estrutural que justifique operar?' }
     ]
   },
   {
-    key:'estrutura', name:'Estrutura', tag:'MUDANÇA DE FLUXO', price:'BOS/CHoCH',
+    key:'contexto', name:'Contexto', tag:'15M · DIREÇÃO E ESPAÇO', price:'15m',
     items:[
-      { text:'Após a varredura de liquidez, houve quebra de estrutura (BOS/CHoCH) a favor da minha ideia?' },
-      { text:'Essa quebra aconteceu no timeframe certo (15m ou 1m, dependendo de onde veio a reação)?' },
-      { text:'O movimento que gerou a quebra teve impulso (candle de força, não um rompimento arrastado)?' }
+      { text:'Identifiquei o viés do 15m/M5 e a operação está alinhada com ele, ou tenho uma reversão A+ claramente definida?' },
+      { text:'Marquei as liquidez externas relevantes: máxima/mínima do dia, overnight, premarket e swings importantes?' },
+      { text:'Existe espaço estrutural limpo de pelo menos 2R até a próxima liquidez/região importante?' },
+      { text:'Estou tentando operar no meio de um range maior sem rompimento e aceitação fora dele?', correct:false }
     ]
   },
   {
-    key:'gatilho', name:'Gatilho', tag:'FVG · FAIR VALUE GAP', price:'FVG',
+    key:'liquidez', name:'Liquidez', tag:'SWEEP · CONTEXTO A+', price:'SWEEP',
     items:[
-      { text:'O FVG que vou usar foi criado pelo próprio movimento de quebra de estrutura (não é um FVG aleatório antigo)?' },
-      { text:'O FVG está numa zona coerente com o contexto do 15m (não está "no meio do nada")?' },
-      { text:'O preço retornou ao FVG sem varrer um nível de liquidez importante que invalidaria a ideia no caminho?', correct:false },
-      { text:'Existe confluência no FVG (também é OB, 50% de uma perna, zona de desconto/premium)?' }
+      { text:'Antes da entrada houve sweep de uma liquidez relevante ou liquidez interna coerente com uma continuação?' },
+      { text:'O sweep ocorreu em um local lógico do contexto, e não no meio do nada?' },
+      { text:'Depois do sweep o preço reagiu com intenção, e não apenas com uma oscilação curta?' }
     ]
   },
   {
-    key:'entrada', name:'Entrada', tag:'1M · GATILHO FINAL', price:'1m',
+    key:'estrutura', name:'Estrutura', tag:'DISPLACEMENT · BOS/CHoCH', price:'BOS',
     items:[
-      { text:'No 1m, dentro do FVG, apareceu alguma reação (rejeição, mini CHoCH, engolfo) confirmando entrada?' },
-      { text:'Meu stop loss tem um local técnico claro (abaixo/acima da estrutura que invalida a ideia)?' },
-      { text:'Meu alvo (take profit) está em uma liquidez real, e o R:R mínimo é aceitável antes de entrar?' },
-      { text:'Calculei o tamanho da posição baseado no meu risco fixo por operação — não no "sentimento" da entrada?' }
+      { text:'Houve BOS/CHoCH relevante a favor da ideia, com fechamento claro além da estrutura?' },
+      { text:'O movimento da quebra teve displacement forte, com corpo dominante e pouco retorno imediato?' },
+      { text:'O rompimento gerou ou reforçou um FVG/OB utilizável para o pullback?' },
+      { text:'O preço mostrou acceptance fora da estrutura rompida, em vez de romper e voltar imediatamente?' }
     ]
   },
   {
-    key:'emocional', name:'Filtro emocional', tag:'ANTES DO GATILHO', price:'MENTE',
+    key:'pullback', name:'Pullback', tag:'1ª MITIGAÇÃO · FVG/OB', price:'FVG/OB',
     items:[
-      { text:'Se essa operação der loss agora, eu ainda concordaria que a análise estava certa?' },
-      { text:'Estou entrando por medo de "perder o movimento" (FOMO)?', correct:false },
-      { text:'Estou tentando recuperar um loss anterior nessa entrada (revenge trade)?', correct:false },
-      { text:'Estou dentro do meu limite diário de operações/losses seguidos?' },
-      { text:'Estou me forçando a aprovar um teste em um dia?', correct:false },
-      { text:'Estou abrindo muitas operações em uma lateralização?', correct:false }
+      { text:'Estou entrando na primeira mitigação da região? Se for a segunda, existe confirmação adicional clara?' },
+      { text:'O FVG/OB usado foi criado pelo próprio displacement que gerou a quebra?' },
+      { text:'O retorno até a região foi controlado, sem candles agressivos contra a minha direção?' },
+      { text:'A região ainda está tecnicamente válida e não foi excessivamente mitigada?' }
+    ]
+  },
+  {
+    key:'entrada', name:'Entrada', tag:'1M · EXECUÇÃO 1:2', price:'1m',
+    items:[
+      { text:'No 1m apareceu reação/confirmação dentro da região (rejeição, mini CHoCH, engolfo ou retomada de fluxo)?' },
+      { text:'Meu stop está atrás da estrutura que invalida a ideia — não apertado apenas para aumentar o RR?' },
+      { text:'Meu take profit de 2R é alcançável antes da próxima liquidez/região contrária importante?' },
+      { text:'Calculei o tamanho da posição com risco fixo, sem aumentar lote para recuperar perdas anteriores?' }
+    ]
+  },
+  {
+    key:'gestao', name:'Gestão diária', tag:'MÁX. 3 TRADES', price:'RISCO',
+    items:[
+      { text:'Estou no máximo no 3º trade do dia?' },
+      { text:'Se já tomei 2 losses, este 3º trade é um setup A+ com nova informação estrutural — e não outra tentativa na mesma ideia?' },
+      { text:'Não aumentei risco, lote ou alvo para tentar recuperar os losses anteriores?' },
+      { text:'Já atingi meu limite diário de perda ou minha regra de encerramento e estou tentando operar novamente?', correct:false }
+    ]
+  },
+  {
+    key:'emocional', name:'Filtro emocional', tag:'ANTES DE CLICAR', price:'MENTE',
+    items:[
+      { text:'Eu faria exatamente esta mesma entrada se fosse o primeiro trade do dia?' },
+      { text:'Estou entrando por medo de perder o movimento (FOMO)?', correct:false },
+      { text:'Estou tentando recuperar um loss anterior nesta entrada?', correct:false },
+      { text:'Estou usando o limite de 3 trades como permissão para operar, em vez de esperar um setup A+?', correct:false },
+      { text:'Estou me forçando a enxergar tendência em um mercado lateral?', correct:false }
     ]
   }
 ];
